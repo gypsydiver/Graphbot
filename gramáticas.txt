@@ -1,0 +1,169 @@
+graphbot: 
+	graph programa
+	;
+
+graph: /*empty*/ 
+	| funcion graph
+ 	;
+
+funcion:
+	RW_FUNCTION ID funcion1 funcion2 RW_END
+	;
+
+funcion1: /* empty */ 
+	| var funcion1
+	;
+
+funcion2: 
+	comandos funcion3 
+	| for funcion3 
+	| while funcion3 
+	| condicion funcion3
+	;
+
+funcion3: /* empty */ 
+	| funcion2
+	;
+
+var: 
+	var1 ID var2
+	;
+
+var1: 
+	RW_FLOAT | RW_BOOL
+	;
+
+var2: /* empty */ 
+	| COMMA var
+	;
+
+programa:
+	RW_PROGRAM ID funcion2 RW_END
+	;
+
+comandos: 
+	comando 
+	| comando1 
+	| comando2 
+	| comando3
+	;
+
+comando: 
+	RW_SHOW 
+	| RW_HIDE 
+	| RW_CLEAN 
+	| RW_HOME 
+	| RW_GETCOLOR 
+	| RW_GETPENSIZE 
+	| RW_GETPOS 
+	| RW_GETX 
+	| RW_GETY 
+	| RW_PLAYMUSIC 
+	| RW_STOPMUSIC
+	;
+
+comando1: 
+	RW_MOVE param 
+	| RW_TURN param 
+	| RW_SETX param 
+	| RW_SETY param 
+	| RW_SETPENSIZE param 
+	| RW_SETBACKGROUNDTXT param 
+	| RW_CAMERAUP param 
+	| RW_CAMERADOWN param 
+	| RW_CAMERALEFT param 
+	| RW_CAMERARIGHT param
+	;
+
+comando2: 
+	RW_SETPOS param param
+	;
+
+comando3: 
+	RW_SETCOLOR param param param 
+	| RW_SETBACKGROUND param param param
+	;
+
+param: 
+	float 
+	| exp
+	;
+
+for: 
+	RW_FOR lista lista
+	;
+
+while: 
+	RW_WHILE expresion lista
+	;
+
+condicion: 
+	RW_IF expresion lista
+	;
+
+lista:
+	OP_BRACKET lista1 CL_BRACKET
+	;
+
+lista1: float lista2 
+	| exp lista2 
+	| comandos lista2
+	;
+
+lista2: /* empty */ 
+	| COMMA lista1
+	;
+
+expresion: 
+	exp
+	| exp comparador exp
+	;
+
+exp: 
+	termino exp1 
+	;
+
+exp1: /* empty */ 
+	| BASIC_ARITHMETIC termino
+	;
+
+termino: 
+	factor termino1
+	;
+
+termino1: /* empty */ 
+	| COM_ARITHMETIC factor
+	;
+
+factor: 
+     OP_PAR expresion CL_PAR 
+     | factor1 factor2
+     ;
+
+factor1: /* empty */ 
+	| BASIC_ARITHMETIC
+	;
+
+factor2: 
+	ID 
+	| float
+	;
+
+save: 
+	RW_SAVE ID save1
+	;
+
+save1: 
+	float 
+	| expresion
+	| lista
+	;
+
+comparador: 
+	EQUAL 
+	| NOT_EQUAL 
+	| GREAT_EQ_THAN 
+	| LESS_EQ_THAN 
+	| GREAT_THAN 
+	| LESS_THAN
+	;

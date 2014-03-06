@@ -1,0 +1,13 @@
+function dibujaUnRectangulo float longitud, bool noSeUsa 
+	for [i, 0.0, 1.0, 4.0] [move longitud, turn 90.0]
+end
+
+program main
+	setpos 0.0 0.0
+	dibujaUnRectangulo 5.0 false save x [getx]
+	save y [gety]
+	if x == 0.0 [move x,true,sety 0.0]
+	if y != 0.0 [save Un_id_asaf234234 4-8+(5/12345*23423)]
+	setcolor 0.34 0.45 0.69
+	dibujaUnRectangulo 10.0 false 
+end

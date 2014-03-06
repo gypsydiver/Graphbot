@@ -1,7 +1,8 @@
 %{
 //Fernando Mendoza Ramírez
 //A00515576
-//Doña Claudia Hernández
+//Claudia Hernández Rivera
+//A01033904
 
 //Definición de léxico
 
@@ -56,15 +57,14 @@ while 				{ yylval.sval = strdup(yytext); return RW_WHILE; }
 "("   				{ yylval.cval = yytext[0]; return OP_PAR; }
 ")"   				{ yylval.cval = yytext[0]; return CL_PAR; }
 ","   				{ yylval.cval = yytext[0]; return COMMA; }
-"=="   				{ yylval.cval = strdup(yytext); return EQUAL; }
+"=="   				{ yylval.sval = strdup(yytext); return EQUAL; }
 "!=" 				{ yylval.sval = strdup(yytext); return NOT_EQUAL; }
 ">=" 				{ yylval.sval = strdup(yytext); return GREAT_EQ_THAN; }
 "<="				{ yylval.sval = strdup(yytext); return LESS_EQ_THAN; }
 "<"				   	{ yylval.cval = yytext[0]; return LESS_THAN; }
 ">"				   	{ yylval.cval = yytext[0]; return GREAT_THAN; }
-"+"|"-"   			{ yylval.cval = yytext[0]; return BASIC_ARITMETIC; }
-"*"|"/"   			{ yylval.cval = yytext[0]; return COM_ARITMETIC; }
-
+"+"|"-"   			{ yylval.cval = yytext[0]; return BASIC_ARITHMETIC; }
+"*"|"/"   			{ yylval.cval = yytext[0]; return COM_ARITHMETIC; }
 [[:alpha:]][[:alnum:]|_[:alnum:]]*	 	{ yylval.sval = strdup(yytext); return ID; }
 [[:digit:]]+"."[[:digit:]]+f			{ yylval.fval = atof(yytext); return FLOAT; }
 %%
