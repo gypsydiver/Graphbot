@@ -134,7 +134,7 @@ llamada_funcion:
 	;
 
 llamada_funcion_aux: /* empty */
-	|param llamada_funcion_aux
+	|expresion llamada_funcion_aux
 
 
 comando: 
@@ -152,31 +152,32 @@ comando:
 	;
 
 comando1: 
-	RW_MOVE param 					{cout<<"Matched RW_MOVE"<<endl;}
-	| RW_TURN param 				{cout<<"Matched RW_TURN"<<endl;}
-	| RW_SETX param 				{cout<<"Matched RW_SETX"<<endl;}
-	| RW_SETY param 				{cout<<"Matched RW_SETY"<<endl;}
-	| RW_SETPENSIZE param 			{cout<<"Matched RW_SETPENSIZE"<<endl;}
-	| RW_SETBACKGROUNDTXT param 	{cout<<"Matched RW_SETBACKGROUNDTXT"<<endl;}
-	| RW_CAMERAUP param 			{cout<<"Matched RW_CAMERAUP"<<endl;}
-	| RW_CAMERADOWN param 			{cout<<"Matched RW_CAMERADOWN"<<endl;}
-	| RW_CAMERALEFT param 			{cout<<"Matched RW_CAMERALEFT"<<endl;}
-	| RW_CAMERARIGHT param			{cout<<"Matched RW_CAMERARIGHT"<<endl;}
+	RW_MOVE expresion 					{cout<<"Matched RW_MOVE"<<endl;}
+	| RW_TURN expresion 				{cout<<"Matched RW_TURN"<<endl;}
+	| RW_SETX expresion 				{cout<<"Matched RW_SETX"<<endl;}
+	| RW_SETY expresion 				{cout<<"Matched RW_SETY"<<endl;}
+	| RW_SETPENSIZE expresion 			{cout<<"Matched RW_SETPENSIZE"<<endl;}
+	| RW_SETBACKGROUNDTXT expresion 	{cout<<"Matched RW_SETBACKGROUNDTXT"<<endl;}
+	| RW_CAMERAUP expresion 			{cout<<"Matched RW_CAMERAUP"<<endl;}
+	| RW_CAMERADOWN expresion 			{cout<<"Matched RW_CAMERADOWN"<<endl;}
+	| RW_CAMERALEFT expresion 			{cout<<"Matched RW_CAMERALEFT"<<endl;}
+	| RW_CAMERARIGHT expresion			{cout<<"Matched RW_CAMERARIGHT"<<endl;}
 	;
 
 comando2: 
-	RW_SETPOS param param	{cout<<"Matched RW_SETPOS"<<endl;}
+	RW_SETPOS expresion expresion	{cout<<"Matched RW_SETPOS"<<endl;}
 	| save
 	;
 
 comando3: 
-	RW_SETCOLOR param param param 			{cout<<"Matched RW_SETCOLOR"<<endl;}
-	| RW_SETBACKGROUND param param param	{cout<<"Matched RW_SETBACKGROUND"<<endl;}
+	RW_SETCOLOR expresion expresion expresion 			{cout<<"Matched RW_SETCOLOR"<<endl;}
+	| RW_SETBACKGROUND expresion expresion expresion	{cout<<"Matched RW_SETBACKGROUND"<<endl;}
 	;
 
-param: 
-	FLOAT 			{cout<<"Matched FLOAT"<<endl;}
-	| expresion
+save: 
+	RW_SAVE ID FLOAT 		{cout<<"Matched SAVE_FLOAT"<<endl;}
+	| RW_SAVE ID expresion 	{cout<<"Matched SAVE_EXPRESION"<<endl;}
+	| RW_SAVE ID lista 		{cout<<"Matched SAVE_LISTA"<<endl;}
 	;
 
 for: 
@@ -205,66 +206,51 @@ lista2: /* empty */
 	;
 
 expresion: 
-	exp 					{cout<<"Matched EXPRESION_EXP"<<endl;}
-	| exp comparador exp 	{cout<<"Matched EXPRESION_COMPARADOR"<<endl;}
-	| booleana comp_bool booleana {cout<<"Matched EXPRESION_BOOLEANA"<<endl;}
-	| booleana
+	exp 							{cout<<"Matched EXPRESION via EXP"<<endl;}
+	| exp comparador exp 			{cout<<"Matched EXPRESION via EXP COMPARADOR EXP"<<endl;}
+	| booleana comp_bool booleana 	{cout<<"Matched EXPRESION via COMPARACION BOOLEANA"<<endl;}
+	| booleana 						{cout<<"Matched EXPRESION via VALOR BOOLEANO"<<endl;}
 	;
 
 booleana:
-	RW_TRUE
-	|RW_FALSE
-	|ID
+	RW_TRUE		{cout<<"Matched BOOLEANA via TRUE"<<endl;}
+	|RW_FALSE	{cout<<"Matched BOOLEANA via FALSE"<<endl;}
+	|ID 		{cout<<"Matched BOOLEANA via ID"<<endl;}
 	;
 
 comp_bool:
-	EQUAL
-	|NOT_EQUAL
+	EQUAL 		{cout<<"Matched COMP_BOOL via EQUAL"<<endl;}
+	|NOT_EQUAL	{cout<<"Matched COMP_BOOL via NOT_EQUAL"<<endl;}
 	;
 
-exp: 
-	termino exp1 
+exp:
+	termino 	{cout<<"Matched <EXP> via <TERMINO>"<<endl;}
+	|termino BASIC_ARITHMETIC termino {cout<<"Matched EXP via TERMINO BASIC_ARITHMETIC TERMINO"<<endl;}
 	;
 
-exp1: /* empty */ 
-	| BASIC_ARITHMETIC termino
-	;
-
-termino: 
-	factor termino1
-	;
-
-termino1: /* empty */ 
-	| COM_ARITHMETIC factor 	{cout<<"Matched COM_ARITHMETIC"<<endl;}
+termino:
+	factor 	{cout<<"Matched <TERMINO> via <FACTOR>"<<endl;}
+	|factor COM_ARITHMETIC factor 	{cout<<"Matched <FACTOR> via <FACTOR> COM_ARITHMETIC <FACTOR>"<<endl;}
 	;
 
 factor: 
      OP_PAR expresion CL_PAR 	{cout<<"Matched FACTOR"<<endl;}
-     | factor1 factor2
+     | BASIC_ARITHMETIC varCte 	{cout<<"Matched <FACTOR> via BASIC_ARITHMETIC <varCte>"<<endl;}
+     | varCte					{cout<<"Matched <FACTOR> via <varCte>"<<endl;}
      ;
 
-factor1: /* empty */ 
-	| BASIC_ARITHMETIC 			{cout<<"Matched BASIC_ARITHMETIC"<<endl;}
-	;
-
-factor2: 
-	ID 						{cout<<"Matched ID"<<endl;}
-	| FLOAT 				{cout<<"Matched FLOAT"<<endl;}
-	;
-
-save: 
-	RW_SAVE ID FLOAT 		{cout<<"Matched SAVE_FLOAT"<<endl;}
-	| RW_SAVE ID expresion 	{cout<<"Matched SAVE_EXPRESION"<<endl;}
-	| RW_SAVE ID lista 		{cout<<"Matched SAVE_LISTA"<<endl;}
+varCte: 
+	ID 		{cout<<"Found ID: "<<$1<<endl;}
+	|FLOAT	{printf("Found FLOAT: %f\n",$1);}
 	;
 
 comparador: 
-	EQUAL 				{cout<<"Matched EQUAL"<<endl;}
-	| NOT_EQUAL 		{cout<<"Matched NOT_EQUAL"<<endl;}
-	| GREAT_EQ_THAN 	{cout<<"Matched GREAT_EQ_THAN"<<endl;}
-	| LESS_EQ_THAN 		{cout<<"Matched LESS_EQ_THAN"<<endl;}
-	| GREAT_THAN 		{cout<<"Matched GREAT_THAN"<<endl;}
-	| LESS_THAN 		{cout<<"Matched LESS_THAN"<<endl;}
+	EQUAL 				{cout<<"Matched COMPARADOR via EQUAL"<<endl;}
+	| NOT_EQUAL 		{cout<<"Matched COMPARADOR via NOT_EQUAL"<<endl;}
+	| GREAT_EQ_THAN 	{cout<<"Matched COMPARADOR via GREAT_EQ_THAN"<<endl;}
+	| LESS_EQ_THAN 		{cout<<"Matched COMPARADOR via LESS_EQ_THAN"<<endl;}
+	| GREAT_THAN 		{cout<<"Matched COMPARADOR via GREAT_THAN"<<endl;}
+	| LESS_THAN 		{cout<<"Matched COMPARADOR via LESS_THAN"<<endl;}
 	;
 %%
 int main(int argc, char ** argv) {
