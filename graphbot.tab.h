@@ -153,10 +153,9 @@ typedef union YYSTYPE
 	float fval;
 	char *sval;
 	char cval;
-	bool bval;
 }
 /* Line 1529 of yacc.c.  */
-#line 160 "graphbot.tab.h"
+#line 159 "graphbot.tab.h"
 	YYSTYPE;
 # define yystype YYSTYPE /* obsolescent; will be withdrawn */
 # define YYSTYPE_IS_DECLARED 1

@@ -66,5 +66,5 @@ while 				{ yylval.sval = strdup(yytext); return RW_WHILE; }
 "+"|"-"   			{ yylval.cval = yytext[0]; return BASIC_ARITHMETIC; }
 "*"|"/"   			{ yylval.cval = yytext[0]; return COM_ARITHMETIC; }
 [[:alpha:]][[:alnum:]|_[:alnum:]]*	 	{ yylval.sval = strdup(yytext); return ID; }
-[[:digit:]]+"."[[:digit:]]+f			{ yylval.fval = atof(yytext); return FLOAT; }
+[[:digit:]]+"."[[:digit:]]+			{ yylval.fval = atof(yytext); return FLOAT; }
 %%

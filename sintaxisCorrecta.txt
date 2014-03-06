@@ -4,7 +4,8 @@ end
 
 program main
 	setpos 0.0 0.0
-	dibujaUnRectangulo 5.0 false save x [getx]
+	dibujaUnRectangulo 5.0 false 
+	save x [getx]
 	save y [gety]
 	if x == 0.0 [move x,true,sety 0.0]
 	if y != 0.0 [save Un_id_asaf234234 4-8+(5/12345*23423)]

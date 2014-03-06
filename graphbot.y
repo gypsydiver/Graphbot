@@ -22,7 +22,6 @@ void yyerror(const char *s);
 	float fval;
 	char *sval;
 	char cval;
-	bool bval;
 }
 
 //Bison declarations
@@ -127,7 +126,16 @@ comandos:
 	| comando1 
 	| comando2 
 	| comando3
+	| llamada_funcion
 	;
+
+llamada_funcion:
+	ID llamada_funcion_aux	{cout<<"Matched FUNCION DEFINIDA POR EL USUARIO"<<endl;}
+	;
+
+llamada_funcion_aux: /* empty */
+	|param llamada_funcion_aux
+
 
 comando: 
 	RW_SHOW 		{cout<<"Matched RW_SHOW"<<endl;}
@@ -167,7 +175,7 @@ comando3:
 	;
 
 param: 
-	FLOAT 
+	FLOAT 			{cout<<"Matched FLOAT"<<endl;}
 	| expresion
 	;
 
@@ -200,6 +208,7 @@ expresion:
 	exp 					{cout<<"Matched EXPRESION_EXP"<<endl;}
 	| exp comparador exp 	{cout<<"Matched EXPRESION_COMPARADOR"<<endl;}
 	| booleana comp_bool booleana {cout<<"Matched EXPRESION_BOOLEANA"<<endl;}
+	| booleana
 	;
 
 booleana:
@@ -226,7 +235,7 @@ termino:
 	;
 
 termino1: /* empty */ 
-	| COM_ARITHMETIC factor
+	| COM_ARITHMETIC factor 	{cout<<"Matched COM_ARITHMETIC"<<endl;}
 	;
 
 factor: 
@@ -235,12 +244,12 @@ factor:
      ;
 
 factor1: /* empty */ 
-	| BASIC_ARITHMETIC
+	| BASIC_ARITHMETIC 			{cout<<"Matched BASIC_ARITHMETIC"<<endl;}
 	;
 
 factor2: 
-	ID 
-	| FLOAT
+	ID 						{cout<<"Matched ID"<<endl;}
+	| FLOAT 				{cout<<"Matched FLOAT"<<endl;}
 	;
 
 save: 
