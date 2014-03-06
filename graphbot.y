@@ -168,7 +168,7 @@ comando3:
 
 param: 
 	FLOAT 
-	| exp
+	| expresion
 	;
 
 for: 
