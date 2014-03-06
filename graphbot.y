@@ -165,8 +165,8 @@ comando1:
 	;
 
 comando2: 
-	RW_SETPOS expresion expresion	{cout<<"Matched RW_SETPOS"<<endl;}
-	| save
+	RW_SETPOS expresion expresion	{cout<<"Matched COMANDO2 via RW_SETPOS"<<endl;}
+	| RW_SAVE ID variable 			{cout<<"Matched COMANDO2 via RW_SAVE"<<endl;}
 	;
 
 comando3: 
@@ -174,10 +174,10 @@ comando3:
 	| RW_SETBACKGROUND expresion expresion expresion	{cout<<"Matched RW_SETBACKGROUND"<<endl;}
 	;
 
-save: 
-	RW_SAVE ID FLOAT 		{cout<<"Matched SAVE_FLOAT"<<endl;}
-	| RW_SAVE ID expresion 	{cout<<"Matched SAVE_EXPRESION"<<endl;}
-	| RW_SAVE ID lista 		{cout<<"Matched SAVE_LISTA"<<endl;}
+variable:
+	FLOAT 		{cout<<"Matched SAVE_FLOAT"<<endl;}
+	| expresion {cout<<"Matched SAVE_EXPRESION"<<endl;}
+	| lista 	{cout<<"Matched SAVE_LISTA"<<endl;}
 	;
 
 for: 
@@ -218,14 +218,9 @@ booleana:
 	|ID 		{cout<<"Matched BOOLEANA via ID"<<endl;}
 	;
 
-comp_bool:
-	EQUAL 		{cout<<"Matched COMP_BOOL via EQUAL"<<endl;}
-	|NOT_EQUAL	{cout<<"Matched COMP_BOOL via NOT_EQUAL"<<endl;}
-	;
-
 exp:
 	termino 	{cout<<"Matched <EXP> via <TERMINO>"<<endl;}
-	|termino BASIC_ARITHMETIC termino {cout<<"Matched EXP via TERMINO BASIC_ARITHMETIC TERMINO"<<endl;}
+	|termino BASIC_ARITHMETIC exp {cout<<"Matched EXP via TERMINO BASIC_ARITHMETIC TERMINO"<<endl;}
 	;
 
 termino:
@@ -241,7 +236,7 @@ factor:
 
 varCte: 
 	ID 		{cout<<"Found ID: "<<$1<<endl;}
-	|FLOAT	{printf("Found FLOAT: %f\n",$1);}
+	| FLOAT	{printf("Found FLOAT: %f\n",$1);}
 	;
 
 comparador: 
@@ -251,6 +246,11 @@ comparador:
 	| LESS_EQ_THAN 		{cout<<"Matched COMPARADOR via LESS_EQ_THAN"<<endl;}
 	| GREAT_THAN 		{cout<<"Matched COMPARADOR via GREAT_THAN"<<endl;}
 	| LESS_THAN 		{cout<<"Matched COMPARADOR via LESS_THAN"<<endl;}
+	;
+
+comp_bool:
+	EQUAL 		{cout<<"Matched COMP_BOOL via EQUAL"<<endl;}
+	|NOT_EQUAL	{cout<<"Matched COMP_BOOL via NOT_EQUAL"<<endl;}
 	;
 %%
 int main(int argc, char ** argv) {
@@ -273,7 +273,7 @@ int main(int argc, char ** argv) {
 }
 
 void yyerror(const char *s) {
-	cout << "EEK, parse error! Message: "<<s<<" at line "<<yylineco<< endl;
+	cout << "BANG, parse error! Message: "<<s<<" at line "<<yylineco<< endl;
 	// might as well halt now:
 	exit(-1);
 }

@@ -8,7 +8,7 @@ program main
 	save x [getx]
 	save y [gety]
 	if x <= 0.0 [move x,true,sety 0.0]
-	if y >= 0.0 [save Un_id_asaf234234 x]
-	setcolor 0.34 0.45 0.69
+	if z == true [save id false, save un_id_aleatorio 4.0-8.7+((5.0/123.45)*234.23)]
+	setcolor 0.34 0.49 0.69
 	dibujaUnRectangulo 10.0 false 
 end
