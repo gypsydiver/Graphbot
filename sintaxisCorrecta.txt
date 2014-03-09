@@ -1,3 +1,11 @@
+function prueba
+    move 15.0
+end
+
+function prueba2
+    show
+end
+
 function dibujaUnRectangulo float longitud, bool noSeUsa 
 	for [i, 0.0, 1.0, 4.0] [move longitud, turn 90.0]
 end

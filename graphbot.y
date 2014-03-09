@@ -8,7 +8,27 @@
 
 #include <cstdio>
 #include <iostream>
+#include <string>
+#include "hashtable.h"
 using namespace std;
+
+// Registro de procedimiento
+data proc;
+// Registro de variable
+data var;
+// Directorio de Procedimientos
+hasher dirproc;
+// Tabla de Variables
+hasher tablavar;
+// Tipo de variable
+string var1;
+// Valor de variable
+float valor
+// Valor de variable
+float valr;
+
+int func = 1;
+
 
 // stuff from flex that bison needs to know about:
 extern "C" int yylex();
@@ -78,7 +98,11 @@ void yyerror(const char *s);
 //Grammar rules
 
 graphbot: 
-	graph programa {cout<<"Matched GRAPHBOT"<<endl;}
+	graph programa {cout<<"Matched GRAPHBOT"<<endl;
+                
+                    dirproc.output();
+                    tablavar.output(); }
+
 	;
 
 graph: /*empty*/ 
@@ -86,11 +110,18 @@ graph: /*empty*/
  	;
 
 funcion:
-	RW_FUNCTION ID funcion1 funcion2 RW_END {cout<<"Matched FUNCION"<<endl;}
+	RW_FUNCTION ID funcion1 funcion2 RW_END {cout<<"Matched FUNCION"<<endl;
+                
+               // Guarda un procedimiento en el directorio de procedimientos
+                                             proc.id = func;
+                                             proc.value = 28;
+                                             dirproc.add(proc);
+                                             func++;
+                                             }
 	;
 
 funcion1: /* empty */ 
-	| var funcion1
+	| param funcion1
 	;
 
 funcion2: 
@@ -104,21 +135,42 @@ funcion3: /* empty */
 	| funcion2
 	;
 
-var: 
-	var1 ID var2 {cout<<"Matched VARIABLE_DE_FUNCION"<<endl;}
+
+param:
+    var var2;
+
+var:  
+	var1 ID  {cout<<"Matched VARIABLE_DE_FUNCION"<<endl;
+               
+                // Guarda un parámetro en la tabla de variables, con su respectivo id y tipo
+                var.name = $2;  
+                if (var1.compare("float") == 0)
+                var.type = 1;
+                else
+                var.type = 2;
+                tablavar.add(var);
+
+}
 	;
 
 var1: 
-	RW_FLOAT 		{cout<<"Matched RW_FLOAT"<<endl;}
-	| RW_BOOLEAN	{cout<<"Matched RW_BOOLEAN"<<endl;}
-	;
+	RW_FLOAT 		{cout<<"Matched RW_FLOAT"<<endl;
+                    var1 =  $1; }
+	| RW_BOOLEAN	{cout<<"Matched RW_BOOLEAN"<<endl;
+                    var1 =  $1;  }
 
 var2: /* empty */ 
 	| COMMA var
 	;
 
 programa:
-	RW_PROGRAM ID funcion2 RW_END {cout<<"Matched PROGRAMA"<<endl;}
+	RW_PROGRAM ID funcion2 RW_END {cout<<"Matched PROGRAMA"<<endl;
+                
+                // Guarda el programa en el directorio de procedimientos
+                                   proc.id = func;
+                                   proc.value = 28;
+                                   dirproc.add(proc);
+}
 	;
 
 comandos: 
@@ -166,7 +218,13 @@ comando1:
 
 comando2: 
 	RW_SETPOS expresion expresion	{cout<<"Matched COMANDO2 via RW_SETPOS"<<endl;}
-	| RW_SAVE ID variable 			{cout<<"Matched COMANDO2 via RW_SAVE"<<endl;}
+	| RW_SAVE ID variable 			{cout<<"Matched COMANDO2 via RW_SAVE"<<endl;
+                                       var.name = $2;  
+                                       if (var1.compare("float") == 0)
+                                       var.type = 1;
+                                       else
+                                       var.type = 2;
+                                       tablavar.add(var);}
 	;
 
 comando3: 
@@ -206,7 +264,7 @@ lista2: /* empty */
 	;
 
 expresion: 
-	exp 							{cout<<"Matched EXPRESION via EXP"<<endl;}
+	exp 							{cout<<"Matched EXPRESION via EXP"<<endl; }
 	| exp comparador exp 			{cout<<"Matched EXPRESION via EXP COMPARADOR EXP"<<endl;}
 	| booleana comp_bool booleana 	{cout<<"Matched EXPRESION via COMPARACION BOOLEANA"<<endl;}
 	| booleana 						{cout<<"Matched EXPRESION via VALOR BOOLEANO"<<endl;}
