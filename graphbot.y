@@ -8,29 +8,7 @@
 
 #include <cstdio>
 #include <iostream>
-#include <string>
-#include "hashtable.h"
 using namespace std;
-
-// Registro de procedimiento
-data proc;
-// Registro de variable
-data var;
-// Directorio de Procedimientos
-hasher dirproc;
-// Tabla de Variables
-hasher tablavar;
-// Tipo de variable
-string var1;
-// Valor de variable
-float valor;
-// Resultado de una expresion
-float resultado;
-// Tipo de signo 
-char signo;
-
-int func = 1; // Contador random luego lo quitamos
-
 
 // stuff from flex that bison needs to know about:
 extern "C" int yylex();
@@ -96,22 +74,11 @@ void yyerror(const char *s);
 %token <cval> COM_ARITHMETIC
 %token <sval> ID
 %token <fval> FLOAT
-
-// Declara los tipo para los símbolos no-terminales
-%type<fval> expresion exp termino factor varCte variable
-%type<sval> lista
 %%
-
 //Grammar rules
 
 graphbot: 
-	graph programa {cout<<"Matched GRAPHBOT"<<endl;
-
-               // Imprime en pantalla el directorio de procs y la tabla de variables
-                
-                    dirproc.output();
-                    tablavar.output(); }
-
+	graph programa {cout<<"Matched GRAPHBOT"<<endl;}
 	;
 
 graph: /*empty*/ 
@@ -119,18 +86,11 @@ graph: /*empty*/
  	;
 
 funcion:
-	RW_FUNCTION ID funcion1 funcion2 RW_END {cout<<"Matched FUNCION"<<endl;
-                
-               // Guarda un procedimiento en el directorio de procedimientos
-                                             proc.id = func;
-                                             proc.value = 28; // Valor random
-                                             dirproc.add(proc);
-                                             func++;
-                                             }
+	RW_FUNCTION ID funcion1 funcion2 RW_END {cout<<"Matched FUNCION"<<endl;}
 	;
 
 funcion1: /* empty */ 
-	| param funcion1
+	| var funcion1
 	;
 
 funcion2: 
@@ -144,42 +104,21 @@ funcion3: /* empty */
 	| funcion2
 	;
 
-
-param:
-    var var2;
-
-var:  
-	var1 ID  {cout<<"Matched VARIABLE_DE_FUNCION"<<endl;
-               
-                // Guarda un parámetro en la tabla de variables, con su respectivo id y tipo
-                var.name = $2;  
-                if (var1.compare("float") == 0)
-                var.type = 1;
-                else
-                var.type = 2;
-                tablavar.add(var);
-
-}
+var: 
+	var1 ID var2 {cout<<"Matched VARIABLE_DE_FUNCION"<<endl;}
 	;
 
 var1: 
-	RW_FLOAT 		{cout<<"Matched RW_FLOAT"<<endl;
-                    var1 =  $1; }
-	| RW_BOOLEAN	{cout<<"Matched RW_BOOLEAN"<<endl;
-                    var1 =  $1;  }
+	RW_FLOAT 		{cout<<"Matched RW_FLOAT"<<endl;}
+	| RW_BOOLEAN	{cout<<"Matched RW_BOOLEAN"<<endl;}
+	;
 
 var2: /* empty */ 
 	| COMMA var
 	;
 
 programa:
-	RW_PROGRAM ID funcion2 RW_END {cout<<"Matched PROGRAMA"<<endl;
-                
-                // Guarda el programa en el directorio de procedimientos
-                                   proc.id = func;
-                                   proc.value = 28;
-                                   dirproc.add(proc);
-}
+	RW_PROGRAM ID funcion2 RW_END {cout<<"Matched PROGRAMA"<<endl;}
 	;
 
 comandos: 
@@ -224,16 +163,10 @@ comando1:
 	| RW_CAMERALEFT expresion 			{cout<<"Matched RW_CAMERALEFT"<<endl;}
 	| RW_CAMERARIGHT expresion			{cout<<"Matched RW_CAMERARIGHT"<<endl;}
 	;
-                
+
 comando2: 
 	RW_SETPOS expresion expresion	{cout<<"Matched COMANDO2 via RW_SETPOS"<<endl;}
-	| RW_SAVE ID variable 			{cout<<"Matched COMANDO2 via RW_SAVE"<<endl;
-
-
-                // Guarda la variable en la tabla de variables con su respectivo nombre y valor
-                                       var.name = $2; 
-                                       var.value = $3;  
-                                       tablavar.add(var);}
+	| RW_SAVE ID variable 			{cout<<"Matched COMANDO2 via RW_SAVE"<<endl;}
 	;
 
 comando3: 
@@ -242,22 +175,9 @@ comando3:
 	;
 
 variable:
-	FLOAT 		{cout<<"Matched SAVE_FLOAT"<<endl;
-
-                 $<fval>$ = $1;                                    
-                
-                }
-
-	| expresion {cout<<"Matched SAVE_EXPRESION"<<endl;
-                
-                 $<fval>$ = $1;                                    
-                
-                }
-	| lista 	{cout<<"Matched SAVE_LISTA"<<endl;
-                
-                $<sval>$ = $1;
-                    
-                }
+	FLOAT 		{cout<<"Matched SAVE_FLOAT"<<endl;}
+	| expresion {cout<<"Matched SAVE_EXPRESION"<<endl;}
+	| lista 	{cout<<"Matched SAVE_LISTA"<<endl;}
 	;
 
 for: 
@@ -286,13 +206,7 @@ lista2: /* empty */
 	;
 
 expresion: 
-	exp 							{cout<<"Matched EXPRESION via EXP"<<endl; 
-
-                // Regresa el valor de una expresión
-                                    $$ = $1; 
-                                    }
-
-
+	exp 							{cout<<"Matched EXPRESION via EXP"<<endl;}
 	| exp comparador exp 			{cout<<"Matched EXPRESION via EXP COMPARADOR EXP"<<endl;}
 	| booleana comp_bool booleana 	{cout<<"Matched EXPRESION via COMPARACION BOOLEANA"<<endl;}
 	| booleana 						{cout<<"Matched EXPRESION via VALOR BOOLEANO"<<endl;}
@@ -306,40 +220,17 @@ booleana:
 
 exp:
 	termino 	{cout<<"Matched <EXP> via <TERMINO>"<<endl;}
-	|termino BASIC_ARITHMETIC exp {cout<<"Matched EXP via TERMINO BASIC_ARITHMETIC TERMINO"<<endl;
-                                   
-                // Va sumando o restando
-                                    signo = $2;
-                                    if (signo == '+')
-                                    $$ = $1 + $3;
-                                    else
-                                    $$ = $1 - $3;
-}
+	|termino BASIC_ARITHMETIC exp {cout<<"Matched EXP via TERMINO BASIC_ARITHMETIC TERMINO"<<endl;}
 	;
 
 termino:
 	factor 	{cout<<"Matched <TERMINO> via <FACTOR>"<<endl;}
-	|factor COM_ARITHMETIC factor 	{cout<<"Matched <FACTOR> via <FACTOR> COM_ARITHMETIC <FACTOR>"<<endl;
-                
-                // Va multiplicando o dividiendo
-                                    signo = $2;
-                                    if (signo == '*')
-                                    $$ = $1 * $3;
-                                    else
-                                    $$ = $1 / $3;
-
-}
+	|factor COM_ARITHMETIC factor 	{cout<<"Matched <FACTOR> via <FACTOR> COM_ARITHMETIC <FACTOR>"<<endl;}
 	;
 
 factor: 
-     OP_PAR expresion CL_PAR 	{cout<<"Matched FACTOR"<<endl;
-
-                // Va acumulando el resultado
-                                $$ = $2;                                    
-                                }
-
+     OP_PAR expresion CL_PAR 	{cout<<"Matched FACTOR"<<endl;}
      | BASIC_ARITHMETIC varCte 	{cout<<"Matched <FACTOR> via BASIC_ARITHMETIC <varCte>"<<endl;}
-
      | varCte					{cout<<"Matched <FACTOR> via <varCte>"<<endl;}
      ;
 
