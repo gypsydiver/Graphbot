@@ -148,7 +148,7 @@
 
 #if ! defined YYSTYPE && ! defined YYSTYPE_IS_DECLARED
 typedef union YYSTYPE
-#line 31 "graphbot.y"
+#line 43 "graphbot.y"
 {
 	float fval;
 	char *sval;

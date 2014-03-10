@@ -189,12 +189,24 @@
 #include "hashtable.h"
 using namespace std;
 
+// Registro de procedimiento
 data proc;
+// Registro de variable
 data var;
+// Directorio de Procedimientos
 hasher dirproc;
+// Tabla de Variables
 hasher tablavar;
+// Tipo de variable
 string var1;
-int func = 1;
+// Valor de variable
+float valor;
+// Resultado de una expresion
+float resultado;
+// Tipo de signo 
+char signo;
+
+int func = 1; // Contador random luego lo quitamos
 
 
 // stuff from flex that bison needs to know about:
@@ -226,14 +238,14 @@ void yyerror(const char *s);
 
 #if ! defined YYSTYPE && ! defined YYSTYPE_IS_DECLARED
 typedef union YYSTYPE
-#line 31 "graphbot.y"
+#line 43 "graphbot.y"
 {
 	float fval;
 	char *sval;
 	char cval;
 }
 /* Line 193 of yacc.c.  */
-#line 237 "graphbot.tab.c"
+#line 249 "graphbot.tab.c"
 	YYSTYPE;
 # define yystype YYSTYPE /* obsolescent; will be withdrawn */
 # define YYSTYPE_IS_DECLARED 1
@@ -246,7 +258,7 @@ typedef union YYSTYPE
 
 
 /* Line 216 of yacc.c.  */
-#line 250 "graphbot.tab.c"
+#line 262 "graphbot.tab.c"
 
 #ifdef short
 # undef short
@@ -563,15 +575,15 @@ static const yytype_int8 yyrhs[] =
 /* YYRLINE[YYN] -- source line where rule number YYN was defined.  */
 static const yytype_uint16 yyrline[] =
 {
-       0,    91,    91,    97,    98,   102,   110,   111,   115,   116,
-     117,   118,   121,   122,   127,   131,   146,   148,   151,   152,
-     156,   164,   165,   166,   167,   168,   172,   175,   176,   180,
-     181,   182,   183,   184,   185,   186,   187,   188,   189,   190,
-     194,   195,   196,   197,   198,   199,   200,   201,   202,   203,
-     207,   208,   212,   213,   217,   218,   219,   223,   227,   231,
-     235,   238,   239,   240,   243,   244,   248,   249,   250,   251,
-     255,   256,   257,   261,   262,   266,   267,   271,   272,   273,
-     277,   278,   282,   283,   284,   285,   286,   287,   291,   292
+       0,   108,   108,   117,   118,   122,   132,   133,   137,   138,
+     139,   140,   143,   144,   149,   152,   166,   168,   171,   172,
+     176,   186,   187,   188,   189,   190,   194,   197,   198,   202,
+     203,   204,   205,   206,   207,   208,   209,   210,   211,   212,
+     216,   217,   218,   219,   220,   221,   222,   223,   224,   225,
+     229,   230,   240,   241,   245,   251,   256,   264,   268,   272,
+     276,   279,   280,   281,   284,   285,   289,   296,   297,   298,
+     302,   303,   304,   308,   309,   321,   322,   335,   341,   343,
+     347,   348,   352,   353,   354,   355,   356,   357,   361,   362
 };
 #endif
 
@@ -1591,29 +1603,33 @@ yyreduce:
   switch (yyn)
     {
         case 2:
-#line 91 "graphbot.y"
+#line 108 "graphbot.y"
     {cout<<"Matched GRAPHBOT"<<endl;
+
+               // Imprime en pantalla el directorio de procs y la tabla de variables
+                
                     dirproc.output();
                     tablavar.output(); ;}
     break;
 
   case 5:
-#line 102 "graphbot.y"
+#line 122 "graphbot.y"
     {cout<<"Matched FUNCION"<<endl;
+                
+               // Guarda un procedimiento en el directorio de procedimientos
                                              proc.id = func;
-                                             proc.value = 28;
+                                             proc.value = 28; // Valor random
                                              dirproc.add(proc);
                                              func++;
                                              ;}
     break;
 
   case 15:
-#line 131 "graphbot.y"
+#line 152 "graphbot.y"
     {cout<<"Matched VARIABLE_DE_FUNCION"<<endl;
                
-              //  string nombre = $2;
+                // Guarda un parámetro en la tabla de variables, con su respectivo id y tipo
                 var.name = (yyvsp[(2) - (2)].sval);  
-                cout << var.name << "aqui hay una variable" << endl; 
                 if (var1.compare("float") == 0)
                 var.type = 1;
                 else
@@ -1624,20 +1640,22 @@ yyreduce:
     break;
 
   case 16:
-#line 146 "graphbot.y"
+#line 166 "graphbot.y"
     {cout<<"Matched RW_FLOAT"<<endl;
                     var1 =  (yyvsp[(1) - (1)].sval); ;}
     break;
 
   case 17:
-#line 148 "graphbot.y"
+#line 168 "graphbot.y"
     {cout<<"Matched RW_BOOLEAN"<<endl;
-                    var1 = (yyvsp[(1) - (1)].sval);  ;}
+                    var1 =  (yyvsp[(1) - (1)].sval);  ;}
     break;
 
   case 20:
-#line 156 "graphbot.y"
+#line 176 "graphbot.y"
     {cout<<"Matched PROGRAMA"<<endl;
+                
+                // Guarda el programa en el directorio de procedimientos
                                    proc.id = func;
                                    proc.value = 28;
                                    dirproc.add(proc);
@@ -1645,293 +1663,336 @@ yyreduce:
     break;
 
   case 26:
-#line 172 "graphbot.y"
+#line 194 "graphbot.y"
     {cout<<"Matched FUNCION DEFINIDA POR EL USUARIO"<<endl;;}
     break;
 
   case 29:
-#line 180 "graphbot.y"
+#line 202 "graphbot.y"
     {cout<<"Matched RW_SHOW"<<endl;;}
     break;
 
   case 30:
-#line 181 "graphbot.y"
+#line 203 "graphbot.y"
     {cout<<"Matched RW_HIDE"<<endl;;}
     break;
 
   case 31:
-#line 182 "graphbot.y"
+#line 204 "graphbot.y"
     {cout<<"Matched RW_CLEAN"<<endl;;}
     break;
 
   case 32:
-#line 183 "graphbot.y"
+#line 205 "graphbot.y"
     {cout<<"Matched RW_HOME"<<endl;;}
     break;
 
   case 33:
-#line 184 "graphbot.y"
+#line 206 "graphbot.y"
     {cout<<"Matched RW_GETCOLOR"<<endl;;}
     break;
 
   case 34:
-#line 185 "graphbot.y"
+#line 207 "graphbot.y"
     {cout<<"Matched RW_GETPENSIZE"<<endl;;}
     break;
 
   case 35:
-#line 186 "graphbot.y"
+#line 208 "graphbot.y"
     {cout<<"Matched RW_GETPOS"<<endl;;}
     break;
 
   case 36:
-#line 187 "graphbot.y"
+#line 209 "graphbot.y"
     {cout<<"Matched GETX"<<endl;;}
     break;
 
   case 37:
-#line 188 "graphbot.y"
+#line 210 "graphbot.y"
     {cout<<"Matched GETY"<<endl;;}
     break;
 
   case 38:
-#line 189 "graphbot.y"
+#line 211 "graphbot.y"
     {cout<<"Matched RW_PLAYMUSIC"<<endl;;}
     break;
 
   case 39:
-#line 190 "graphbot.y"
+#line 212 "graphbot.y"
     {cout<<"Matched RW_STOPMUSIC"<<endl;;}
     break;
 
   case 40:
-#line 194 "graphbot.y"
+#line 216 "graphbot.y"
     {cout<<"Matched RW_MOVE"<<endl;;}
     break;
 
   case 41:
-#line 195 "graphbot.y"
+#line 217 "graphbot.y"
     {cout<<"Matched RW_TURN"<<endl;;}
     break;
 
   case 42:
-#line 196 "graphbot.y"
+#line 218 "graphbot.y"
     {cout<<"Matched RW_SETX"<<endl;;}
     break;
 
   case 43:
-#line 197 "graphbot.y"
+#line 219 "graphbot.y"
     {cout<<"Matched RW_SETY"<<endl;;}
     break;
 
   case 44:
-#line 198 "graphbot.y"
+#line 220 "graphbot.y"
     {cout<<"Matched RW_SETPENSIZE"<<endl;;}
     break;
 
   case 45:
-#line 199 "graphbot.y"
+#line 221 "graphbot.y"
     {cout<<"Matched RW_SETBACKGROUNDTXT"<<endl;;}
     break;
 
   case 46:
-#line 200 "graphbot.y"
+#line 222 "graphbot.y"
     {cout<<"Matched RW_CAMERAUP"<<endl;;}
     break;
 
   case 47:
-#line 201 "graphbot.y"
+#line 223 "graphbot.y"
     {cout<<"Matched RW_CAMERADOWN"<<endl;;}
     break;
 
   case 48:
-#line 202 "graphbot.y"
+#line 224 "graphbot.y"
     {cout<<"Matched RW_CAMERALEFT"<<endl;;}
     break;
 
   case 49:
-#line 203 "graphbot.y"
+#line 225 "graphbot.y"
     {cout<<"Matched RW_CAMERARIGHT"<<endl;;}
     break;
 
   case 50:
-#line 207 "graphbot.y"
+#line 229 "graphbot.y"
     {cout<<"Matched COMANDO2 via RW_SETPOS"<<endl;;}
     break;
 
   case 51:
-#line 208 "graphbot.y"
-    {cout<<"Matched COMANDO2 via RW_SAVE"<<endl;;}
+#line 230 "graphbot.y"
+    {cout<<"Matched COMANDO2 via RW_SAVE"<<endl;
+
+
+                // Guarda la variable en la tabla de variables con su respectivo nombre y valor
+                                       var.name = (yyvsp[(2) - (3)].sval); 
+                                       var.value = (yyvsp[(3) - (3)].fval);  
+                                       tablavar.add(var);;}
     break;
 
   case 52:
-#line 212 "graphbot.y"
+#line 240 "graphbot.y"
     {cout<<"Matched RW_SETCOLOR"<<endl;;}
     break;
 
   case 53:
-#line 213 "graphbot.y"
+#line 241 "graphbot.y"
     {cout<<"Matched RW_SETBACKGROUND"<<endl;;}
     break;
 
   case 54:
-#line 217 "graphbot.y"
-    {cout<<"Matched SAVE_FLOAT"<<endl;;}
+#line 245 "graphbot.y"
+    {cout<<"Matched SAVE_FLOAT"<<endl;
+
+                 (yyval.fval) = (yyvsp[(1) - (1)].fval);                                    
+                
+                ;}
     break;
 
   case 55:
-#line 218 "graphbot.y"
-    {cout<<"Matched SAVE_EXPRESION"<<endl;;}
+#line 251 "graphbot.y"
+    {cout<<"Matched SAVE_EXPRESION"<<endl;
+                
+                 (yyval.fval) = (yyvsp[(1) - (1)].fval);                                    
+                
+                ;}
     break;
 
   case 56:
-#line 219 "graphbot.y"
-    {cout<<"Matched SAVE_LISTA"<<endl;;}
+#line 256 "graphbot.y"
+    {cout<<"Matched SAVE_LISTA"<<endl;
+                
+                (yyval.sval) = (yyvsp[(1) - (1)].sval);
+                    
+                ;}
     break;
 
   case 57:
-#line 223 "graphbot.y"
+#line 264 "graphbot.y"
     {cout<<"Matched RW_FOR"<<endl;;}
     break;
 
   case 58:
-#line 227 "graphbot.y"
+#line 268 "graphbot.y"
     {cout<<"Matched RW_WHILE"<<endl;;}
     break;
 
   case 59:
-#line 231 "graphbot.y"
+#line 272 "graphbot.y"
     {cout<<"Matched RW_IF"<<endl;;}
     break;
 
   case 60:
-#line 235 "graphbot.y"
+#line 276 "graphbot.y"
     {cout<<"Matched LISTA"<<endl;;}
     break;
 
   case 66:
-#line 248 "graphbot.y"
-    {cout<<"Matched EXPRESION via EXP"<<endl;;}
+#line 289 "graphbot.y"
+    {cout<<"Matched EXPRESION via EXP"<<endl; 
+
+                // Regresa el valor de una expresión
+                                    (yyval.fval) = (yyvsp[(1) - (1)].fval); 
+                                    ;}
     break;
 
   case 67:
-#line 249 "graphbot.y"
+#line 296 "graphbot.y"
     {cout<<"Matched EXPRESION via EXP COMPARADOR EXP"<<endl;;}
     break;
 
   case 68:
-#line 250 "graphbot.y"
+#line 297 "graphbot.y"
     {cout<<"Matched EXPRESION via COMPARACION BOOLEANA"<<endl;;}
     break;
 
   case 69:
-#line 251 "graphbot.y"
+#line 298 "graphbot.y"
     {cout<<"Matched EXPRESION via VALOR BOOLEANO"<<endl;;}
     break;
 
   case 70:
-#line 255 "graphbot.y"
+#line 302 "graphbot.y"
     {cout<<"Matched BOOLEANA via TRUE"<<endl;;}
     break;
 
   case 71:
-#line 256 "graphbot.y"
+#line 303 "graphbot.y"
     {cout<<"Matched BOOLEANA via FALSE"<<endl;;}
     break;
 
   case 72:
-#line 257 "graphbot.y"
+#line 304 "graphbot.y"
     {cout<<"Matched BOOLEANA via ID"<<endl;;}
     break;
 
   case 73:
-#line 261 "graphbot.y"
+#line 308 "graphbot.y"
     {cout<<"Matched <EXP> via <TERMINO>"<<endl;;}
     break;
 
   case 74:
-#line 262 "graphbot.y"
-    {cout<<"Matched EXP via TERMINO BASIC_ARITHMETIC TERMINO"<<endl;;}
+#line 309 "graphbot.y"
+    {cout<<"Matched EXP via TERMINO BASIC_ARITHMETIC TERMINO"<<endl;
+                                   
+                // Va sumando o restando
+                                    signo = (yyvsp[(2) - (3)].cval);
+                                    if (signo == '+')
+                                    (yyval.fval) = (yyvsp[(1) - (3)].fval) + (yyvsp[(3) - (3)].fval);
+                                    else
+                                    (yyval.fval) = (yyvsp[(1) - (3)].fval) - (yyvsp[(3) - (3)].fval);
+;}
     break;
 
   case 75:
-#line 266 "graphbot.y"
+#line 321 "graphbot.y"
     {cout<<"Matched <TERMINO> via <FACTOR>"<<endl;;}
     break;
 
   case 76:
-#line 267 "graphbot.y"
-    {cout<<"Matched <FACTOR> via <FACTOR> COM_ARITHMETIC <FACTOR>"<<endl;;}
+#line 322 "graphbot.y"
+    {cout<<"Matched <FACTOR> via <FACTOR> COM_ARITHMETIC <FACTOR>"<<endl;
+                
+                // Va multiplicando o dividiendo
+                                    signo = (yyvsp[(2) - (3)].cval);
+                                    if (signo == '*')
+                                    (yyval.fval) = (yyvsp[(1) - (3)].fval) * (yyvsp[(3) - (3)].fval);
+                                    else
+                                    (yyval.fval) = (yyvsp[(1) - (3)].fval) / (yyvsp[(3) - (3)].fval);
+
+;}
     break;
 
   case 77:
-#line 271 "graphbot.y"
-    {cout<<"Matched FACTOR"<<endl;;}
+#line 335 "graphbot.y"
+    {cout<<"Matched FACTOR"<<endl;
+
+                // Va acumulando el resultado
+                                (yyval.fval) = (yyvsp[(2) - (3)].fval);                                    
+                                ;}
     break;
 
   case 78:
-#line 272 "graphbot.y"
+#line 341 "graphbot.y"
     {cout<<"Matched <FACTOR> via BASIC_ARITHMETIC <varCte>"<<endl;;}
     break;
 
   case 79:
-#line 273 "graphbot.y"
+#line 343 "graphbot.y"
     {cout<<"Matched <FACTOR> via <varCte>"<<endl;;}
     break;
 
   case 80:
-#line 277 "graphbot.y"
+#line 347 "graphbot.y"
     {cout<<"Found ID: "<<(yyvsp[(1) - (1)].sval)<<endl;;}
     break;
 
   case 81:
-#line 278 "graphbot.y"
+#line 348 "graphbot.y"
     {printf("Found FLOAT: %f\n",(yyvsp[(1) - (1)].fval));;}
     break;
 
   case 82:
-#line 282 "graphbot.y"
+#line 352 "graphbot.y"
     {cout<<"Matched COMPARADOR via EQUAL"<<endl;;}
     break;
 
   case 83:
-#line 283 "graphbot.y"
+#line 353 "graphbot.y"
     {cout<<"Matched COMPARADOR via NOT_EQUAL"<<endl;;}
     break;
 
   case 84:
-#line 284 "graphbot.y"
+#line 354 "graphbot.y"
     {cout<<"Matched COMPARADOR via GREAT_EQ_THAN"<<endl;;}
     break;
 
   case 85:
-#line 285 "graphbot.y"
+#line 355 "graphbot.y"
     {cout<<"Matched COMPARADOR via LESS_EQ_THAN"<<endl;;}
     break;
 
   case 86:
-#line 286 "graphbot.y"
+#line 356 "graphbot.y"
     {cout<<"Matched COMPARADOR via GREAT_THAN"<<endl;;}
     break;
 
   case 87:
-#line 287 "graphbot.y"
+#line 357 "graphbot.y"
     {cout<<"Matched COMPARADOR via LESS_THAN"<<endl;;}
     break;
 
   case 88:
-#line 291 "graphbot.y"
+#line 361 "graphbot.y"
     {cout<<"Matched COMP_BOOL via EQUAL"<<endl;;}
     break;
 
   case 89:
-#line 292 "graphbot.y"
+#line 362 "graphbot.y"
     {cout<<"Matched COMP_BOOL via NOT_EQUAL"<<endl;;}
     break;
 
 
 /* Line 1267 of yacc.c.  */
-#line 1935 "graphbot.tab.c"
+#line 1996 "graphbot.tab.c"
       default: break;
     }
   YY_SYMBOL_PRINT ("-> $$ =", yyr1[yyn], &yyval, &yyloc);
@@ -2145,7 +2206,7 @@ yyreturn:
 }
 
 
-#line 294 "graphbot.y"
+#line 364 "graphbot.y"
 
 int main(int argc, char ** argv) {
 	

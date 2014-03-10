@@ -7,8 +7,11 @@ struct data {
 public:
 		int id; //to hold a unique id for each element
         string name; // string name for each element
-        int type; // type of the element
-		int value; //the data for each element, I used a simple int
+        // type of the element
+        // 1 - Float
+        // 2 - Bool
+        int type;
+		float value; 
 };
 
 class hasher {
@@ -109,7 +112,7 @@ void hasher::output() {
 		int i;
 		for(i=0;i<51;i++) {
                 if(dt[i].id != -1)
-				cout <<"Id Proc: "<<dt[i].id<<" Nombre: "<<dt[i].name<<" Tipo: "<<dt[i].type<<" Apuntador:"<<dt[i].value<<endl;
+				cout <<"Id Proc: "<<dt[i].id<<" Nombre: "<<dt[i].name<<" Tipo: "<<dt[i].type<<" Valor:"<<dt[i].value<<endl;
 		}
 }
 
