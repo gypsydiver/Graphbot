@@ -1,0 +1,1 @@
+rm graphbot.tab.* && rm lex.yy.c && rm graphbot
