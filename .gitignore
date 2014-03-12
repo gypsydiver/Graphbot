@@ -3,3 +3,4 @@ graphbot
 lex.yy.c
 graphbot.output
 .DS_STORE
+/testfiles

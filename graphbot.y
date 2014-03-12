@@ -208,19 +208,19 @@ lista2: /* empty */
 expresion: 
 	exp 							{cout<<"Matched EXPRESION via EXP"<<endl;}
 	| exp comparador exp 			{cout<<"Matched EXPRESION via EXP COMPARADOR EXP"<<endl;}
-	| booleana comp_bool booleana 	{cout<<"Matched EXPRESION via COMPARACION BOOLEANA"<<endl;}
-	| booleana 						{cout<<"Matched EXPRESION via VALOR BOOLEANO"<<endl;}
+	/*| booleana comp_bool booleana 	{cout<<"Matched EXPRESION via COMPARACION BOOLEANA"<<endl};
+	| booleana 		*/				
 	;
 
 booleana:
 	RW_TRUE		{cout<<"Matched BOOLEANA via TRUE"<<endl;}
 	|RW_FALSE	{cout<<"Matched BOOLEANA via FALSE"<<endl;}
-	|ID 		{cout<<"Matched BOOLEANA via ID"<<endl;}
 	;
 
 exp:
 	termino 	{cout<<"Matched <EXP> via <TERMINO>"<<endl;}
-	|termino BASIC_ARITHMETIC exp {cout<<"Matched EXP via TERMINO BASIC_ARITHMETIC TERMINO"<<endl;}
+	| termino BASIC_ARITHMETIC exp {cout<<"Matched EXP via TERMINO BASIC_ARITHMETIC TERMINO"<<endl;}
+	| booleana 	{cout<<"Matched EXP via VALOR BOOLEANO"<<endl;}
 	;
 
 termino:
@@ -248,10 +248,10 @@ comparador:
 	| LESS_THAN 		{cout<<"Matched COMPARADOR via LESS_THAN"<<endl;}
 	;
 
-comp_bool:
+/*comp_bool:
 	EQUAL 		{cout<<"Matched COMP_BOOL via EQUAL"<<endl;}
 	|NOT_EQUAL	{cout<<"Matched COMP_BOOL via NOT_EQUAL"<<endl;}
-	;
+	;*/
 %%
 int main(int argc, char ** argv) {
 	
