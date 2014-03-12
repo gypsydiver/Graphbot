@@ -221,10 +221,7 @@ comando3:
 	;
 
 variable:
-	FLOAT 		{cout<<"Matched SAVE_FLOAT"<<endl;
-                
-
-                                                    }
+	FLOAT 		{cout<<"Matched SAVE_FLOAT"<<endl;}
 	| expresion {cout<<"Matched SAVE_EXPRESION"<<endl;}
 	| lista 	{cout<<"Matched SAVE_LISTA"<<endl;}
 	;
@@ -317,7 +314,6 @@ int main(int argc, char ** argv) {
 	// parse through the input until there is no more:
 	do {
 		yyparse();
-
 	} while (!feof(yyin));
 }
 
@@ -329,14 +325,11 @@ void yyerror(const char *s) {
 
 // Función que maneja los errores
 void errores(int i) {
-    
     switch (i) {
-
         // La función ya se encuentra en el directorio de procedimientos 
         case 1: 
         cout << "Función ya declarada." << endl;
         exit(-1);
         break;
-
-      } 
+      }
 }
