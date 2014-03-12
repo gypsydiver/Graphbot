@@ -255,18 +255,13 @@ expresion:
 	exp 							{cout<<"Matched EXPRESION via EXP"<<endl;}
 	| exp comparador exp 			{cout<<"Matched EXPRESION via EXP COMPARADOR EXP"<<endl;}
 	/*| booleana comp_bool booleana 	{cout<<"Matched EXPRESION via COMPARACION BOOLEANA"<<endl};
-	| booleana 		*/				
-	;
-
-booleana:
-	RW_TRUE		{cout<<"Matched BOOLEANA via TRUE"<<endl;}
-	|RW_FALSE	{cout<<"Matched BOOLEANA via FALSE"<<endl;}
+	| booleana 						{cout<<"Matched EXP via VALOR BOOLEANO"<<endl;}
+	| ID*/	
 	;
 
 exp:
 	termino 	{cout<<"Matched <EXP> via <TERMINO>"<<endl;}
 	| termino BASIC_ARITHMETIC exp {cout<<"Matched EXP via TERMINO BASIC_ARITHMETIC TERMINO"<<endl;}
-	| booleana 	{cout<<"Matched EXP via VALOR BOOLEANO"<<endl;}
 	;
 
 termino:
@@ -283,6 +278,11 @@ factor:
 varCte: 
 	ID 		{cout<<"Found ID: "<<$1<<endl;}
 	| FLOAT	{printf("Found FLOAT: %f\n",$1);}
+	;
+
+booleana:
+	RW_TRUE		{cout<<"Matched BOOLEANA via TRUE"<<endl;}
+	|RW_FALSE	{cout<<"Matched BOOLEANA via FALSE"<<endl;}
 	;
 
 comparador: 
