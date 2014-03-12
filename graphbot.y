@@ -223,10 +223,7 @@ comando3:
 	;
 
 variable:
-	FLOAT 		{cout<<"Matched SAVE_FLOAT"<<endl;
-                
-
-                                                    }
+	FLOAT 		{cout<<"Matched SAVE_FLOAT"<<endl;}
 	| expresion {cout<<"Matched SAVE_EXPRESION"<<endl;}
 	| lista 	{cout<<"Matched SAVE_LISTA"<<endl;}
 	;
@@ -260,18 +257,13 @@ expresion:
 	exp 							{cout<<"Matched EXPRESION via EXP"<<endl;}
 	| exp comparador exp 			{cout<<"Matched EXPRESION via EXP COMPARADOR EXP"<<endl;}
 	/*| booleana comp_bool booleana 	{cout<<"Matched EXPRESION via COMPARACION BOOLEANA"<<endl};
-	| booleana 		*/				
-	;
-
-booleana:
-	RW_TRUE		{cout<<"Matched BOOLEANA via TRUE"<<endl;}
-	|RW_FALSE	{cout<<"Matched BOOLEANA via FALSE"<<endl;}
+	| booleana 						{cout<<"Matched EXP via VALOR BOOLEANO"<<endl;}
+	| ID*/	
 	;
 
 exp:
 	termino 	{cout<<"Matched <EXP> via <TERMINO>"<<endl;}
 	| termino BASIC_ARITHMETIC exp {cout<<"Matched EXP via TERMINO BASIC_ARITHMETIC TERMINO"<<endl;}
-	| booleana 	{cout<<"Matched EXP via VALOR BOOLEANO"<<endl;}
 	;
 
 termino:
@@ -296,6 +288,11 @@ varCte:
             }
 
 	| FLOAT	{printf("Found FLOAT: %f\n",$1);}
+	;
+
+booleana:
+	RW_TRUE		{cout<<"Matched BOOLEANA via TRUE"<<endl;}
+	|RW_FALSE	{cout<<"Matched BOOLEANA via FALSE"<<endl;}
 	;
 
 comparador: 
@@ -327,7 +324,6 @@ int main(int argc, char ** argv) {
 	// parse through the input until there is no more:
 	do {
 		yyparse();
-
 	} while (!feof(yyin));
 }
 
@@ -341,7 +337,6 @@ void yyerror(const char *s) {
 void errores(int i, string val) {
     
     switch (i) {
-
         // La función ya se encuentra en el directorio de procedimientos 
         case 1: 
         cout << "Función "<< val << " ya declarada." << endl;
@@ -375,4 +370,6 @@ void print(){
         cout << (*tab).first << " => " << (*tab).second << endl;
      }
 
+}
+      }
 }
