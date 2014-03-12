@@ -8,7 +8,15 @@
 
 #include <cstdio>
 #include <iostream>
+#include <map> 
 using namespace std;
+
+// Tabla de variables
+typedef map<string, int> TablaVar;
+TablaVar tabla;
+// Directorio de Procedimientos
+multimap <string, TablaVar> dirProc;
+
 
 // stuff from flex that bison needs to know about:
 extern "C" int yylex();
@@ -17,6 +25,8 @@ extern "C" FILE *yyin;
 extern int yylineco;
 
 void yyerror(const char *s);
+void errores(int i);
+
 %}
 %union {
 	float fval;
@@ -78,7 +88,20 @@ void yyerror(const char *s);
 //Grammar rules
 
 graphbot: 
-	graph programa {cout<<"Matched GRAPHBOT"<<endl;}
+	graph programa {
+
+// Imprime el Directorio de Procedimientos
+     multimap<string, TablaVar >::iterator it;
+     multimap<string, int>::iterator inner_it;
+
+     for ( it=dirProc.begin() ; it != dirProc.end(); it++ ) {
+        cout << "\n\nProcedimiento:\n" << (*it).first << endl;
+     for( inner_it=(*it).second.begin(); inner_it != (*it).second.end(); inner_it++)
+        cout << (*inner_it).first << " => " << (*inner_it).second << endl;
+     }
+
+
+cout<<"Matched GRAPHBOT"<<endl;}
 	;
 
 graph: /*empty*/ 
@@ -86,7 +109,16 @@ graph: /*empty*/
  	;
 
 funcion:
-	RW_FUNCTION ID funcion1 funcion2 RW_END {cout<<"Matched FUNCION"<<endl;}
+	RW_FUNCTION ID funcion1 funcion2 RW_END {cout<<"Matched FUNCION"<<endl;
+
+    map<string, TablaVar>::iterator proc = dirProc.find($2);
+        if(proc == dirProc.end())
+        dirProc.insert(make_pair ($2, tabla));
+        else
+        errores(1);
+        
+                    
+    }
 	;
 
 funcion1: /* empty */ 
@@ -105,7 +137,10 @@ funcion3: /* empty */
 	;
 
 var: 
-	var1 ID var2 {cout<<"Matched VARIABLE_DE_FUNCION"<<endl;}
+	var1 ID var2 {cout<<"Matched VARIABLE_DE_FUNCION"<<endl;
+
+                  tabla.insert(make_pair($2, 0));}
+                
 	;
 
 var1: 
@@ -118,7 +153,10 @@ var2: /* empty */
 	;
 
 programa:
-	RW_PROGRAM ID funcion2 RW_END {cout<<"Matched PROGRAMA"<<endl;}
+	RW_PROGRAM ID funcion2 RW_END {cout<<"Matched PROGRAMA"<<endl;
+                                  dirProc.insert(make_pair ($2, tabla));
+
+}
 	;
 
 comandos: 
@@ -166,7 +204,9 @@ comando1:
 
 comando2: 
 	RW_SETPOS expresion expresion	{cout<<"Matched COMANDO2 via RW_SETPOS"<<endl;}
-	| RW_SAVE ID variable 			{cout<<"Matched COMANDO2 via RW_SAVE"<<endl;}
+	| RW_SAVE ID variable 			{cout<<"Matched COMANDO2 via RW_SAVE"<<endl;
+                                    
+                                    tabla.insert(make_pair($2, 0));}
 	;
 
 comando3: 
@@ -175,7 +215,10 @@ comando3:
 	;
 
 variable:
-	FLOAT 		{cout<<"Matched SAVE_FLOAT"<<endl;}
+	FLOAT 		{cout<<"Matched SAVE_FLOAT"<<endl;
+                
+
+                                                    }
 	| expresion {cout<<"Matched SAVE_EXPRESION"<<endl;}
 	| lista 	{cout<<"Matched SAVE_LISTA"<<endl;}
 	;
@@ -259,7 +302,7 @@ int main(int argc, char ** argv) {
 	FILE *myfile = fopen(argv[1], "r");
 	// make sure it's valid:
 	if (!myfile) {
-		cout << "I can't open "<<argv[1]<< endl;
+		cout << "No puedo abrir "<<argv[1]<< endl;
 		return -1;
 	}
 	// set lex to read from it instead of defaulting to STDIN:
@@ -273,7 +316,20 @@ int main(int argc, char ** argv) {
 }
 
 void yyerror(const char *s) {
-	cout << "BANG, parse error! Message: "<<s<<" at line "<<yylineco<< endl;
+	cout << "BANG, error de parser: "<<s<<" en la línea "<<yylineco<< endl;
 	// might as well halt now:
 	exit(-1);
+}
+
+// Función que maneja los errores
+void errores(int i) {
+    
+    switch (i) {
+
+        case 1: 
+        cout << "Función ya declarada." << endl;
+        exit(-1);
+        break;
+
+      } 
 }
