@@ -3,4 +3,6 @@ graphbot
 lex.yy.c
 graphbot.output
 .DS_STORE
+<<<<<<< HEAD
 *.swp
+/testfiles
