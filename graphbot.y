@@ -17,6 +17,9 @@ TablaVar tabla;
 // Directorio de Procedimientos
 multimap <string, TablaVar> dirProc;
 
+// Iteradores
+multimap<string, TablaVar >::iterator proc;
+map<string, int>::iterator tab;
 
 // stuff from flex that bison needs to know about:
 extern "C" int yylex();
@@ -24,6 +27,7 @@ extern "C" int yyparse();
 extern "C" FILE *yyin;
 extern int yylineco;
 
+// Funciones de errores
 void yyerror(const char *s);
 void errores(int i);
 
@@ -91,17 +95,15 @@ graphbot:
 	graph programa {
 
 // Imprime el Directorio de Procedimientos
-     multimap<string, TablaVar >::iterator it;
-     multimap<string, int>::iterator inner_it;
-
-     for ( it=dirProc.begin() ; it != dirProc.end(); it++ ) {
-        cout << "\n\nProcedimiento:\n" << (*it).first << endl;
-     for( inner_it=(*it).second.begin(); inner_it != (*it).second.end(); inner_it++)
-        cout << (*inner_it).first << " => " << (*inner_it).second << endl;
+  
+     for ( proc=dirProc.begin() ; proc != dirProc.end(); proc++ ) {
+        cout << "\n\nProcedimiento:\n" << (*proc).first << endl;
+     for( tab=(*proc).second.begin(); tab != (*proc).second.end(); tab++)
+        cout << (*tab).first << " => " << (*tab).second << endl;
      }
 
-
-cout<<"Matched GRAPHBOT"<<endl;}
+    cout<<"Matched GRAPHBOT"<<endl;
+    }
 	;
 
 graph: /*empty*/ 
@@ -111,13 +113,14 @@ graph: /*empty*/
 funcion:
 	RW_FUNCTION ID funcion1 funcion2 RW_END {cout<<"Matched FUNCION"<<endl;
 
-    map<string, TablaVar>::iterator proc = dirProc.find($2);
+        proc = dirProc.find($2);
+        // Busca si la función no esta ya dentro del directorio de procedimientos
         if(proc == dirProc.end())
+        // Agrega función al directorio con su respectiva tabla de variables
         dirProc.insert(make_pair ($2, tabla));
         else
         errores(1);
-        
-                    
+
     }
 	;
 
@@ -139,6 +142,7 @@ funcion3: /* empty */
 var: 
 	var1 ID var2 {cout<<"Matched VARIABLE_DE_FUNCION"<<endl;
 
+                 // Agrega variable a la tabla
                   tabla.insert(make_pair($2, 0));}
                 
 	;
@@ -154,7 +158,9 @@ var2: /* empty */
 
 programa:
 	RW_PROGRAM ID funcion2 RW_END {cout<<"Matched PROGRAMA"<<endl;
-                                  dirProc.insert(make_pair ($2, tabla));
+
+               // Agrega procedimiento main al directorio 
+                 dirProc.insert(make_pair ($2, tabla));
 
 }
 	;
@@ -326,6 +332,7 @@ void errores(int i) {
     
     switch (i) {
 
+        // La función ya se encuentra en el directorio de procedimientos 
         case 1: 
         cout << "Función ya declarada." << endl;
         exit(-1);
