@@ -29,7 +29,10 @@ extern int yylineco;
 
 // Funciones de errores
 void yyerror(const char *s);
-void errores(int i);
+void errores(int i, string val);
+
+// Imprime tabla de variables;
+void print();
 
 %}
 %union {
@@ -92,18 +95,7 @@ void errores(int i);
 //Grammar rules
 
 graphbot: 
-	graph programa {
-
-// Imprime el Directorio de Procedimientos
-  
-     for ( proc=dirProc.begin() ; proc != dirProc.end(); proc++ ) {
-        cout << "\n\nProcedimiento:\n" << (*proc).first << endl;
-     for( tab=(*proc).second.begin(); tab != (*proc).second.end(); tab++)
-        cout << (*tab).first << " => " << (*tab).second << endl;
-     }
-
-    cout<<"Matched GRAPHBOT"<<endl;
-    }
+	graph programa {cout<<"Compilación Exitosa"<<endl;}
 	;
 
 graph: /*empty*/ 
@@ -111,7 +103,7 @@ graph: /*empty*/
  	;
 
 funcion:
-	RW_FUNCTION ID funcion1 funcion2 RW_END {cout<<"Matched FUNCION"<<endl;
+	RW_FUNCTION ID funcion1 funcion2 RW_END {
 
         proc = dirProc.find($2);
         // Busca si la función no esta ya dentro del directorio de procedimientos
@@ -119,7 +111,7 @@ funcion:
         // Agrega función al directorio con su respectiva tabla de variables
         dirProc.insert(make_pair ($2, tabla));
         else
-        errores(1);
+        errores(1, $2);
 
     }
 	;
@@ -129,8 +121,8 @@ funcion1: /* empty */
 	;
 
 funcion2: 
-	comandos funcion3 
-	| for funcion3 
+	 for funcion3 
+    | comandos funcion3
 	| while funcion3 
 	| condicion funcion3
 	;
@@ -140,7 +132,7 @@ funcion3: /* empty */
 	;
 
 var: 
-	var1 ID var2 {cout<<"Matched VARIABLE_DE_FUNCION"<<endl;
+	var1 ID var2 {
 
                  // Agrega variable a la tabla
                   tabla.insert(make_pair($2, 0));}
@@ -157,7 +149,7 @@ var2: /* empty */
 	;
 
 programa:
-	RW_PROGRAM ID funcion2 RW_END {cout<<"Matched PROGRAMA"<<endl;
+	RW_PROGRAM ID funcion2 RW_END {
 
                // Agrega procedimiento main al directorio 
                  dirProc.insert(make_pair ($2, tabla));
@@ -174,7 +166,16 @@ comandos:
 	;
 
 llamada_funcion:
-	ID llamada_funcion_aux	{cout<<"Matched FUNCION DEFINIDA POR EL USUARIO"<<endl;}
+	ID llamada_funcion_aux	{
+
+                proc = dirProc.find($1);
+                cout << "NOMBRE: " << $1 << endl;
+                // Busca si la función no esta ya dentro del directorio de procedimientos
+                if(proc == dirProc.end())
+                errores(3, $1);
+                           
+
+                            }
 	;
 
 llamada_funcion_aux: /* empty */
@@ -210,8 +211,9 @@ comando1:
 
 comando2: 
 	RW_SETPOS expresion expresion	{cout<<"Matched COMANDO2 via RW_SETPOS"<<endl;}
-	| RW_SAVE ID variable 			{cout<<"Matched COMANDO2 via RW_SAVE"<<endl;
+	| RW_SAVE ID variable 			{
                                     
+                        // Agrega una variable a la tabla de variables
                                     tabla.insert(make_pair($2, 0));}
 	;
 
@@ -284,7 +286,15 @@ factor:
      ;
 
 varCte: 
-	ID 		{cout<<"Found ID: "<<$1<<endl;}
+	ID 		{
+            
+        tab = tabla.find($1);
+        // Busca si la variable no esta declarada
+        if(tab == tabla.end())
+        errores(2, $1);
+
+            }
+
 	| FLOAT	{printf("Found FLOAT: %f\n",$1);}
 	;
 
@@ -328,15 +338,41 @@ void yyerror(const char *s) {
 }
 
 // Función que maneja los errores
-void errores(int i) {
+void errores(int i, string val) {
     
     switch (i) {
 
         // La función ya se encuentra en el directorio de procedimientos 
         case 1: 
-        cout << "Función ya declarada." << endl;
+        cout << "Función "<< val << " ya declarada." << endl;
+        print();
         exit(-1);
         break;
 
+       // La variable no ha sido declarada
+        case 2:
+        cout << "Variable "<< val <<  " no declarada." <<  endl;
+        print();
+        exit(-1);
+        break;
+
+       // La función no esta declarada
+        case 3:
+        cout << "Función " << val << " no existe." << endl;
+        print();
+        exit(-1);
+        break;
       } 
+}
+
+void print(){
+
+// Imprime el Directorio de Procedimientos
+  
+     for ( proc=dirProc.begin() ; proc != dirProc.end(); proc++ ) {
+        cout << "\n\nProcedimiento:\n" << (*proc).first << endl;
+     for( tab=(*proc).second.begin(); tab != (*proc).second.end(); tab++)
+        cout << (*tab).first << " => " << (*tab).second << endl;
+     }
+
 }
