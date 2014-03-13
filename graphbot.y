@@ -174,8 +174,8 @@ llamada_funcion_aux: /* empty */
 
 llamada_funcion:
 	ID llamada_funcion_aux	{
+
                 proc = dirProc.find($1);
-                cout << "NOMBRE: " << $1 << endl;
                 // Busca si la función no esta ya dentro del directorio de procedimientos
                 if(proc == dirProc.end())
                 errores(3, $1); 
@@ -231,7 +231,7 @@ for:
 	;
 
 for_aux:
-	OP_BRACKET ID expresion expresion expresion CL_BRACKET
+	OP_BRACKET ID COMMA expresion COMMA expresion COMMA expresion CL_BRACKET
 	;
 
 while: 
@@ -242,12 +242,11 @@ condicion:
 	RW_IF expresion lista 		{cout<<"Matched RW_IF"<<endl;}
 	;
 
-lista:
+lista: // Lista de comandos
 	OP_BRACKET lista1 CL_BRACKET 	{cout<<"Matched LISTA"<<endl;}
 	;
 
 lista1:
-	 expresion lista2 
 	| comandos lista2
 	;
 
@@ -272,7 +271,6 @@ termino:
 
 factor: 
      OP_PAR expresion CL_PAR 	{cout<<"Matched FACTOR"<<endl;}
-     | BASIC_ARITHMETIC varCte 	{cout<<"Matched <FACTOR> via BASIC_ARITHMETIC <varCte>"<<endl;}
      | varCte					{cout<<"Matched <FACTOR> via <varCte>"<<endl;}
      ;
 
@@ -320,6 +318,7 @@ int main(int argc, char ** argv) {
 
 void yyerror(const char *s) {
 	cout << "BANG, error de parser: "<<s<<" en la línea "<<yylineco<< endl;
+    print();
 	// might as well halt now:
 	exit(-1);
 }
