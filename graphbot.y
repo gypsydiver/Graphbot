@@ -134,10 +134,8 @@ funcion3: /* empty */
 
 var: 
 	var1 ID var2 {
-
                  // Agrega variable a la tabla
-                  tabla.insert(make_pair($2, 0));}
-                
+                  tabla.insert(make_pair($2, 0));}   
 	;
 
 var1: 
@@ -166,13 +164,17 @@ comandos:
 	| llamada_funcion
 	;
 
+llamada_funcion_aux: /* empty */
+	|expresion llamada_funcion_aux
+	;
+
 llamada_funcion:
 	ID llamada_funcion_aux	{
-
                 proc = dirProc.find($1);
                 cout << "NOMBRE: " << $1 << endl;
                 // Busca si la función no esta ya dentro del directorio de procedimientos
                 if(proc == dirProc.end())
+<<<<<<< HEAD
                 errores(3, $1); 
                            
 
@@ -184,6 +186,12 @@ llamada_funcion_aux: /* empty */
     ;
 
 
+=======
+                errores(3, $1);
+                }
+	;
+
+>>>>>>> a8f6d85d95a35149ac697866f6f5e2279bdee2f9
 comando: 
 	RW_SHOW 		{cout<<"Matched RW_SHOW"<<endl;}
 	| RW_HIDE 		{cout<<"Matched RW_HIDE"<<endl;}
@@ -213,9 +221,7 @@ comando1:
 
 comando2: 
 	RW_SETPOS expresion expresion	{cout<<"Matched COMANDO2 via RW_SETPOS"<<endl;}
-	| RW_SAVE ID variable 			{
-                                    
-                        // Agrega una variable a la tabla de variables
+	| RW_SAVE ID variable 			{// Agrega una variable a la tabla de variables
                                     tabla.insert(make_pair($2, 0));}
 	;
 
@@ -225,8 +231,7 @@ comando3:
 	;
 
 variable:
-	FLOAT 		{cout<<"Matched SAVE_FLOAT"<<endl;}
-	| expresion {cout<<"Matched SAVE_EXPRESION"<<endl;}
+	 expresion {cout<<"Matched SAVE_EXPRESION"<<endl;}
 	| lista 	{cout<<"Matched SAVE_LISTA"<<endl;}
 	;
 
@@ -246,8 +251,8 @@ lista:
 	OP_BRACKET lista1 CL_BRACKET 	{cout<<"Matched LISTA"<<endl;}
 	;
 
-lista1: FLOAT lista2 
-	| expresion lista2 
+lista1:
+	 expresion lista2 
 	| comandos lista2
 	;
 
@@ -258,10 +263,13 @@ lista2: /* empty */
 expresion: 
 	exp 							{cout<<"Matched EXPRESION via EXP"<<endl;}
 	| exp comparador exp 			{cout<<"Matched EXPRESION via EXP COMPARADOR EXP"<<endl;}
+<<<<<<< HEAD
 	/*| booleana comp_bool booleana 	{cout<<"Matched EXPRESION via COMPARACION BOOLEANA"<<endl};*/
 	| ID 
 	| booleana 						{cout<<"Matched EXP via VALOR BOOLEANO"<<endl;}
 
+=======
+>>>>>>> a8f6d85d95a35149ac697866f6f5e2279bdee2f9
 	;
 
 exp:
@@ -270,8 +278,8 @@ exp:
 	;
 
 termino:
-	factor 	{cout<<"Matched <TERMINO> via <FACTOR>"<<endl;}
-	|factor COM_ARITHMETIC factor 	{cout<<"Matched <FACTOR> via <FACTOR> COM_ARITHMETIC <FACTOR>"<<endl;}
+	 factor 	{cout<<"Matched <TERMINO> via <FACTOR>"<<endl;}
+	| factor COM_ARITHMETIC factor 	{cout<<"Matched <FACTOR> via <FACTOR> COM_ARITHMETIC <FACTOR>"<<endl;}
 	;
 
 factor: 
@@ -280,22 +288,11 @@ factor:
      | varCte					{cout<<"Matched <FACTOR> via <varCte>"<<endl;}
      ;
 
-varCte: 
-	ID 		{
-            
-        tab = tabla.find($1);
-        // Busca si la variable no esta declarada
-        if(tab == tabla.end())
-        errores(2, $1);
-
-            }
-
-	| FLOAT	{printf("Found FLOAT: %f\n",$1);}
-	;
-
-booleana:
-	RW_TRUE		{cout<<"Matched BOOLEANA via TRUE"<<endl;}
-	|RW_FALSE	{cout<<"Matched BOOLEANA via FALSE"<<endl;}
+varCte:
+	ID 				{cout<<"Matched varCte via ID: "<<$1<<endl;}
+	| FLOAT			{printf("Matched varCte via FLOAT: %f\n",$1);}
+	| RW_TRUE		{cout<<"Matched varCte via TRUE"<<endl;}
+	| RW_FALSE		{cout<<"Matched varCte via FALSE"<<endl;}
 	;
 
 comparador: 
@@ -306,11 +303,6 @@ comparador:
 	| GREAT_THAN 		{cout<<"Matched COMPARADOR via GREAT_THAN"<<endl;}
 	| LESS_THAN 		{cout<<"Matched COMPARADOR via LESS_THAN"<<endl;}
 	;
-
-/*comp_bool:
-	EQUAL 		{cout<<"Matched COMP_BOOL via EQUAL"<<endl;}
-	|NOT_EQUAL	{cout<<"Matched COMP_BOOL via NOT_EQUAL"<<endl;}
-	;*/
 %%
 
 int main(int argc, char ** argv) {
@@ -373,5 +365,4 @@ void print(){
         cout << (*tab).first << " => " << (*tab).second << endl;
      }
 
-}
-    
+}    
