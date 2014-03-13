@@ -99,7 +99,8 @@ void print();
 //Grammar rules
 
 graphbot: 
-	graph programa {cout<<"Compilación Exitosa"<<endl;}
+	graph programa {cout<<"Compilación Exitosa"<<endl;
+                    print();}
 	;
 
 graph: /*empty*/ 
@@ -271,7 +272,14 @@ factor:
      ;
 
 varCte:
-	ID 				{cout<<"Matched varCte via ID: "<<$1<<endl;}
+	ID 				{cout<<"Matched varCte via ID: "<<$1<<endl;
+
+                    tab = tabla.find($1);
+                    // Busca si la variable no esta declarada
+                    if(tab == tabla.end())
+                    errores(2, $1);
+                                                                }
+
 	| FLOAT			{printf("Matched varCte via FLOAT: %f\n",$1);}
 	| RW_TRUE		{cout<<"Matched varCte via TRUE"<<endl;}
 	| RW_FALSE		{cout<<"Matched varCte via FALSE"<<endl;}
