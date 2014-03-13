@@ -92,6 +92,7 @@ void print();
 %token <sval> ID
 %token <fval> FLOAT
 %%
+
 //Grammar rules
 
 graphbot: 
@@ -172,7 +173,7 @@ llamada_funcion:
                 cout << "NOMBRE: " << $1 << endl;
                 // Busca si la función no esta ya dentro del directorio de procedimientos
                 if(proc == dirProc.end())
-                errores(3, $1);
+                errores(3, $1); 
                            
 
                             }
@@ -180,6 +181,7 @@ llamada_funcion:
 
 llamada_funcion_aux: /* empty */
 	|expresion llamada_funcion_aux
+    ;
 
 
 comando: 
@@ -256,9 +258,10 @@ lista2: /* empty */
 expresion: 
 	exp 							{cout<<"Matched EXPRESION via EXP"<<endl;}
 	| exp comparador exp 			{cout<<"Matched EXPRESION via EXP COMPARADOR EXP"<<endl;}
-	/*| booleana comp_bool booleana 	{cout<<"Matched EXPRESION via COMPARACION BOOLEANA"<<endl};
+	/*| booleana comp_bool booleana 	{cout<<"Matched EXPRESION via COMPARACION BOOLEANA"<<endl};*/
+	| ID 
 	| booleana 						{cout<<"Matched EXP via VALOR BOOLEANO"<<endl;}
-	| ID*/	
+
 	;
 
 exp:
@@ -309,6 +312,7 @@ comparador:
 	|NOT_EQUAL	{cout<<"Matched COMP_BOOL via NOT_EQUAL"<<endl;}
 	;*/
 %%
+
 int main(int argc, char ** argv) {
 	
 	// open a file handle to a particular file:
@@ -360,9 +364,8 @@ void errores(int i, string val) {
       } 
 }
 
-void print(){
-
 // Imprime el Directorio de Procedimientos
+void print(){
   
      for ( proc=dirProc.begin() ; proc != dirProc.end(); proc++ ) {
         cout << "\n\nProcedimiento:\n" << (*proc).first << endl;
@@ -371,5 +374,4 @@ void print(){
      }
 
 }
-      }
-}
+    
