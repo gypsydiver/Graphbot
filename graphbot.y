@@ -168,7 +168,7 @@ comandos:
 	;
 
 llamada_funcion_aux: /* empty */
-	|expresion llamada_funcion_aux
+	| expresion llamada_funcion_aux
 	;
 
 llamada_funcion:
@@ -242,16 +242,11 @@ condicion:
 	;
 
 lista:
-	OP_BRACKET lista1 CL_BRACKET 	{cout<<"Matched LISTA"<<endl;}
+	OP_BRACKET comandos lista_aux CL_BRACKET 	{cout<<"Matched LISTA"<<endl;}
 	;
 
-lista1:
-	 expresion lista2 
-	| comandos lista2
-	;
-
-lista2: /* empty */ 
-	| COMMA lista1
+lista_aux: /* empty */ 
+	| COMMA lista_aux
 	;
 
 expresion: 
@@ -271,7 +266,7 @@ termino:
 
 factor: 
      OP_PAR expresion CL_PAR 	{cout<<"Matched FACTOR"<<endl;}
-     | BASIC_ARITHMETIC varCte 	{cout<<"Matched <FACTOR> via BASIC_ARITHMETIC <varCte>"<<endl;}
+     //| BASIC_ARITHMETIC varCte 	{cout<<"Matched <FACTOR> via BASIC_ARITHMETIC <varCte>"<<endl;}
      | varCte					{cout<<"Matched <FACTOR> via <varCte>"<<endl;}
      ;
 
