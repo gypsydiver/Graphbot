@@ -1,15 +1,14 @@
 Objetivos Semana 2
 ->Escenciales
-	- Resolución de conflictos
+	*- Resolución de conflictos
 		· 75 reduce/reduce
 		· 5 shift/Reduce
 	*- Directorio de procedimientos 
 	*- Inserción de procedimientos por declaración
 	*- Tablas de Variables
 	*- Inserción a tablas de variables por declaración y asignación
-	- Verificación de uso de variables inexistentes
-	- 
+	*- Verificación de uso de variables inexistentes 
 -----------No tan importante-------------
 - Code refactoring
 - Mas Tests
-- Makefile
+*- Makefile
