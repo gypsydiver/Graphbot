@@ -174,24 +174,11 @@ llamada_funcion:
                 cout << "NOMBRE: " << $1 << endl;
                 // Busca si la función no esta ya dentro del directorio de procedimientos
                 if(proc == dirProc.end())
-<<<<<<< HEAD
                 errores(3, $1); 
-                           
-
-                            }
-	;
-
-llamada_funcion_aux: /* empty */
-	|expresion llamada_funcion_aux
-    ;
-
-
-=======
-                errores(3, $1);
                 }
 	;
 
->>>>>>> a8f6d85d95a35149ac697866f6f5e2279bdee2f9
+
 comando: 
 	RW_SHOW 		{cout<<"Matched RW_SHOW"<<endl;}
 	| RW_HIDE 		{cout<<"Matched RW_HIDE"<<endl;}
@@ -263,13 +250,6 @@ lista2: /* empty */
 expresion: 
 	exp 							{cout<<"Matched EXPRESION via EXP"<<endl;}
 	| exp comparador exp 			{cout<<"Matched EXPRESION via EXP COMPARADOR EXP"<<endl;}
-<<<<<<< HEAD
-	/*| booleana comp_bool booleana 	{cout<<"Matched EXPRESION via COMPARACION BOOLEANA"<<endl};*/
-	| ID 
-	| booleana 						{cout<<"Matched EXP via VALOR BOOLEANO"<<endl;}
-
-=======
->>>>>>> a8f6d85d95a35149ac697866f6f5e2279bdee2f9
 	;
 
 exp:
