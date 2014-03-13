@@ -91,6 +91,9 @@ void print();
 %token <cval> COM_ARITHMETIC
 %token <sval> ID
 %token <fval> FLOAT
+
+%start graphbot
+
 %%
 
 //Grammar rules
@@ -223,7 +226,11 @@ variable:
 	;
 
 for: 
-	RW_FOR lista lista {cout<<"Matched RW_FOR"<<endl;}
+	RW_FOR for_aux lista {cout<<"Matched RW_FOR"<<endl;}
+	;
+
+for_aux:
+	OP_BRACKET ID expresion expresion expresion CL_BRACKET
 	;
 
 while: 
@@ -254,7 +261,7 @@ expresion:
 
 exp:
 	termino 	{cout<<"Matched <EXP> via <TERMINO>"<<endl;}
-	| termino BASIC_ARITHMETIC exp {cout<<"Matched EXP via TERMINO BASIC_ARITHMETIC TERMINO"<<endl;}
+	| termino BASIC_ARITHMETIC termino {cout<<"Matched EXP via TERMINO BASIC_ARITHMETIC TERMINO"<<endl;}
 	;
 
 termino:
