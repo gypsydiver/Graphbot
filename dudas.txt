@@ -1,4 +1,0 @@
-¿Qué tipo tiene que ser la columna "valor" de la tabla de variables?
-¿Varias columnas por tipo de dato?
-Falta que platiquemos acerca de cómo acomodar los tipos de las variables no-terminales
-El + y el - en el diagrama de factor
