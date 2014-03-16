@@ -1,0 +1,6 @@
+Objetivos Semana 3
+
+*- Generación de Cuadruplos 
+    . Expresiones Aritméticas
+    . Asignación, Lectura
+

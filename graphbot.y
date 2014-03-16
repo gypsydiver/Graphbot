@@ -8,6 +8,7 @@
 
 #include <cstdio>
 #include <iostream>
+#include <stack>
 #include <map> 
 using namespace std;
 
@@ -20,6 +21,10 @@ multimap <string, TablaVar> dirProc;
 // Iteradores
 multimap<string, TablaVar >::iterator proc;
 map<string, int>::iterator tab;
+
+// Pilas de Operandos y Operadores para generación de código int
+stack<char> POper;
+stack<string> PilaO;
 
 // stuff from flex that bison needs to know about:
 extern "C" int yylex();
@@ -63,7 +68,7 @@ void print();
 %token <sval> RW_FUNCTION
 %token <sval> RW_SAVE
 %token <sval> RW_END
-%token RW_TRUE RW_FALSE
+%token <sval> RW_TRUE RW_FALSE
 %token <sval> RW_BOOLEAN
 %token <sval> RW_PLAYMUSIC
 %token <sval> RW_STOPMUSIC
@@ -90,7 +95,9 @@ void print();
 %token <cval> BASIC_ARITHMETIC
 %token <cval> COM_ARITHMETIC
 %token <sval> ID
-%token <fval> FLOAT
+%token <sval> FLOAT
+
+%type <sval> varCte;
 
 %start graphbot
 
@@ -99,8 +106,7 @@ void print();
 //Grammar rules
 
 graphbot: 
-	graph programa {cout<<"Compilación Exitosa"<<endl;
-                    print();}
+	graph programa {cout<<"Compilación Exitosa"<<endl;}
 	;
 
 graph: /*empty*/ 
@@ -257,17 +263,28 @@ expresion:
 
 exp:
 	termino 	{cout<<"Matched <EXP> via <TERMINO>"<<endl;}
-	| termino BASIC_ARITHMETIC exp {cout<<"Matched EXP via TERMINO BASIC_ARITHMETIC TERMINO"<<endl;}
+	| termino BASIC_ARITHMETIC exp {cout<<"Matched EXP via TERMINO BASIC_ARITHMETIC TERMINO"<<endl;
+
+                                    // Mete '+' o '-' en POper
+                                    POper.push($2);
+                                                                                                        }
 	;
 
 termino:
 	 factor 	{cout<<"Matched <TERMINO> via <FACTOR>"<<endl;}
-	| factor COM_ARITHMETIC factor 	{cout<<"Matched <FACTOR> via <FACTOR> COM_ARITHMETIC <FACTOR>"<<endl;}
+	| factor COM_ARITHMETIC factor 	{cout<<"Matched <FACTOR> via <FACTOR> COM_ARITHMETIC <FACTOR>"<<endl;
+                                                                                        
+                                                                                                                                    }
 	;
 
 factor: 
      OP_PAR expresion CL_PAR 	{cout<<"Matched FACTOR"<<endl;}
-     | varCte					{cout<<"Matched <FACTOR> via <varCte>"<<endl;}
+     | varCte					{cout<<"Matched <FACTOR> via <varCte>"<<endl;
+                        
+                                  // Mete ID en PilaO
+                                  PilaO.push($1);
+
+                                                                            }
      ;
 
 varCte:
@@ -277,11 +294,21 @@ varCte:
                     // Busca si la variable no esta declarada
                     if(tab == tabla.end())
                     errores(2, $1);
-                                                                }
 
-	| FLOAT			{printf("Matched varCte via FLOAT: %f\n",$1);}
-	| RW_TRUE		{cout<<"Matched varCte via TRUE"<<endl;}
-	| RW_FALSE		{cout<<"Matched varCte via FALSE"<<endl;}
+                    $$ = $1;
+
+                                                                                  }
+
+	| FLOAT			{cout<<"Matched varCte via FLOAT: "<<$1<<endl;
+                    $$ = $1;
+                 
+                                                                 }
+	| RW_TRUE		{cout<<"Matched varCte via TRUE"<<endl;
+                    $$ = $1;
+                                                                }
+	| RW_FALSE		{cout<<"Matched varCte via FALSE"<<endl;
+                    $$ = $1;
+                                                                }
 	;
 
 comparador: 
@@ -314,7 +341,6 @@ int main(int argc, char ** argv) {
 
 void yyerror(const char *s) {
 	cout << "BANG, error de parser: "<<s<<" en la línea "<<yylineco<< endl;
-    print();
 	// might as well halt now:
 	exit(-1);
 }
@@ -326,21 +352,18 @@ void errores(int i, string val) {
         // La función ya se encuentra en el directorio de procedimientos 
         case 1: 
         cout << "Función "<< val << " ya declarada." << endl;
-        print();
         exit(-1);
         break;
 
        // La variable no ha sido declarada
         case 2:
         cout << "Variable "<< val <<  " no declarada." <<  endl;
-        print();
         exit(-1);
         break;
 
        // La función no esta declarada
         case 3:
         cout << "Función " << val << " no existe." << endl;
-        print();
         exit(-1);
         break;
       } 
@@ -355,4 +378,30 @@ void print(){
         cout << (*tab).first << " => " << (*tab).second << endl;
      }
 
-}    
+}  
+
+
+/* Función que genera código intermedio en un archivo de texto
+int generaCodigoIntermedio() {
+    ifstream filein;
+    ofstream fileout;
+    stringstream ss;
+    string s;
+    int num;
+    
+    filein.open("/Users/claudiahdz/Graphbot/codigoint.txt");
+    fileout.open ("/Users/claudiahdz/Graphbot/codigoint.txt");
+    
+    
+    while(filein >> num) {
+        
+            //fileout << highscore << endl;        
+    }
+    
+    filein.close();
+    fileout.close();
+      
+    return 0;
+}
+*
+*/
