@@ -263,22 +263,66 @@ expresion:
 	;
 
 exp:
-	termino 	{cout<<"Matched <EXP> via <TERMINO>"<<endl;}
-	| termino BASIC_ARITHMETIC exp {cout<<"3.- Meter $2 ('+' o '-') a POper"<<endl;}
+	termino termino_aux 	{cout<<"Matched <EXP> via <TERMINO>"<<endl;
+                              
+                                // 5.- Si pop(POper) == '+' o '-'
+                                if(!POper.empty()){
+                                    char posible_operando = POper.top();
+                                    if(posible_operando == '+' || posible_operando == '-'){
+                                        char op = POper.top();
+                                        POper.pop();
+                                        string opdo2 = PilaO.top();
+                                        PilaO.pop();
+                                        string opdo1= PilaO.top();
+                                        PilaO.pop();
+                                        cout << op << " " << opdo1 << " " << opdo2 << endl;
+                                        // PilaO.push(Generador.genera(op,opdo1,opdo2));
+                                    }
+                                }
+}
 	;
 
+termino_aux: /* empty */
+    | BASIC_ARITHMETIC exp{
+                                // 3.- Meter $2 ('+' o '-') a POper
+                                POper.push($1);
+}
+
 termino:
-	 factor 	{cout<<"Matched <TERMINO> via <FACTOR>"<<endl;}
-	| factor COM_ARITHMETIC factor 	{cout<<"2.- Meter $2 ('*' o '/') a POper"<<endl;}
+	 factor factor_aux 	{cout<<"Matched <TERMINO> via <FACTOR>"<<endl;
+                                
+                                // 4.- Si pop(POper) == '*' o '/'
+                                if(!POper.empty()){
+                                    char posible_operando = POper.top();
+                                    if(posible_operando == '*' || posible_operando == '/'){
+                                        char op = POper.top();
+                                        POper.pop();
+                                        string opdo2 = PilaO.top();
+                                        PilaO.pop();
+                                        string opdo1= PilaO.top();
+                                        PilaO.pop();
+                                        cout << op << " " << opdo1 << " " << opdo2 << endl;
+                                        // PilaO.push(Generador.genera(op,opdo1,opdo2));
+                                    }
+                                }
+} 
 	;
+
+factor_aux: /* empty */
+     | COM_ARITHMETIC termino {
+
+                                // 2.- Meter $2 ('*' o '/') a POper  
+                                POper.push($1); 
+}
+     ;
 
 factor: 
      OP_PAR expresion CL_PAR 	{cout<<"Matched FACTOR"<<endl;}
      | varCte					{cout<<"1.- Meter $1 a PilaO"<<endl;
 
                         
-                                  // Mete ID en PilaO
-                                  PilaO.push($1);
+                                // 1.- Meter $1 a PilaO
+                                PilaO.push($1);
 
                                                                             }
      ;
