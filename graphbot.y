@@ -42,6 +42,7 @@ void print();
 }
 
 //Bison declarations
+//TODO esto puede ser declarado de una mejor forma
 %token <sval> RW_MOVE
 %token <sval> RW_TURN
 %token <sval> RW_SETPOS
@@ -257,17 +258,17 @@ expresion:
 
 exp:
 	termino 	{cout<<"Matched <EXP> via <TERMINO>"<<endl;}
-	| termino BASIC_ARITHMETIC exp {cout<<"Matched EXP via TERMINO BASIC_ARITHMETIC TERMINO"<<endl;}
+	| termino BASIC_ARITHMETIC exp {cout<<"3.- Meter $2 ('+' o '-') a POper"<<endl;}
 	;
 
 termino:
 	 factor 	{cout<<"Matched <TERMINO> via <FACTOR>"<<endl;}
-	| factor COM_ARITHMETIC factor 	{cout<<"Matched <FACTOR> via <FACTOR> COM_ARITHMETIC <FACTOR>"<<endl;}
+	| factor COM_ARITHMETIC factor 	{cout<<"2.- Meter $2 ('*' o '/') a POper"<<endl;}
 	;
 
 factor: 
      OP_PAR expresion CL_PAR 	{cout<<"Matched FACTOR"<<endl;}
-     | varCte					{cout<<"Matched <FACTOR> via <varCte>"<<endl;}
+     | varCte					{cout<<"1.- Meter $1 a PilaO"<<endl;}
      ;
 
 varCte:
