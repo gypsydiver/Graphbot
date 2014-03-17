@@ -9,7 +9,8 @@
 #include <cstdio>
 #include <iostream>
 #include <stack>
-#include <map> 
+#include <map>
+#include "Generador.h" 
 using namespace std;
 
 // Tabla de variables
@@ -22,9 +23,8 @@ multimap <string, TablaVar> dirProc;
 multimap<string, TablaVar >::iterator proc;
 map<string, int>::iterator tab;
 
-// Pilas de Operandos y Operadores para generación de código int
-stack<char> POper;
-stack<string> PilaO;
+// Generador de código intermedio
+Generador generador;
 
 // stuff from flex that bison needs to know about:
 extern "C" int yylex();
@@ -47,7 +47,6 @@ void print();
 }
 
 //Bison declarations
-//TODO esto puede ser declarado de una mejor forma
 %token <sval> RW_MOVE
 %token <sval> RW_TURN
 %token <sval> RW_SETPOS
@@ -266,43 +265,37 @@ exp:
 	termino termino_aux 	{cout<<"Matched <EXP> via <TERMINO>"<<endl;
                               
                                 // 5.- Si pop(POper) == '+' o '-'
-                                if(!POper.empty()){
-                                    char posible_operando = POper.top();
+                    if(! generador.POperempty()){
+                                    string posible_operando = generador.popPOper();
                                     if(posible_operando == '+' || posible_operando == '-'){
-                                        char op = POper.top();
-                                        POper.pop();
-                                        string opdo2 = PilaO.top();
-                                        PilaO.pop();
-                                        string opdo1= PilaO.top();
-                                        PilaO.pop();
+                                        char op = generador.popPOper();
+                                        string opdo2 = generador.popPilaO();
+                                        string opdo1= generador.popPilaO();
                                         cout << op << " " << opdo1 << " " << opdo2 << endl;
-                                        // PilaO.push(Generador.genera(op,opdo1,opdo2));
-                                    }
-                                }
+                                        generador.genera(op,opdo1,opdo2);
+                                 }
+                            }
 }
 	;
 
 termino_aux: /* empty */
     | BASIC_ARITHMETIC exp{
                                 // 3.- Meter $2 ('+' o '-') a POper
-                                POper.push($1);
+                                generador.pushPOper($1);
 }
 
 termino:
 	 factor factor_aux 	{cout<<"Matched <TERMINO> via <FACTOR>"<<endl;
                                 
                                 // 4.- Si pop(POper) == '*' o '/'
-                                if(!POper.empty()){
-                                    char posible_operando = POper.top();
+                                if(! generador.POperempty()){
+                                    string posible_operando = generador.popPOper();
                                     if(posible_operando == '*' || posible_operando == '/'){
-                                        char op = POper.top();
-                                        POper.pop();
-                                        string opdo2 = PilaO.top();
-                                        PilaO.pop();
-                                        string opdo1= PilaO.top();
-                                        PilaO.pop();
+                                        char op = generador.popPOper();
+                                        string opdo2 = generador.popPilaO();
+                                        string opdo1= generador.popPilaO();
                                         cout << op << " " << opdo1 << " " << opdo2 << endl;
-                                        // PilaO.push(Generador.genera(op,opdo1,opdo2));
+                                        generador.genera(op,opdo1,opdo2);
                                     }
                                 }
 } 
@@ -312,7 +305,7 @@ factor_aux: /* empty */
      | COM_ARITHMETIC termino {
 
                                 // 2.- Meter $2 ('*' o '/') a POper  
-                                POper.push($1); 
+                                generador.pushPOper($1); 
 }
      ;
 
@@ -322,7 +315,7 @@ factor:
 
                         
                                 // 1.- Meter $1 a PilaO
-                                PilaO.push($1);
+                                generador.pushPilaO($1);
 
                                                                             }
      ;
@@ -421,27 +414,4 @@ void print(){
 }  
 
 
-/* Función que genera código intermedio en un archivo de texto
-int generaCodigoIntermedio() {
-    ifstream filein;
-    ofstream fileout;
-    stringstream ss;
-    string s;
-    int num;
-    
-    filein.open("/Users/claudiahdz/Graphbot/codigoint.txt");
-    fileout.open ("/Users/claudiahdz/Graphbot/codigoint.txt");
-    
-    
-    while(filein >> num) {
-        
-            //fileout << highscore << endl;        
-    }
-    
-    filein.close();
-    fileout.close();
-      
-    return 0;
-}
-*
-*/
+
