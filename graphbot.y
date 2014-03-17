@@ -109,6 +109,7 @@ graphbot:
 	graph programa {cout<<"Compilación Exitosa"<<endl;}
 	;
 
+
 graph: /*empty*/ 
 	| funcion graph 
  	;
