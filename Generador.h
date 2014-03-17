@@ -2,15 +2,12 @@
 #include <stack>
 using namespace std;
 
-stack<string> PilaO;
-stack<string> POper;
-
-
-
 class Generador {
 
     stack<string> PilaO;
     stack<string> POper;
+    stack<string> PilaO_aux;
+    stack<string>  POper_aux;
     int temporalActual;
     
     public:
@@ -68,14 +65,28 @@ class Generador {
         void imprimePilaO(){
             while(! PilaO.empty()){
                 cout << PilaO.top() << ", ";
-                PilaO.pop();
+                PilaO_aux.push(popPilaO());
+
+            }
+
+            while(! PilaO_aux.empty()){
+                pushPilaO(PilaO_aux.top());
+                PilaO_aux.pop();
+            
             }
         }
 
         void imprimePOper(){
-            while(! POper.empty()){
+             while(! POper.empty()){
                 cout << POper.top() << ", ";
-                POper.pop();
+                POper_aux.push(popPOper());
+
+            }
+
+            while(! POper_aux.empty()){
+                pushPOper(POper_aux.top());
+                POper_aux.pop();
+            
             }
         }
 };
