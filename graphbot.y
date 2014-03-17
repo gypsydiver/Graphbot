@@ -8,7 +8,7 @@
 
 #include <cstdio>
 #include <iostream>
-#include <stack>
+#include <string>
 #include <map>
 #include "Generador.h" 
 using namespace std;
@@ -92,8 +92,8 @@ void print();
 %token <sval> LESS_EQ_THAN
 %token <cval> GREAT_THAN
 %token <cval> LESS_THAN
-%token <cval> BASIC_ARITHMETIC
-%token <cval> COM_ARITHMETIC
+%token <sval> BASIC_ARITHMETIC
+%token <sval> COM_ARITHMETIC
 %token <sval> ID
 %token <sval> FLOAT
 
@@ -265,14 +265,13 @@ exp:
 	termino termino_aux 	{cout<<"Matched <EXP> via <TERMINO>"<<endl;
                               
                                 // 5.- Si pop(POper) == '+' o '-'
-                    if(! generador.POperempty()){
+                    if(! generador.POperEmpty()){
                                     string posible_operando = generador.popPOper();
-                                    if(posible_operando == '+' || posible_operando == '-'){
-                                        char op = generador.popPOper();
+                                    if((posible_operando == "+")|| (posible_operando == "-")){
                                         string opdo2 = generador.popPilaO();
                                         string opdo1= generador.popPilaO();
-                                        cout << op << " " << opdo1 << " " << opdo2 << endl;
-                                        generador.genera(op,opdo1,opdo2);
+                                        generador.genera(posible_operando,opdo1,opdo2);
+                                        
                                  }
                             }
 }
@@ -288,14 +287,12 @@ termino:
 	 factor factor_aux 	{cout<<"Matched <TERMINO> via <FACTOR>"<<endl;
                                 
                                 // 4.- Si pop(POper) == '*' o '/'
-                                if(! generador.POperempty()){
+                                if(! generador.POperEmpty()){
                                     string posible_operando = generador.popPOper();
-                                    if(posible_operando == '*' || posible_operando == '/'){
-                                        char op = generador.popPOper();
+                                    if((posible_operando == "*")|| (posible_operando == "/")){
                                         string opdo2 = generador.popPilaO();
                                         string opdo1= generador.popPilaO();
-                                        cout << op << " " << opdo1 << " " << opdo2 << endl;
-                                        generador.genera(op,opdo1,opdo2);
+                                        generador.genera(posible_operando,opdo1,opdo2);
                                     }
                                 }
 } 
