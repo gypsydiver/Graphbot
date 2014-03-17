@@ -1,6 +1,13 @@
 Objetivos Semana 3
 
-*- Generación de Cuadruplos 
-    . Expresiones Aritméticas
+- Generación de Cuadruplos 
+    *. Expresiones Aritméticas 
+      Impresión a archivo texto
     . Asignación, Lectura
+      Comandos
+- Revaluación ciclos y condiciones (gramática funcion2)
+
+-----------No tan importante-------------
+- Code refactoring
+- Mas Tests
 

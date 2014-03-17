@@ -9,6 +9,7 @@ class Generador {
     stack<string> PilaO_aux;
     stack<string>  POper_aux;
     int temporalActual;
+   
     public:
         void agregaFF(){
             pushPOper("$");

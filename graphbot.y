@@ -167,9 +167,9 @@ programa:
 	;
 
 comandos: 
-	comando 
-	| comando1 
-	| comando2 
+	comando
+    | comando1 
+    | comando2 
 	| comando3
 	| llamada_funcion
 	;
@@ -257,15 +257,16 @@ lista_aux: /* empty */
 	;
 
 expresion: 
-	exp 							{cout<<"Matched EXPRESION via EXP"<<endl;}
-	| exp comparador exp 			{cout<<"Matched EXPRESION via EXP COMPARADOR EXP"<<endl;}
+	exp exp_aux							{cout<<"Matched EXPRESION via EXP"<<endl;}
 	;
 
+exp_aux: /* empty */
+    | comparador exp
+    ;
+
 exp:
-	termino termino_aux 	{cout<<"Matched <EXP> via <TERMINO>"<<endl;
-                              
-                                // 5.- Si pop(POper) == '+' o '-'
-                    if(! generador.POperEmpty()){
+	termino termino_aux 	{  // 5.- Si pop(POper) == '+' o '-'
+                               if(! generador.POperEmpty()){
                                     string posible_operando = generador.popPOper();
                                     if((posible_operando == "+")|| (posible_operando == "-")){
                                         string opdo2 = generador.popPilaO();
@@ -278,15 +279,12 @@ exp:
 	;
 
 termino_aux: /* empty */
-    | BASIC_ARITHMETIC exp{
-                                // 3.- Meter $2 ('+' o '-') a POper
+    | BASIC_ARITHMETIC exp{     // 3.- Meter $2 ('+' o '-') a POper
                                 generador.pushPOper($1);
-}
+                          }
 
 termino:
-	 factor factor_aux 	{cout<<"Matched <TERMINO> via <FACTOR>"<<endl;
-                                
-                                // 4.- Si pop(POper) == '*' o '/'
+	 factor factor_aux 	{       // 4.- Si pop(POper) == '*' o '/'
                                 if(! generador.POperEmpty()){
                                     string posible_operando = generador.popPOper();
                                     if((posible_operando == "*")|| (posible_operando == "/")){
