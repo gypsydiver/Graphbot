@@ -5,6 +5,7 @@ class Generador {
 
 stack<string> PilaO;
 stack<string> POper;
+int tempActual;
 
 public:
 
@@ -21,8 +22,12 @@ int tempActual();
 
 }
 
-string genera(string op, string opdo1, string opdo2){
+int tempActual(){
+	return tempActual;
+}
 
+string genera(string op, string opdo1, string opdo2){
+	//imprime a archivo 
 
 
 
