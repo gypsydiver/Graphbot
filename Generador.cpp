@@ -1,46 +1,87 @@
 #include <iostream>
 #include <stack>
+using namespace std;
 
 class Generador {
 
-stack<string> PilaO;
-stack<string> POper;
-int tempActual;
+	stack<string> PilaO;
+	stack<string> POper;
+	int temporalActual;
+	public:
+		void agregaFF();
+		void sacarFF();
 
-public:
+		int tempActual(){
+			return temporalActual;
+		}
 
-string genera(string op, string opdo1, string opdo2);
-void pushPOper(string op);
-void pushPilaO(string opdo);
-void agregaFF();
-void sacarFF();
-bool PilaOempty();
-bool POperempty();
-void imprimePilaO();
-void imprimePOper();
-int tempActual();
+		void genera(string op, string opdo1, string opdo2){
+			//imprime cuadrupo
+			cout << op << " " << opdo1 << " " << opdo2 << " " << temporalActual << endl;
+			
+			//agrega tempActual a PilaO
+			pushPilaO(to_string(temporalActual));
 
-}
+			//actualiza temporal
+			temporalActual++;
+			cout<<"Temporal actual: "<<temporalActual<<endl;
 
-int tempActual(){
-	return tempActual;
-}
+		}
 
-string genera(string op, string opdo1, string opdo2){
-	//imprime a archivo 
+		string popPilaO() {
+		    string top;
+		    top = PilaO.top();
+		    PilaO.pop();
+		    return top;
+		}
+
+		string popPOper() {
+		    string top;
+		    top = POper.top();
+		    POper.pop();
+		    return top;
+		}
 
 
+		void pushPOper(string op) {  
+		    POper.push(op);
+		}
 
-}
+		void pushPilaO(string op) {
+		    PilaO.push(op);
+		}
 
-void pushPOper(string op) {
-        
-    POper.push(op);
+		bool PilaOEmpty() {
+			return PilaO.empty();
+		}
 
-}
+		bool POperEmpty(){
+		    return POper.empty();
+		}
 
-void pushPilaO(string op) {
-        
-    PilaO.push(op);
+		void imprimePilaO(){
+			while(! PilaO.empty()){
+			    cout << PilaO.top() << ", ";
+			    PilaO.pop();
+			}
+		}
 
+		void imprimePOper(){
+			while(! POper.empty()){
+			    cout << POper.top() << ", ";
+			    POper.pop();
+			}
+		}
+};
+
+int main(int m){
+	Generador gen;
+	gen.genera("+","uno","dos");
+	gen.genera("+","tres","cuatro");
+	gen.genera("+","cinco","seis");
+	gen.genera("+","siete","ocho");
+	gen.genera("+","nueve","diez");
+
+	gen.imprimePilaO();
+	return 0;
 }
