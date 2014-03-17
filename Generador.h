@@ -1,6 +1,11 @@
 #include <iostream>
+#include <fstream>
 #include <stack>
 using namespace std;
+
+
+    int temporalActual = 1;
+    int cont_cuadruplos = 1;
 
 class Generador {
 
@@ -8,8 +13,7 @@ class Generador {
     stack<string> POper;
     stack<string> PilaO_aux;
     stack<string>  POper_aux;
-    int temporalActual;
-   
+
     public:
         void agregaFF(){
             pushPOper("$");
@@ -28,8 +32,14 @@ class Generador {
         }
 
         void genera(string op, string opdo1, string opdo2){
-            //imprime cuadrupo
-            cout << op << " " << opdo1 << " " << opdo2 << " " << temporalActual << endl;
+
+            ofstream fileout;
+            fileout.open("/Users/claudiahdz/Graphbot/CodigoInt.txt", std::ios::app);
+            
+            fileout << cont_cuadruplos << ". " << op << " " << opdo1 << " " << opdo2 << " " << "temp" << temporalActual << endl;
+
+            //actualiza el contador de cuádruplos
+            cont_cuadruplos++;
             
             //agrega tempActual a PilaO
             pushPilaO(to_string(temporalActual));
@@ -37,7 +47,7 @@ class Generador {
             //actualiza temporal
             temporalActual++;
             cout<<"Temporal actual: "<<temporalActual<<endl;
-
+            
         }
 
         string popPilaO() {
@@ -96,4 +106,6 @@ class Generador {
                 POper_aux.pop();
             }
         }
+
 };
+
