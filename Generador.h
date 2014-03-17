@@ -9,10 +9,18 @@ class Generador {
     stack<string> PilaO_aux;
     stack<string>  POper_aux;
     int temporalActual;
-    
     public:
-        void agregaFF();
-        void sacarFF();
+        void agregaFF(){
+            pushPOper("$");
+        }
+
+        bool sacarFF(){
+            if(POper.top() == "$"){
+                POper.pop();
+                //cout<<"Después de FF: "<<POper.top()<<endl;
+            }
+            return false;
+        }
 
         int tempActual(){
             return temporalActual;
@@ -66,13 +74,12 @@ class Generador {
             while(! PilaO.empty()){
                 cout << PilaO.top() << ", ";
                 PilaO_aux.push(popPilaO());
-
             }
+            cout<<endl;
 
             while(! PilaO_aux.empty()){
                 pushPilaO(PilaO_aux.top());
                 PilaO_aux.pop();
-            
             }
         }
 
@@ -80,15 +87,12 @@ class Generador {
              while(! POper.empty()){
                 cout << POper.top() << ", ";
                 POper_aux.push(popPOper());
-
             }
+            cout<<endl;
 
             while(! POper_aux.empty()){
                 pushPOper(POper_aux.top());
                 POper_aux.pop();
-            
             }
         }
 };
-
-
