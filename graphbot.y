@@ -47,11 +47,11 @@ void print();
 
 //Bison declarations
 //Comandos de cero parámetros
-%token <sval> RW_SHOW RW_HIDE RW_CLEAN RW_HOME RW_GETCOLOR RW_GETPENSIZE RW_GETPOS RW_GETX RW_GETY RW_STOPMUSIC RW_PLAYMUSIC
+%token <sval> RW_SHOW RW_HIDE RW_CLEAN RW_HOME RW_GETCOLORR RW_GETCOLORB RW_GETCOLORG RW_GETPENSIZE RW_GETX RW_GETY RW_STOPMUSIC RW_PLAYMUSIC
 //comandos de un parámetro
 %token <sval> RW_MOVE RW_TURN RW_SETX RW_SETY RW_SETPENSIZE RW_CAMERAUP RW_CAMERADOWN RW_CAMERALEFT RW_CAMERARIGHT RW_SETBACKGROUNDTXT
 //comandos de dos parámetros
-%token <sval> RW_SAVE RW_SETPOS
+%token <sval> RW_SAVE
 //comandos de tres parámetros
 %token <sval> RW_SETCOLOR RW_SETBACKGROUND
 //palabras reservadas
@@ -131,11 +131,30 @@ programa:
 	;
 
 comandos: 
-	comando {generador.start(5);}
-    | comando1
-    | comando2 
-	| comando3 
-	| llamada_funcion
+	comando {
+		//comandos que regresan nada
+         generador.start(5);
+	}
+	| comando_return{
+		//comandos que regresan algún valor
+	}
+    | comando1 expresion{
+    	generador.genera($1,$2,"",1);
+    }
+    | RW_SAVE ID variable {	
+		// Agrega una variable a la tabla de variables
+        tabla.insert(make_pair($2, 0));
+	}
+	| RW_SETPOS expresion expresion {
+		cout<<"Matched COMANDO2 via RW_SETPOS"<<endl;
+	}
+	| comando3 expresion expresion expresion {
+		//pending
+	}
+	| llamada_funcion {
+		//pending
+	}
+>>>>>>> aa5b82412bc16d449f8cc48334f62f6e6e407122
 	;
 
 llamada_funcion_aux: /* empty */
@@ -151,7 +170,6 @@ llamada_funcion:
     }
 	;
 
-
 comando: 
 	RW_SHOW 		{cout<<"Matched RW_SHOW"<<endl;
 	    generador.pushPOper($1);
@@ -160,42 +178,35 @@ comando:
 	| RW_HIDE 		{cout<<"Matched RW_HIDE"<<endl;}
 	| RW_CLEAN 		{cout<<"Matched RW_CLEAN"<<endl;}
 	| RW_HOME 		{cout<<"Matched RW_HOME"<<endl;}
-	| RW_GETCOLOR 	{cout<<"Matched RW_GETCOLOR"<<endl;}
-	| RW_GETPENSIZE {cout<<"Matched RW_GETPENSIZE"<<endl;}
-	| RW_GETPOS 	{cout<<"Matched RW_GETPOS"<<endl;}
-	| RW_GETX 		{cout<<"Matched GETX"<<endl;}
-	| RW_GETY 		{cout<<"Matched GETY"<<endl;}
 	| RW_PLAYMUSIC 	{cout<<"Matched RW_PLAYMUSIC"<<endl;}
 	| RW_STOPMUSIC	{cout<<"Matched RW_STOPMUSIC"<<endl;}
 	;
 
-comando1: 
-	RW_MOVE expresion 					{cout<<"Matched RW_MOVE"<<endl;}
-	| RW_TURN expresion 				{cout<<"Matched RW_TURN"<<endl;}
-	| RW_SETX expresion 				{cout<<"Matched RW_SETX"<<endl;}
-	| RW_SETY expresion 				{cout<<"Matched RW_SETY"<<endl;}
-	| RW_SETPENSIZE expresion 			{cout<<"Matched RW_SETPENSIZE"<<endl;}
-	| RW_SETBACKGROUNDTXT expresion 	{cout<<"Matched RW_SETBACKGROUNDTXT"<<endl;}
-	| RW_CAMERAUP expresion 			{cout<<"Matched RW_CAMERAUP"<<endl;}
-	| RW_CAMERADOWN expresion 			{cout<<"Matched RW_CAMERADOWN"<<endl;}
-	| RW_CAMERALEFT expresion 			{cout<<"Matched RW_CAMERALEFT"<<endl;}
-	| RW_CAMERARIGHT expresion			{cout<<"Matched RW_CAMERARIGHT"<<endl;}
+comando_return:
+	RW_GETCOLORR 	{cout<<"Matched RW_GETCOLORR"<<endl;}
+	| RW_GETCOLORB 	{cout<<"Matched RW_GETCOLORG"<<endl;}
+	| RW_GETCOLORG 	{cout<<"Matched RW_GETCOLORB"<<endl;}
+	| RW_GETPENSIZE {cout<<"Matched RW_GETPENSIZE"<<endl;}
+	| RW_GETX 		{cout<<"Matched GETX"<<endl;}
+	| RW_GETY 		{cout<<"Matched GETY"<<endl;}
 	;
 
-comando2: 
-	RW_SETPOS expresion expresion {
-		cout<<"Matched COMANDO2 via RW_SETPOS"<<endl;
-	}
-
-	| RW_SAVE ID variable {	
-		// Agrega una variable a la tabla de variables
-        tabla.insert(make_pair($2, 0));
-	}
+comando1: 
+	RW_MOVE 				{cout<<"Matched RW_MOVE"<<endl;}
+	| RW_TURN 				{cout<<"Matched RW_TURN"<<endl;}
+	| RW_SETX 				{cout<<"Matched RW_SETX"<<endl;}
+	| RW_SETY 				{cout<<"Matched RW_SETY"<<endl;}
+	| RW_SETPENSIZE 		{cout<<"Matched RW_SETPENSIZE"<<endl;}
+	| RW_SETBACKGROUNDTXT 	{cout<<"Matched RW_SETBACKGROUNDTXT"<<endl;}
+	| RW_CAMERAUP 			{cout<<"Matched RW_CAMERAUP"<<endl;}
+	| RW_CAMERADOWN 		{cout<<"Matched RW_CAMERADOWN"<<endl;}
+	| RW_CAMERALEFT 		{cout<<"Matched RW_CAMERALEFT"<<endl;}
+	| RW_CAMERARIGHT		{cout<<"Matched RW_CAMERARIGHT"<<endl;}
 	;
 
 comando3: 
-	RW_SETCOLOR expresion expresion expresion 			{cout<<"Matched RW_SETCOLOR"<<endl;}
-	| RW_SETBACKGROUND expresion expresion expresion	{cout<<"Matched RW_SETBACKGROUND"<<endl;}
+	RW_SETCOLOR {cout<<"Matched RW_SETCOLOR"<<endl;}
+	| RW_SETBACKGROUND 	{cout<<"Matched RW_SETBACKGROUND"<<endl;}
 	;
 
 variable:

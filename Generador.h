@@ -34,7 +34,7 @@ class Generador {
         void genera(string op, string opdo1, string opdo2, string opdo3, int tipo){
 
             ofstream fileout;
-            fileout.open("/Users/claudiahdz/Graphbot/CodigoInt.txt", std::ios::app);
+            fileout.open("CodigoInt.txt", "a");
             
             switch(tipo){
 
