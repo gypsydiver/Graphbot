@@ -154,7 +154,6 @@ comandos:
 	| llamada_funcion {
 		//pending
 	}
->>>>>>> aa5b82412bc16d449f8cc48334f62f6e6e407122
 	;
 
 llamada_funcion_aux: /* empty */
