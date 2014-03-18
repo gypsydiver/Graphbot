@@ -72,7 +72,6 @@ void print();
 graphbot: 
 	graph programa {
 		cout<<"Compilación Exitosa"<<endl;
-		print();
 	}
 	;
 
@@ -132,10 +131,10 @@ programa:
 	;
 
 comandos: 
-	comando
+	comando {generador.start(5);}
     | comando1
-    | comando2
-	| comando3
+    | comando2 
+	| comando3 
 	| llamada_funcion
 	;
 
@@ -154,7 +153,10 @@ llamada_funcion:
 
 
 comando: 
-	RW_SHOW 		{cout<<"Matched RW_SHOW"<<endl;}
+	RW_SHOW 		{cout<<"Matched RW_SHOW"<<endl;
+	    generador.pushPOper($1);
+
+}
 	| RW_HIDE 		{cout<<"Matched RW_HIDE"<<endl;}
 	| RW_CLEAN 		{cout<<"Matched RW_CLEAN"<<endl;}
 	| RW_HOME 		{cout<<"Matched RW_HOME"<<endl;}
@@ -241,15 +243,7 @@ exp_aux: /* empty */
 exp:
 	termino termino_aux	{ 	
 		// 5.- Si pop(POper) == '+' o '-'
-        if(! generador.POperEmpty()){
-          	string posible_operando = generador.popPOper();
-            if((posible_operando == "+")|| (posible_operando == "-")){
-                string opdo2 = generador.popPilaO();
-                string opdo1= generador.popPilaO();
-                generador.genera(posible_operando,opdo1,opdo2);                                      
-            }
-      	}
-	}
+        generador.start(1);	}  
 	;
 
 termino_aux: /* empty */
@@ -261,15 +255,7 @@ termino_aux: /* empty */
 termino:
 	factor factor_aux {	
 		// 4.- Si pop(POper) == '*' o '/'
-	    if(! generador.POperEmpty()){
-	        string posible_operando = generador.popPOper();
-	        if((posible_operando == "*")|| (posible_operando == "/")){
-	            string opdo2 = generador.popPilaO();
-	            string opdo1= generador.popPilaO();
-	            generador.genera(posible_operando,opdo1,opdo2);
-	        }
-	    }
-	} 
+        generador.start(2); }
 	;
 
 factor_aux: /* empty */
