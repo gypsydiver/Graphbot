@@ -31,10 +31,10 @@ class Generador {
             return temporalActual;
         }
 
-        void genera(string op, string opdo1, string opdo2){
+        void genera(string op, string opdo1, string opdo2, string opdo3, int tipo){
 
             ofstream fileout;
-            fileout.open("/Users/claudiahdz/Graphbot/CodigoInt.txt", std::ios::app);
+            fileout.open("CodigoInt.txt", "a");
             
             fileout << cont_cuadruplos << ". " << op << " " << opdo1 << " " << opdo2 << " " << "temp" << temporalActual << endl;
 
