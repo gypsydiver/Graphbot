@@ -140,11 +140,12 @@ switch(i) {
             case 1:
 	    	// 5.- Si pop(POper) == '+' o '-'            
               if(! POperEmpty()){
-          	string posible_operando = popPOper();
-            if((posible_operando == "+")|| (posible_operando == "-")){
+          	string posible_operador = POper.top();
+            if((posible_operador == "+")|| (posible_operador == "-")){
                 string opdo2 = popPilaO();
                 string opdo1= popPilaO();
-                genera(posible_operando,opdo1,opdo2, "", 0);                                      
+                POper.pop();
+                genera(posible_operador,opdo1,opdo2, "", 0);                                      
             }
       	}
             break;
@@ -152,20 +153,31 @@ switch(i) {
             case 2:
 	    	// 4.- Si pop(POper) == '*' o '/'            
               if(! POperEmpty()){
-	        string posible_operando = popPOper();
-	        if((posible_operando == "*")|| (posible_operando == "/")){
+	        string posible_operador = POper.top();
+	        if((posible_operador == "*")|| (posible_operador == "/")){
 	            string opdo2 = popPilaO();
 	            string opdo1= popPilaO();
-	            genera(posible_operando,opdo1,opdo2, "", 0);
+                POper.pop();
+	            genera(posible_operador,opdo1,opdo2, "", 0);
 	        }
 	    }
             break;
 
+            case 3:
+            // 1 parámetro
+          if(! POperEmpty()){
+            string posible_operador = popPOper();
+            string opdo1 = popPilaO();
+            genera(posible_operador,opdo1, "", "", 1);      
+            
+        }
+          break;
+
             case 5:
             // Sin parámetros y no regresa nada
              if(! POperEmpty()){
-	        string posible_operando = popPOper();
-	            genera(posible_operando,"","", "", 5);
+	        string posible_operador = popPOper();
+	            genera(posible_operador,"","", "", 5);
 
 }
             break;

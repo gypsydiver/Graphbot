@@ -64,7 +64,7 @@ void print();
 //operandos y operadores
 %token <sval> BASIC_ARITHMETIC COM_ARITHMETIC ID FLOAT
 
-%type <sval> varCte comandos comando comando_return comando1 comando3;
+%type <sval> varCte comandos comando comando_return comando1 comando3 expresion variable;
 %start graphbot
 %%
 
@@ -143,23 +143,33 @@ comandos:
 	}
     | comando1 expresion{
 	     generador.pushPOper($1);
-         generador.start(5);
+       // if ($2 != '')
+	 //	generador.pushPilaO($2);
+        //cout << $2 << endl << " AQUI PASAN COSAS" << endl;     
+        generador.start(3);
     }
     | RW_SAVE ID variable {	
 		// Agrega una variable a la tabla de variables
         tabla.insert(make_pair($2, 0));
 	    generador.pushPOper($1);
+		generador.pushPilaO($2);
+		generador.pushPilaO($3);        
         generador.start(5);
 
 	}
 	| RW_SETPOS expresion expresion {
 		cout<<"Matched COMANDO2 via RW_SETPOS"<<endl;
 	    generador.pushPOper($1);
+		generador.pushPilaO($2);
+		generador.pushPilaO($3);        
         generador.start(5);    
 	}
 	| comando3 expresion expresion expresion {
 		//pending
 	    generador.pushPOper($1);
+		generador.pushPilaO($2);
+		generador.pushPilaO($3);
+		generador.pushPilaO($4);
         generador.start(5);
         
 	}
