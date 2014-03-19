@@ -139,13 +139,11 @@ comandos:
 	| comando_return{
 		//comandos que regresan algún valor
 	     generador.pushPOper($1);
-         generador.start(5);
+
 	}
     | comando1 expresion{
 	     generador.pushPOper($1);
        // if ($2 != '')
-	 //	generador.pushPilaO($2);
-        //cout << $2 << endl << " AQUI PASAN COSAS" << endl;     
         generador.start(3);
     }
     | RW_SAVE ID variable {	
@@ -153,16 +151,13 @@ comandos:
         tabla.insert(make_pair($2, 0));
 	    generador.pushPOper($1);
 		generador.pushPilaO($2);
-		generador.pushPilaO($3);        
-        generador.start(5);
+        generador.start(4);
 
 	}
 	| RW_SETPOS expresion expresion {
 		cout<<"Matched COMANDO2 via RW_SETPOS"<<endl;
 	    generador.pushPOper($1);
-		generador.pushPilaO($2);
-		generador.pushPilaO($3);        
-        generador.start(5);    
+        generador.start(4);    
 	}
 	| comando3 expresion expresion expresion {
 		//pending
@@ -288,7 +283,7 @@ for:
 	;
 
 for_aux:
-	OP_BRACKET ID COMMA expresion COMMA expresion COMMA expresion CL_BRACKET {
+	OP_BRACKET ID COMMA expresion COMMA expresion CL_BRACKET {
 		// Agrega una variable a la tabla de variables
         tabla.insert(make_pair($2, 0));
 	}

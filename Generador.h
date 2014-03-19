@@ -31,49 +31,54 @@ class Generador {
             return temporalActual;
         }
 
+        
+    string tempDeAvail(){
+            string temporalSolicitado = "t" + to_string(tempActual());
+
+            //agrega tempActual a PilaO
+            pushPilaO(temporalSolicitado);
+
+            temporalActual++;
+
+            return temporalSolicitado;
+        }
+
         void genera(string op, string opdo1, string opdo2, string opdo3, int tipo){
 
             ofstream fileout;
             fileout.open("CodigoInt.txt", std::ios::app);
             
             switch(tipo){
+                case 0: // Expresión
+                    fileout << cont_cuadruplos << ". " << op << " " << opdo1 << " " << opdo2 << " " << tempDeAvail() << endl;            
+                    break;
 
-            case 0: // Expresión
-            fileout << cont_cuadruplos << ". " << op << " " << opdo1 << " " << opdo2 << " " << "temp" << temporalActual << endl;
-            temporalActual++;            
-            break;
+                case 1: // 1 parámetro
+                    fileout << cont_cuadruplos << ". " << op << " " << opdo1 << endl;
+                    break;
 
-            case 1: // 1 parámetro
-            fileout << cont_cuadruplos << ". " << op << " " << opdo1 << endl;
-            break;
+                case 2: // 2 parámetros
+                    fileout << cont_cuadruplos << ". " << op << " " << opdo1 << " " << opdo2 << endl;
+                    break; 
 
-            case 2: // 2 parámetros
-            fileout << cont_cuadruplos << ". " << op << " " << opdo1 << " " << opdo2 << endl;
-            break; 
+                case 3: // 3 parámetros
+                    fileout << cont_cuadruplos << ". " << op << " " << opdo1 << " " << opdo2 << " " << opdo3 << endl;
+                    break; 
 
-            case 3: // 3 parámetros
-            fileout << cont_cuadruplos << ". " << op << " " << opdo1 << " " << opdo2 << " " << opdo3 << endl;
-            break; 
-
-            case 4: // Sin parámetros y regresa algo
-            fileout << cont_cuadruplos << ". " << op << "  " << temporalActual << endl;
-            temporalActual++;
-            break;            
-            
-            case 5: // Sin parámetros y no regresa nada
-            fileout << cont_cuadruplos << ". " << op << endl;
-            break;
-
+                case 4: // Sin parámetros y regresa algo
+                    fileout << cont_cuadruplos << ". " << op << "  " << tempDeAvail() << endl;
+                    break;            
+                
+                case 5: // Sin parámetros y no regresa nada
+                    fileout << cont_cuadruplos << ". " << op << endl;
+                    break;
             }
 
             //actualiza el contador de cuádruplos
             cont_cuadruplos++;
-            
-            //agrega tempActual a PilaO
-            pushPilaO(to_string(temporalActual));
 
             //actualiza temporal
-            cout<<"Temporal actual: "<<temporalActual<<endl;
+            cout<<"Temporal actual: "<<tempActual()<<endl;
             
         }
 
@@ -173,6 +178,17 @@ switch(i) {
         }
           break;
 
+            case 4:
+          // 2 parámetros
+         if(! POperEmpty()){
+            string posible_operador = popPOper();
+            string opdo2 = popPilaO();
+            string opdo1 = popPilaO();
+            genera(posible_operador,opdo1, opdo2, "", 2);      
+            
+        }
+          break;
+
             case 5:
             // Sin parámetros y no regresa nada
              if(! POperEmpty()){
@@ -182,9 +198,7 @@ switch(i) {
 }
             break;
         
-        
-        }
+               }
 }
-
 };
 
