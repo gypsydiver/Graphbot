@@ -115,8 +115,12 @@ var:
 	;
 
 var1: 
-	RW_FLOAT 		{cout<<"Matched RW_FLOAT"<<endl;}
-	| RW_BOOLEAN	{cout<<"Matched RW_BOOLEAN"<<endl;}
+	RW_FLOAT {
+		cout<<"Matched RW_FLOAT"<<endl;
+	}
+	| RW_BOOLEAN {
+		cout<<"Matched RW_BOOLEAN"<<endl;
+	}
 	;
 
 var2: /* empty */ 
@@ -142,8 +146,8 @@ comandos:
 
 	}
     | comando1 expresion{
-	     generador.pushPOper($1);
-       // if ($2 != '')
+	    generador.pushPOper($1);
+       	// if ($2 != '')
         generador.start(3);
     }
     | RW_SAVE ID variable {	
@@ -160,10 +164,8 @@ comandos:
         generador.start(4);    
 	}
 	| comando3 expresion expresion expresion {
-		//pending
 	    generador.pushPOper($1);
-        generador.start(5);
-        
+        generador.start(5); 
 	}
 	| llamada_funcion {
 		//pending
@@ -281,17 +283,23 @@ comando1:
 	;
 
 comando3: 
-	RW_SETCOLOR {cout<<"Matched RW_SETCOLOR"<<endl;
-                     $$ = $1;
-}
-	| RW_SETBACKGROUND 	{cout<<"Matched RW_SETBACKGROUND"<<endl;
-                     $$ = $1;
-}
+	RW_SETCOLOR {
+		cout<<"Matched RW_SETCOLOR"<<endl;
+        $$ = $1;
+	}
+	| RW_SETBACKGROUND 	{
+		cout<<"Matched RW_SETBACKGROUND"<<endl;
+        $$ = $1;
+	}
 	;
 
 variable:
-	 expresion 	{cout<<"Matched SAVE_EXPRESION"<<endl;}
-	| lista 	{cout<<"Matched SAVE_LISTA"<<endl;}
+	 expresion {
+	 	cout<<"Matched SAVE_EXPRESION"<<endl;
+	 }
+	| lista {
+		cout<<"Matched SAVE_LISTA"<<endl;
+	}
 	;
 
 for: 
@@ -308,15 +316,21 @@ for_aux:
 	;
 
 while: 
-	RW_WHILE expresion lista 	{cout<<"Matched RW_WHILE"<<endl;}
+	RW_WHILE expresion lista {
+		cout<<"Matched RW_WHILE"<<endl;
+	}
 	;
 
 condicion: 
-	RW_IF expresion lista 		{cout<<"Matched RW_IF"<<endl;}
+	RW_IF expresion lista {
+		cout<<"Matched RW_IF"<<endl;
+	}
 	;
 
 lista:
-	OP_BRACKET funciones lista_aux CL_BRACKET 	{cout<<"Matched LISTA"<<endl;}
+	OP_BRACKET funciones lista_aux CL_BRACKET {
+		cout<<"Matched LISTA"<<endl;
+	}
 	;
 
 lista_aux: /* empty */ 
@@ -324,7 +338,9 @@ lista_aux: /* empty */
 	;
 
 expresion: 
-	exp exp_aux		{cout<<"Matched EXPRESION via EXP"<<endl;}
+	exp exp_aux	{
+		cout<<"Matched EXPRESION via EXP"<<endl;
+	}
 	;
 
 exp_aux: /* empty */
@@ -395,12 +411,24 @@ varCte:
 	;
 
 comparador: 
-	EQUAL 				{cout<<"Matched COMPARADOR via EQUAL"<<endl;}
-	| NOT_EQUAL 		{cout<<"Matched COMPARADOR via NOT_EQUAL"<<endl;}
-	| GREAT_EQ_THAN 	{cout<<"Matched COMPARADOR via GREAT_EQ_THAN"<<endl;}
-	| LESS_EQ_THAN 		{cout<<"Matched COMPARADOR via LESS_EQ_THAN"<<endl;}
-	| GREAT_THAN 		{cout<<"Matched COMPARADOR via GREAT_THAN"<<endl;}
-	| LESS_THAN 		{cout<<"Matched COMPARADOR via LESS_THAN"<<endl;}
+	EQUAL {
+		cout<<"Matched COMPARADOR via EQUAL"<<endl;
+	}
+	| NOT_EQUAL {
+		cout<<"Matched COMPARADOR via NOT_EQUAL"<<endl;
+	}
+	| GREAT_EQ_THAN {
+		cout<<"Matched COMPARADOR via GREAT_EQ_THAN"<<endl;
+	}
+	| LESS_EQ_THAN {
+		cout<<"Matched COMPARADOR via LESS_EQ_THAN"<<endl;
+	}
+	| GREAT_THAN {
+		cout<<"Matched COMPARADOR via GREAT_THAN"<<endl;
+	}
+	| LESS_THAN {
+		cout<<"Matched COMPARADOR via LESS_THAN"<<endl;
+	}
 	;
 %%
 
