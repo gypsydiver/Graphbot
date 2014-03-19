@@ -72,6 +72,10 @@ class Generador {
                 case 5: // Sin parámetros y no regresa nada
                     fileout << cont_cuadruplos << ". " << op << endl;
                     break;
+                
+                case 6: // Comparadores
+                    fileout << cont_cuadruplos << ". " << op << " " << opdo1 << " " << opdo2 << " " << tempDeAvail() << endl;
+                    break;
             }
 
             //actualiza el contador de cuádruplos
@@ -210,6 +214,17 @@ switch(i) {
 
 }
             break;
+
+         case 7:
+          // Comparadores
+         if(! POperEmpty()){
+            string posible_operador = popPOper();
+            string opdo2 = popPilaO();
+            string opdo1 = popPilaO();
+            genera(posible_operador,opdo1, opdo2, "", 6);      
+            
+        }
+          break;
         
                }
 }

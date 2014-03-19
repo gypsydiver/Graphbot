@@ -59,12 +59,12 @@ void print();
 //caractéres del lenguaje
 %token <cval> OP_BRACKET CL_BRACKET OP_PAR CL_PAR COMMA
 //comparadores
-%token <cval> EQUAL GREAT_THAN LESS_THAN
+%token <sval> EQUAL GREAT_THAN LESS_THAN
 %token <sval> NOT_EQUAL GREAT_EQ_THAN LESS_EQ_THAN
 //operandos y operadores
 %token <sval> BASIC_ARITHMETIC COM_ARITHMETIC ID FLOAT
 
-%type <sval> varCte comandos comando comando_return comando1 comando3 expresion variable;
+%type <sval> varCte comandos comando comando_return comando1 comando3 expresion variable comparador;
 %start graphbot
 %%
 
@@ -346,7 +346,8 @@ expresion:
 	;
 
 exp_aux: /* empty */
-    | comparador exp
+    | comparador exp { generador.pushPOper($1);
+                       generador.start(7); }
     ;
 
 exp:
@@ -415,21 +416,27 @@ varCte:
 comparador: 
 	EQUAL {
 		cout<<"Matched COMPARADOR via EQUAL"<<endl;
+        $$ = $1;
 	}
 	| NOT_EQUAL {
 		cout<<"Matched COMPARADOR via NOT_EQUAL"<<endl;
+        $$ = $1;
 	}
 	| GREAT_EQ_THAN {
 		cout<<"Matched COMPARADOR via GREAT_EQ_THAN"<<endl;
+        $$ = $1;
 	}
 	| LESS_EQ_THAN {
 		cout<<"Matched COMPARADOR via LESS_EQ_THAN"<<endl;
+        $$ = $1;
 	}
 	| GREAT_THAN {
 		cout<<"Matched COMPARADOR via GREAT_THAN"<<endl;
+        $$ = $1;
 	}
 	| LESS_THAN {
 		cout<<"Matched COMPARADOR via LESS_THAN"<<endl;
+        $$ = $1;
 	}
 	;
 %%
