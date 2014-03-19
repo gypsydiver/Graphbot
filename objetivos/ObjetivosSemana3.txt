@@ -1,9 +1,9 @@
 Objetivos Semana 3
 
-- Generación de Cuadruplos 
+*- Generación de Cuadruplos 
     *. Expresiones Aritméticas 
     *. Impresión a archivo texto
-     . Asignación, Lectura (Comandos)
+    *. Asignación, Lectura (Comandos)
 *- Revaluación ciclos y condiciones (gramática funcion2)
 
 -----------No tan importante-------------
