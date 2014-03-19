@@ -51,7 +51,7 @@ void print();
 //comandos de un parámetro
 %token <sval> RW_MOVE RW_TURN RW_SETX RW_SETY RW_SETPENSIZE RW_CAMERAUP RW_CAMERADOWN RW_CAMERALEFT RW_CAMERARIGHT RW_SETBACKGROUNDTXT
 //comandos de dos parámetros
-%token <sval> RW_SAVE
+%token <sval> RW_SAVE RW_SETPOS
 //comandos de tres parámetros
 %token <sval> RW_SETCOLOR RW_SETBACKGROUND
 //palabras reservadas
@@ -64,7 +64,7 @@ void print();
 //operandos y operadores
 %token <sval> BASIC_ARITHMETIC COM_ARITHMETIC ID FLOAT
 
-%type <sval> varCte;
+%type <sval> varCte comandos comando comando_return comando1 comando3;
 %start graphbot
 %%
 
@@ -133,28 +133,39 @@ programa:
 comandos: 
 	comando {
 		//comandos que regresan nada
+	     generador.pushPOper($1);
          generador.start(5);
 	}
 	| comando_return{
 		//comandos que regresan algún valor
+	     generador.pushPOper($1);
+         generador.start(5);
 	}
     | comando1 expresion{
-    	generador.genera($1,$2,"",1);
+	     generador.pushPOper($1);
+         generador.start(5);
     }
     | RW_SAVE ID variable {	
 		// Agrega una variable a la tabla de variables
         tabla.insert(make_pair($2, 0));
+	    generador.pushPOper($1);
+        generador.start(5);
+
 	}
 	| RW_SETPOS expresion expresion {
 		cout<<"Matched COMANDO2 via RW_SETPOS"<<endl;
+	    generador.pushPOper($1);
+        generador.start(5);    
 	}
 	| comando3 expresion expresion expresion {
 		//pending
+	    generador.pushPOper($1);
+        generador.start(5);
+        
 	}
 	| llamada_funcion {
 		//pending
 	}
->>>>>>> aa5b82412bc16d449f8cc48334f62f6e6e407122
 	;
 
 llamada_funcion_aux: /* empty */
@@ -172,41 +183,87 @@ llamada_funcion:
 
 comando: 
 	RW_SHOW 		{cout<<"Matched RW_SHOW"<<endl;
-	    generador.pushPOper($1);
+                     $$ = $1;
 
 }
-	| RW_HIDE 		{cout<<"Matched RW_HIDE"<<endl;}
-	| RW_CLEAN 		{cout<<"Matched RW_CLEAN"<<endl;}
-	| RW_HOME 		{cout<<"Matched RW_HOME"<<endl;}
-	| RW_PLAYMUSIC 	{cout<<"Matched RW_PLAYMUSIC"<<endl;}
-	| RW_STOPMUSIC	{cout<<"Matched RW_STOPMUSIC"<<endl;}
+	| RW_HIDE 		{cout<<"Matched RW_HIDE"<<endl;
+                     $$ = $1;
+}
+	| RW_CLEAN 		{cout<<"Matched RW_CLEAN"<<endl;
+                     $$ = $1;
+}
+	| RW_HOME 		{cout<<"Matched RW_HOME"<<endl;
+                     $$ = $1;
+}
+	| RW_PLAYMUSIC 	{cout<<"Matched RW_PLAYMUSIC"<<endl;
+                     $$ = $1;
+}
+	| RW_STOPMUSIC	{cout<<"Matched RW_STOPMUSIC"<<endl;
+                     $$ = $1;
+}
 	;
 
 comando_return:
-	RW_GETCOLORR 	{cout<<"Matched RW_GETCOLORR"<<endl;}
-	| RW_GETCOLORB 	{cout<<"Matched RW_GETCOLORG"<<endl;}
-	| RW_GETCOLORG 	{cout<<"Matched RW_GETCOLORB"<<endl;}
-	| RW_GETPENSIZE {cout<<"Matched RW_GETPENSIZE"<<endl;}
-	| RW_GETX 		{cout<<"Matched GETX"<<endl;}
-	| RW_GETY 		{cout<<"Matched GETY"<<endl;}
+	RW_GETCOLORR 	{cout<<"Matched RW_GETCOLORR"<<endl;
+                     $$ = $1;
+}
+	| RW_GETCOLORB 	{cout<<"Matched RW_GETCOLORG"<<endl;
+                     $$ = $1;
+}
+	| RW_GETCOLORG 	{cout<<"Matched RW_GETCOLORB"<<endl;
+                     $$ = $1;
+}
+	| RW_GETPENSIZE {cout<<"Matched RW_GETPENSIZE"<<endl;
+                     $$ = $1;
+}
+	| RW_GETX 		{cout<<"Matched GETX"<<endl;
+                     $$ = $1;
+}
+	| RW_GETY 		{cout<<"Matched GETY"<<endl;
+                     $$ = $1;
+}
 	;
 
 comando1: 
-	RW_MOVE 				{cout<<"Matched RW_MOVE"<<endl;}
-	| RW_TURN 				{cout<<"Matched RW_TURN"<<endl;}
-	| RW_SETX 				{cout<<"Matched RW_SETX"<<endl;}
-	| RW_SETY 				{cout<<"Matched RW_SETY"<<endl;}
-	| RW_SETPENSIZE 		{cout<<"Matched RW_SETPENSIZE"<<endl;}
-	| RW_SETBACKGROUNDTXT 	{cout<<"Matched RW_SETBACKGROUNDTXT"<<endl;}
-	| RW_CAMERAUP 			{cout<<"Matched RW_CAMERAUP"<<endl;}
-	| RW_CAMERADOWN 		{cout<<"Matched RW_CAMERADOWN"<<endl;}
-	| RW_CAMERALEFT 		{cout<<"Matched RW_CAMERALEFT"<<endl;}
-	| RW_CAMERARIGHT		{cout<<"Matched RW_CAMERARIGHT"<<endl;}
+	RW_MOVE 				{cout<<"Matched RW_MOVE"<<endl;
+                     $$ = $1;
+}
+	| RW_TURN 				{cout<<"Matched RW_TURN"<<endl;
+                     $$ = $1;
+}
+	| RW_SETX 				{cout<<"Matched RW_SETX"<<endl;
+                     $$ = $1;
+}
+	| RW_SETY 				{cout<<"Matched RW_SETY"<<endl;
+                     $$ = $1;
+}
+	| RW_SETPENSIZE 		{cout<<"Matched RW_SETPENSIZE"<<endl;
+                     $$ = $1;
+}
+	| RW_SETBACKGROUNDTXT 	{cout<<"Matched RW_SETBACKGROUNDTXT"<<endl;
+                     $$ = $1;
+}
+	| RW_CAMERAUP 			{cout<<"Matched RW_CAMERAUP"<<endl;
+                     $$ = $1;
+}
+	| RW_CAMERADOWN 		{cout<<"Matched RW_CAMERADOWN"<<endl;
+                     $$ = $1;
+}
+	| RW_CAMERALEFT 		{cout<<"Matched RW_CAMERALEFT"<<endl;
+                     $$ = $1;
+}
+	| RW_CAMERARIGHT		{cout<<"Matched RW_CAMERARIGHT"<<endl;
+                     $$ = $1;
+}
 	;
 
 comando3: 
-	RW_SETCOLOR {cout<<"Matched RW_SETCOLOR"<<endl;}
-	| RW_SETBACKGROUND 	{cout<<"Matched RW_SETBACKGROUND"<<endl;}
+	RW_SETCOLOR {cout<<"Matched RW_SETCOLOR"<<endl;
+                     $$ = $1;
+}
+	| RW_SETBACKGROUND 	{cout<<"Matched RW_SETBACKGROUND"<<endl;
+                     $$ = $1;
+}
 	;
 
 variable:
