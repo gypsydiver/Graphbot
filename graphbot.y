@@ -281,8 +281,10 @@ for:
 
 for_aux:
 	OP_BRACKET ID COMMA expresion COMMA expresion CL_BRACKET {
-		// Agrega una variable a la tabla de variables
-        tabla.insert(make_pair($2, 0));
+        // Busca si la variable no esta declarada
+		tab = tabla.find($2);	
+        if(tab == tabla.end())
+		errores(2, $2);
 	}
 	;
 
