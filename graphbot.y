@@ -115,8 +115,12 @@ var:
 	;
 
 var1: 
-	RW_FLOAT 		{cout<<"Matched RW_FLOAT"<<endl;}
-	| RW_BOOLEAN	{cout<<"Matched RW_BOOLEAN"<<endl;}
+	RW_FLOAT {
+		cout<<"Matched RW_FLOAT"<<endl;
+	}
+	| RW_BOOLEAN {
+		cout<<"Matched RW_BOOLEAN"<<endl;
+	}
 	;
 
 var2: /* empty */ 
@@ -142,8 +146,8 @@ comandos:
 
 	}
     | comando1 expresion{
-	     generador.pushPOper($1);
-       // if ($2 != '')
+	    generador.pushPOper($1);
+       	// if ($2 != '')
         generador.start(3);
     }
     | RW_SAVE ID variable {	
@@ -160,10 +164,8 @@ comandos:
         generador.start(4);    
 	}
 	| comando3 expresion expresion expresion {
-		//pending
 	    generador.pushPOper($1);
-        generador.start(5);
-        
+        generador.start(5); 
 	}
 	| llamada_funcion {
 		//pending
@@ -184,93 +186,120 @@ llamada_funcion:
 	;
 
 comando: 
-	RW_SHOW 		{cout<<"Matched RW_SHOW"<<endl;
-                     $$ = $1;
-
-}
-	| RW_HIDE 		{cout<<"Matched RW_HIDE"<<endl;
-                     $$ = $1;
-}
-	| RW_CLEAN 		{cout<<"Matched RW_CLEAN"<<endl;
-                     $$ = $1;
-}
-	| RW_HOME 		{cout<<"Matched RW_HOME"<<endl;
-                     $$ = $1;
-}
-	| RW_PLAYMUSIC 	{cout<<"Matched RW_PLAYMUSIC"<<endl;
-                     $$ = $1;
-}
-	| RW_STOPMUSIC	{cout<<"Matched RW_STOPMUSIC"<<endl;
-                     $$ = $1;
-}
+	RW_SHOW {
+		cout<<"Matched RW_SHOW"<<endl;
+		$$ = $1;
+	}
+	| RW_HIDE {
+		cout<<"Matched RW_HIDE"<<endl;
+		$$ = $1;
+	}
+	| RW_CLEAN {
+		cout<<"Matched RW_CLEAN"<<endl;
+		$$ = $1;
+	}
+	| RW_HOME {
+		cout<<"Matched RW_HOME"<<endl;
+		$$ = $1;
+	}
+	| RW_PLAYMUSIC {
+		cout<<"Matched RW_PLAYMUSIC"<<endl;
+		$$ = $1;
+	}
+	| RW_STOPMUSIC {
+		cout<<"Matched RW_STOPMUSIC"<<endl;
+		$$ = $1;
+	}
 	;
 
 comando_return:
-	RW_GETCOLORR 	{cout<<"Matched RW_GETCOLORR"<<endl;
-                     $$ = $1;
-}
-	| RW_GETCOLORB 	{cout<<"Matched RW_GETCOLORG"<<endl;
-                     $$ = $1;
-}
-	| RW_GETCOLORG 	{cout<<"Matched RW_GETCOLORB"<<endl;
-                     $$ = $1;
-}
-	| RW_GETPENSIZE {cout<<"Matched RW_GETPENSIZE"<<endl;
-                     $$ = $1;
-}
-	| RW_GETX 		{cout<<"Matched GETX"<<endl;
-                     $$ = $1;
-}
-	| RW_GETY 		{cout<<"Matched GETY"<<endl;
-                     $$ = $1;
-}
+	RW_GETCOLORR {
+		cout<<"Matched RW_GETCOLORR"<<endl;
+		$$ = $1;
+	}
+	| RW_GETCOLORB {
+		cout<<"Matched RW_GETCOLORG"<<endl;
+		$$ = $1;
+	}
+	| RW_GETCOLORG 	{
+		cout<<"Matched RW_GETCOLORB"<<endl;
+		$$ = $1;
+	}
+	| RW_GETPENSIZE {
+		cout<<"Matched RW_GETPENSIZE"<<endl;
+		$$ = $1;
+	}
+	| RW_GETX 		{
+		cout<<"Matched GETX"<<endl;
+		$$ = $1;
+	}
+	| RW_GETY {
+		cout<<"Matched GETY"<<endl;
+		$$ = $1;
+	}
 	;
 
 comando1: 
-	RW_MOVE 				{cout<<"Matched RW_MOVE"<<endl;
-                     $$ = $1;
-}
-	| RW_TURN 				{cout<<"Matched RW_TURN"<<endl;
-                     $$ = $1;
-}
-	| RW_SETX 				{cout<<"Matched RW_SETX"<<endl;
-                     $$ = $1;
-}
-	| RW_SETY 				{cout<<"Matched RW_SETY"<<endl;
-                     $$ = $1;
-}
-	| RW_SETPENSIZE 		{cout<<"Matched RW_SETPENSIZE"<<endl;
-                     $$ = $1;
-}
-	| RW_SETBACKGROUNDTXT 	{cout<<"Matched RW_SETBACKGROUNDTXT"<<endl;
-                     $$ = $1;
-}
-	| RW_CAMERAUP 			{cout<<"Matched RW_CAMERAUP"<<endl;
-                     $$ = $1;
-}
-	| RW_CAMERADOWN 		{cout<<"Matched RW_CAMERADOWN"<<endl;
-                     $$ = $1;
-}
-	| RW_CAMERALEFT 		{cout<<"Matched RW_CAMERALEFT"<<endl;
-                     $$ = $1;
-}
-	| RW_CAMERARIGHT		{cout<<"Matched RW_CAMERARIGHT"<<endl;
-                     $$ = $1;
-}
+	RW_MOVE {
+		cout<<"Matched RW_MOVE"<<endl;
+		$$ = $1;
+	}
+	| RW_TURN {
+		cout<<"Matched RW_TURN"<<endl;
+		$$ = $1;
+	}
+	| RW_SETX {
+		cout<<"Matched RW_SETX"<<endl;
+		$$ = $1;
+	}
+	| RW_SETY {
+		cout<<"Matched RW_SETY"<<endl;
+		$$ = $1;
+	}
+	| RW_SETPENSIZE {
+		cout<<"Matched RW_SETPENSIZE"<<endl;
+		$$ = $1;
+	}
+	| RW_SETBACKGROUNDTXT {
+		cout<<"Matched RW_SETBACKGROUNDTXT"<<endl;
+		$$ = $1;
+	}
+	| RW_CAMERAUP {
+		cout<<"Matched RW_CAMERAUP"<<endl;
+		$$ = $1;
+	}
+	| RW_CAMERADOWN {
+		cout<<"Matched RW_CAMERADOWN"<<endl;
+		$$ = $1;
+	}
+	| RW_CAMERALEFT {
+		cout<<"Matched RW_CAMERALEFT"<<endl;
+		$$ = $1;
+	}
+	| RW_CAMERARIGHT {
+		cout<<"Matched RW_CAMERARIGHT"<<endl;
+		$$ = $1;
+	}
 	;
 
 comando3: 
-	RW_SETCOLOR {cout<<"Matched RW_SETCOLOR"<<endl;
-                     $$ = $1;
-}
-	| RW_SETBACKGROUND 	{cout<<"Matched RW_SETBACKGROUND"<<endl;
-                     $$ = $1;
-}
+	RW_SETCOLOR {
+		cout<<"Matched RW_SETCOLOR"<<endl;
+        $$ = $1;
+	}
+	| RW_SETBACKGROUND 	{
+		cout<<"Matched RW_SETBACKGROUND"<<endl;
+        $$ = $1;
+	}
 	;
 
 variable:
-	 expresion 	{cout<<"Matched SAVE_EXPRESION"<<endl;}
-	| lista 	{cout<<"Matched SAVE_LISTA"<<endl;}
+	 expresion {
+	 	cout<<"Matched SAVE_EXPRESION"<<endl;
+	 }
+	| lista {
+		cout<<"Matched SAVE_LISTA"<<endl;
+	}
 	;
 
 for: 
@@ -289,15 +318,21 @@ for_aux:
 	;
 
 while: 
-	RW_WHILE expresion lista 	{cout<<"Matched RW_WHILE"<<endl;}
+	RW_WHILE expresion lista {
+		cout<<"Matched RW_WHILE"<<endl;
+	}
 	;
 
 condicion: 
-	RW_IF expresion lista 		{cout<<"Matched RW_IF"<<endl;}
+	RW_IF expresion lista {
+		cout<<"Matched RW_IF"<<endl;
+	}
 	;
 
 lista:
-	OP_BRACKET funciones lista_aux CL_BRACKET 	{cout<<"Matched LISTA"<<endl;}
+	OP_BRACKET funciones lista_aux CL_BRACKET {
+		cout<<"Matched LISTA"<<endl;
+	}
 	;
 
 lista_aux: /* empty */ 
@@ -305,7 +340,9 @@ lista_aux: /* empty */
 	;
 
 expresion: 
-	exp exp_aux		{cout<<"Matched EXPRESION via EXP"<<endl;}
+	exp exp_aux	{
+		cout<<"Matched EXPRESION via EXP"<<endl;
+	}
 	;
 
 exp_aux: /* empty */
@@ -376,12 +413,24 @@ varCte:
 	;
 
 comparador: 
-	EQUAL 				{cout<<"Matched COMPARADOR via EQUAL"<<endl;}
-	| NOT_EQUAL 		{cout<<"Matched COMPARADOR via NOT_EQUAL"<<endl;}
-	| GREAT_EQ_THAN 	{cout<<"Matched COMPARADOR via GREAT_EQ_THAN"<<endl;}
-	| LESS_EQ_THAN 		{cout<<"Matched COMPARADOR via LESS_EQ_THAN"<<endl;}
-	| GREAT_THAN 		{cout<<"Matched COMPARADOR via GREAT_THAN"<<endl;}
-	| LESS_THAN 		{cout<<"Matched COMPARADOR via LESS_THAN"<<endl;}
+	EQUAL {
+		cout<<"Matched COMPARADOR via EQUAL"<<endl;
+	}
+	| NOT_EQUAL {
+		cout<<"Matched COMPARADOR via NOT_EQUAL"<<endl;
+	}
+	| GREAT_EQ_THAN {
+		cout<<"Matched COMPARADOR via GREAT_EQ_THAN"<<endl;
+	}
+	| LESS_EQ_THAN {
+		cout<<"Matched COMPARADOR via LESS_EQ_THAN"<<endl;
+	}
+	| GREAT_THAN {
+		cout<<"Matched COMPARADOR via GREAT_THAN"<<endl;
+	}
+	| LESS_THAN {
+		cout<<"Matched COMPARADOR via LESS_THAN"<<endl;
+	}
 	;
 %%
 
