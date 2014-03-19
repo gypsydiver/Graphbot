@@ -31,49 +31,53 @@ class Generador {
             return temporalActual;
         }
 
+        string tempDeAvail(){
+            string temporalSolicitado = "t" + to_string(tempActual());
+
+            //agrega tempActual a PilaO
+            pushPilaO(temporalSolicitado);
+
+            temporalActual++;
+
+            return temporalSolicitado;
+        }
+
         void genera(string op, string opdo1, string opdo2, string opdo3, int tipo){
 
             ofstream fileout;
             fileout.open("CodigoInt.txt", "a");
             
             switch(tipo){
+                case 0: // Expresión
+                    fileout << cont_cuadruplos << ". " << op << " " << opdo1 << " " << opdo2 << " " << tempDeAvail() << endl;            
+                    break;
 
-            case 0: // Expresión
-            fileout << cont_cuadruplos << ". " << op << " " << opdo1 << " " << opdo2 << " " << "temp" << temporalActual << endl;
-            temporalActual++;            
-            break;
+                case 1: // 1 parámetro
+                    fileout << cont_cuadruplos << ". " << op << " " << opdo1 << endl;
+                    break;
 
-            case 1: // 1 parámetro
-            fileout << cont_cuadruplos << ". " << op << " " << opdo1 << endl;
-            break;
+                case 2: // 2 parámetros
+                    fileout << cont_cuadruplos << ". " << op << " " << opdo1 << " " << opdo2 << endl;
+                    break; 
 
-            case 2: // 2 parámetros
-            fileout << cont_cuadruplos << ". " << op << " " << opdo1 << " " << opdo2 << endl;
-            break; 
+                case 3: // 3 parámetros
+                    fileout << cont_cuadruplos << ". " << op << " " << opdo1 << " " << opdo2 << " " << opdo3 << endl;
+                    break; 
 
-            case 3: // 3 parámetros
-            fileout << cont_cuadruplos << ". " << op << " " << opdo1 << " " << opdo2 << " " << opdo3 << endl;
-            break; 
-
-            case 4: // Sin parámetros y regresa algo
-            fileout << cont_cuadruplos << ". " << op << "  " << temporalActual << endl;
-            temporalActual++;
-            break;            
-            
-            case 5: // Sin parámetros y no regresa nada
-            fileout << cont_cuadruplos << ". " << op << endl;
-            break;
-
+                case 4: // Sin parámetros y regresa algo
+                    fileout << cont_cuadruplos << ". " << op << "  " << tempDeAvail() << endl;
+                    break;            
+                
+                case 5: // Sin parámetros y no regresa nada
+                    fileout << cont_cuadruplos << ". " << op << endl;
+                    break;
             }
 
             //actualiza el contador de cuádruplos
             cont_cuadruplos++;
-            
-            //agrega tempActual a PilaO
-            pushPilaO(to_string(temporalActual));
 
             //actualiza temporal
-            cout<<"Temporal actual: "<<temporalActual<<endl;
+            cout<<"Temporal actual: "<<tempActual()<<endl;
             
         }
 
@@ -136,43 +140,47 @@ class Generador {
 
         void start(int i){
         
-switch(i) {
-            case 1:
-	    	// 5.- Si pop(POper) == '+' o '-'            
-              if(! POperEmpty()){
-          	string posible_operando = popPOper();
-            if((posible_operando == "+")|| (posible_operando == "-")){
-                string opdo2 = popPilaO();
-                string opdo1= popPilaO();
-                genera(posible_operando,opdo1,opdo2, "", 0);                                      
+            switch(i) {
+                case 1:
+        	    	// 5.- Si pop(POper) == '+' o '-'            
+                    if(!POperEmpty()){
+                        string posible_operando = popPOper();
+                        if((posible_operando == "+")|| (posible_operando == "-")){
+                            string opdo2 = popPilaO();
+                            string opdo1= popPilaO();
+                            genera(posible_operando,opdo1,opdo2, "", 0);                                      
+                        }
+                    }
+                    break;
+                case 2:
+                    // 4.- Si pop(POper) == '*' o '/'            
+                    if(!POperEmpty()){
+                        string posible_operando = popPOper();
+    	               if((posible_operando == "*")|| (posible_operando == "/")){
+    	                   string opdo2 = popPilaO();
+    	                   string opdo1= popPilaO();
+    	                   genera(posible_operando,opdo1,opdo2, "", 0);
+    	               }
+                    }
+                    break;
+
+                case 3:
+                    //comandos que regresan algún valor
+
+                break;
+
+                case 4:
+
+                break;
+
+                case 5:
+                    // Sin parámetros y no regresa nada
+                    if(!POperEmpty()){
+        	           string posible_operando = popPOper();
+        	           genera(posible_operando,"","", "", 5);
+                    }
+                    break;
             }
-      	}
-            break;
-
-            case 2:
-	    	// 4.- Si pop(POper) == '*' o '/'            
-              if(! POperEmpty()){
-	        string posible_operando = popPOper();
-	        if((posible_operando == "*")|| (posible_operando == "/")){
-	            string opdo2 = popPilaO();
-	            string opdo1= popPilaO();
-	            genera(posible_operando,opdo1,opdo2, "", 0);
-	        }
-	    }
-            break;
-
-            case 5:
-            // Sin parámetros y no regresa nada
-             if(! POperEmpty()){
-	        string posible_operando = popPOper();
-	            genera(posible_operando,"","", "", 5);
-
-}
-            break;
-        
-        
         }
-}
-
 };
 

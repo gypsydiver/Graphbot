@@ -137,6 +137,7 @@ comandos:
 	}
 	| comando_return{
 		//comandos que regresan algún valor
+		generador.start(3);
 	}
     | comando1 expresion{
     	generador.genera($1,$2,"",1);
@@ -220,7 +221,7 @@ for:
 	;
 
 for_aux:
-	OP_BRACKET ID COMMA expresion COMMA expresion COMMA expresion CL_BRACKET {
+	OP_BRACKET ID COMMA expresion COMMA expresion CL_BRACKET {
 		// Agrega una variable a la tabla de variables
         tabla.insert(make_pair($2, 0));
 	}
