@@ -184,79 +184,100 @@ llamada_funcion:
 	;
 
 comando: 
-	RW_SHOW 		{cout<<"Matched RW_SHOW"<<endl;
-                     $$ = $1;
-
-}
-	| RW_HIDE 		{cout<<"Matched RW_HIDE"<<endl;
-                     $$ = $1;
-}
-	| RW_CLEAN 		{cout<<"Matched RW_CLEAN"<<endl;
-                     $$ = $1;
-}
-	| RW_HOME 		{cout<<"Matched RW_HOME"<<endl;
-                     $$ = $1;
-}
-	| RW_PLAYMUSIC 	{cout<<"Matched RW_PLAYMUSIC"<<endl;
-                     $$ = $1;
-}
-	| RW_STOPMUSIC	{cout<<"Matched RW_STOPMUSIC"<<endl;
-                     $$ = $1;
-}
+	RW_SHOW {
+		cout<<"Matched RW_SHOW"<<endl;
+		$$ = $1;
+	}
+	| RW_HIDE {
+		cout<<"Matched RW_HIDE"<<endl;
+		$$ = $1;
+	}
+	| RW_CLEAN {
+		cout<<"Matched RW_CLEAN"<<endl;
+		$$ = $1;
+	}
+	| RW_HOME {
+		cout<<"Matched RW_HOME"<<endl;
+		$$ = $1;
+	}
+	| RW_PLAYMUSIC {
+		cout<<"Matched RW_PLAYMUSIC"<<endl;
+		$$ = $1;
+	}
+	| RW_STOPMUSIC {
+		cout<<"Matched RW_STOPMUSIC"<<endl;
+		$$ = $1;
+	}
 	;
 
 comando_return:
-	RW_GETCOLORR 	{cout<<"Matched RW_GETCOLORR"<<endl;
-                     $$ = $1;
-}
-	| RW_GETCOLORB 	{cout<<"Matched RW_GETCOLORG"<<endl;
-                     $$ = $1;
-}
-	| RW_GETCOLORG 	{cout<<"Matched RW_GETCOLORB"<<endl;
-                     $$ = $1;
-}
-	| RW_GETPENSIZE {cout<<"Matched RW_GETPENSIZE"<<endl;
-                     $$ = $1;
-}
-	| RW_GETX 		{cout<<"Matched GETX"<<endl;
-                     $$ = $1;
-}
-	| RW_GETY 		{cout<<"Matched GETY"<<endl;
-                     $$ = $1;
-}
+	RW_GETCOLORR {
+		cout<<"Matched RW_GETCOLORR"<<endl;
+		$$ = $1;
+	}
+	| RW_GETCOLORB {
+		cout<<"Matched RW_GETCOLORG"<<endl;
+		$$ = $1;
+	}
+	| RW_GETCOLORG 	{
+		cout<<"Matched RW_GETCOLORB"<<endl;
+		$$ = $1;
+	}
+	| RW_GETPENSIZE {
+		cout<<"Matched RW_GETPENSIZE"<<endl;
+		$$ = $1;
+	}
+	| RW_GETX 		{
+		cout<<"Matched GETX"<<endl;
+		$$ = $1;
+	}
+	| RW_GETY {
+		cout<<"Matched GETY"<<endl;
+		$$ = $1;
+	}
 	;
 
 comando1: 
-	RW_MOVE 				{cout<<"Matched RW_MOVE"<<endl;
-                     $$ = $1;
-}
-	| RW_TURN 				{cout<<"Matched RW_TURN"<<endl;
-                     $$ = $1;
-}
-	| RW_SETX 				{cout<<"Matched RW_SETX"<<endl;
-                     $$ = $1;
-}
-	| RW_SETY 				{cout<<"Matched RW_SETY"<<endl;
-                     $$ = $1;
-}
-	| RW_SETPENSIZE 		{cout<<"Matched RW_SETPENSIZE"<<endl;
-                     $$ = $1;
-}
-	| RW_SETBACKGROUNDTXT 	{cout<<"Matched RW_SETBACKGROUNDTXT"<<endl;
-                     $$ = $1;
-}
-	| RW_CAMERAUP 			{cout<<"Matched RW_CAMERAUP"<<endl;
-                     $$ = $1;
-}
-	| RW_CAMERADOWN 		{cout<<"Matched RW_CAMERADOWN"<<endl;
-                     $$ = $1;
-}
-	| RW_CAMERALEFT 		{cout<<"Matched RW_CAMERALEFT"<<endl;
-                     $$ = $1;
-}
-	| RW_CAMERARIGHT		{cout<<"Matched RW_CAMERARIGHT"<<endl;
-                     $$ = $1;
-}
+	RW_MOVE {
+		cout<<"Matched RW_MOVE"<<endl;
+		$$ = $1;
+	}
+	| RW_TURN {
+		cout<<"Matched RW_TURN"<<endl;
+		$$ = $1;
+	}
+	| RW_SETX {
+		cout<<"Matched RW_SETX"<<endl;
+		$$ = $1;
+	}
+	| RW_SETY {
+		cout<<"Matched RW_SETY"<<endl;
+		$$ = $1;
+	}
+	| RW_SETPENSIZE {
+		cout<<"Matched RW_SETPENSIZE"<<endl;
+		$$ = $1;
+	}
+	| RW_SETBACKGROUNDTXT {
+		cout<<"Matched RW_SETBACKGROUNDTXT"<<endl;
+		$$ = $1;
+	}
+	| RW_CAMERAUP {
+		cout<<"Matched RW_CAMERAUP"<<endl;
+		$$ = $1;
+	}
+	| RW_CAMERADOWN {
+		cout<<"Matched RW_CAMERADOWN"<<endl;
+		$$ = $1;
+	}
+	| RW_CAMERALEFT {
+		cout<<"Matched RW_CAMERALEFT"<<endl;
+		$$ = $1;
+	}
+	| RW_CAMERARIGHT {
+		cout<<"Matched RW_CAMERARIGHT"<<endl;
+		$$ = $1;
+	}
 	;
 
 comando3: 
