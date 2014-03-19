@@ -134,7 +134,7 @@ comandos:
 	comando {
 		//comandos que regresan nada
 	     generador.pushPOper($1);
-         generador.start(5);
+         generador.start(6);
 	}
 	| comando_return{
 		//comandos que regresan algún valor
@@ -162,9 +162,6 @@ comandos:
 	| comando3 expresion expresion expresion {
 		//pending
 	    generador.pushPOper($1);
-		generador.pushPilaO($2);
-		generador.pushPilaO($3);
-		generador.pushPilaO($4);
         generador.start(5);
         
 	}

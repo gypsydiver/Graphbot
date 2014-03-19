@@ -190,6 +190,19 @@ switch(i) {
           break;
 
             case 5:
+         // 3 parámetros
+          if(! POperEmpty()){
+            string posible_operador = popPOper();
+            string opdo3 = popPilaO();
+            string opdo2 = popPilaO();
+            string opdo1 = popPilaO();
+            genera(posible_operador,opdo1, opdo2, opdo3, 3);      
+            
+        }
+
+          break;
+
+            case 6:
             // Sin parámetros y no regresa nada
              if(! POperEmpty()){
 	        string posible_operador = popPOper();
