@@ -59,12 +59,12 @@ void print();
 //caractéres del lenguaje
 %token <cval> OP_BRACKET CL_BRACKET OP_PAR CL_PAR COMMA
 //comparadores
-%token <cval> EQUAL GREAT_THAN LESS_THAN
+%token <sval> EQUAL GREAT_THAN LESS_THAN
 %token <sval> NOT_EQUAL GREAT_EQ_THAN LESS_EQ_THAN
 //operandos y operadores
 %token <sval> BASIC_ARITHMETIC COM_ARITHMETIC ID FLOAT
 
-%type <sval> varCte comandos comando comando_return comando1 comando3 expresion variable;
+%type <sval> varCte comandos comando comando_return comando1 comando3 expresion variable comparador;
 %start graphbot
 %%
 
@@ -141,6 +141,7 @@ comandos:
 		cout<<"Matched <COMANDO_RETURN>: "<<$1<<endl;
 		//comandos que regresan algún valor
 	     generador.pushPOper($1);
+         generador.start(7);
 
 	}
     | comando1 expresion{
@@ -187,87 +188,39 @@ llamada_funcion:
 	;
 
 comando: 
-	RW_SHOW {
-		$$ = $1;
-	}
-	| RW_HIDE {
-		$$ = $1;
-	}
-	| RW_CLEAN {
-		$$ = $1;
-	}
-	| RW_HOME {
-		$$ = $1;
-	}
-	| RW_PLAYMUSIC {
-		$$ = $1;
-	}
-	| RW_STOPMUSIC {
-		$$ = $1;
-	}
+	RW_SHOW {$$ = $1;}
+	| RW_HIDE {$$ = $1;}
+	| RW_CLEAN {$$ = $1;}
+	| RW_HOME {$$ = $1;}
+	| RW_PLAYMUSIC {$$ = $1;}
+	| RW_STOPMUSIC {$$ = $1;}
 	;
 
 comando_return:
-	RW_GETCOLORR {
-		$$ = $1;
-	}
-	| RW_GETCOLORB {
-		$$ = $1;
-	}
-	| RW_GETCOLORG 	{
-		$$ = $1;
-	}
-	| RW_GETPENSIZE {
-		$$ = $1;
-	}
-	| RW_GETX {
-		$$ = $1;
-	}
-	| RW_GETY {
-		$$ = $1;
-	}
+	RW_GETCOLORR {$$ = $1;}
+	| RW_GETCOLORB {$$ = $1;}
+	| RW_GETCOLORG {$$ = $1;}
+	| RW_GETPENSIZE {$$ = $1;}
+	| RW_GETX {$$ = $1;}
+	| RW_GETY {$$ = $1;}
 	;
 
 comando1: 
-	RW_MOVE {
-		$$ = $1;
-	}
-	| RW_TURN {
-		$$ = $1;
-	}
-	| RW_SETX {
-		$$ = $1;
-	}
-	| RW_SETY {
-		$$ = $1;
-	}
-	| RW_SETPENSIZE {
-		$$ = $1;
-	}
-	| RW_SETBACKGROUNDTXT {
-		$$ = $1;
-	}
-	| RW_CAMERAUP {
-		$$ = $1;
-	}
-	| RW_CAMERADOWN {
-		$$ = $1;
-	}
-	| RW_CAMERALEFT {
-		$$ = $1;
-	}
-	| RW_CAMERARIGHT {
-		$$ = $1;
-	}
+	RW_MOVE {$$ = $1;}
+	| RW_TURN {$$ = $1;}
+	| RW_SETX {$$ = $1;}
+	| RW_SETY {$$ = $1;}
+	| RW_SETPENSIZE {$$ = $1;}
+	| RW_SETBACKGROUNDTXT {$$ = $1;}
+	| RW_CAMERAUP {$$ = $1;}
+	| RW_CAMERADOWN {$$ = $1;}
+	| RW_CAMERALEFT {$$ = $1;}
+	| RW_CAMERARIGHT {$$ = $1;}
 	;
 
 comando3: 
-	RW_SETCOLOR {
-        $$ = $1;
-	}
-	| RW_SETBACKGROUND 	{
-        $$ = $1;
-	}
+	RW_SETCOLOR {$$ = $1;}
+	| RW_SETBACKGROUND {$$ = $1;}
 	;
 
 variable:
@@ -323,7 +276,8 @@ expresion:
 	;
 
 exp_aux: /* empty */
-    | comparador exp
+    | comparador exp { generador.pushPOper($1);
+                       generador.start(8); }
     ;
 
 exp:
@@ -353,7 +307,6 @@ factor_aux: /* empty */
 
 factor: 
     OP_PAR expresion CL_PAR {
-    	//cout<<"Matched FACTOR"<<endl;
     }
 
     | varCte {
@@ -365,49 +318,24 @@ factor:
 
 varCte:
 	ID {
-		//cout<<"Matched varCte via ID: "<<$1<<endl;
 		tab = tabla.find($1);
 		// Busca si la variable no esta declarada
 		if(tab == tabla.end())
 		errores(2, $1);
 		$$ = $1;
 	}
-
-	| FLOAT	{
-		//cout<<"Matched varCte via FLOAT: "<<$1<<endl;
-		$$ = $1;
-	}
-
-	| RW_TRUE {
-		//cout<<"Matched varCte via TRUE"<<endl;
-   		$$ = $1;
-	}
-
-	| RW_FALSE {
-		//cout<<"Matched varCte via FALSE"<<endl;
-		$$ = $1;
-    }
+	| FLOAT	{$$ = $1;}
+	| RW_TRUE {$$ = $1;}
+	| RW_FALSE {$$ = $1;}
 	;
 
 comparador: 
-	EQUAL {
-		//cout<<"Matched COMPARADOR via EQUAL"<<endl;
-	}
-	| NOT_EQUAL {
-		//cout<<"Matched COMPARADOR via NOT_EQUAL"<<endl;
-	}
-	| GREAT_EQ_THAN {
-		//cout<<"Matched COMPARADOR via GREAT_EQ_THAN"<<endl;
-	}
-	| LESS_EQ_THAN {
-		//cout<<"Matched COMPARADOR via LESS_EQ_THAN"<<endl;
-	}
-	| GREAT_THAN {
-		//cout<<"Matched COMPARADOR via GREAT_THAN"<<endl;
-	}
-	| LESS_THAN {
-		//cout<<"Matched COMPARADOR via LESS_THAN"<<endl;
-	}
+	EQUAL {$$ = $1;}
+	| NOT_EQUAL {$$ = $1;}
+	| GREAT_EQ_THAN {$$ = $1;}
+	| LESS_EQ_THAN {$$ = $1;}
+	| GREAT_THAN {$$ = $1;}
+	| LESS_THAN {$$ = $1;}
 	;
 %%
 

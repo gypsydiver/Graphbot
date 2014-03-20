@@ -7,6 +7,9 @@ Objetivos Semana 3
 *- Revaluación ciclos y condiciones (gramática funcion2)
 
 -----------No tan importante-------------
-- Code refactoring
-- Mas Tests
+*- Code refactoring
+*- Mas Tests
 
+----------------Extras------------------
+*- Cuadruplos Comparadores
+*- Cuadruplos Comandos que regresan algo

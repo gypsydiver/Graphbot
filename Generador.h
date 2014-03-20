@@ -3,14 +3,16 @@
 #include <stack>
 using namespace std;
 
+int temporalActual = 1;
+int cont_cuadruplos = 1;
+
 class Generador {
     private:
         stack<string> PilaO;
         stack<string> POper;
         stack<string> PilaO_aux;
         stack<string>  POper_aux;
-        int temporalActual = 1;
-        int cont_cuadruplos = 1;
+       
 
         int tempActual(){
             return temporalActual;
@@ -88,6 +90,7 @@ class Generador {
             PilaO.push(op);
         }
 
+        
         void start(int i){
             ofstream fileout;
             fileout.open("CodigoInt.txt", std::ios::app);
@@ -103,7 +106,10 @@ class Generador {
                             //sacar posible_operador de la pila
                             POper.pop();
                             //genera(posible_operador,opdo1,opdo2, "", 0);
-                            fileout << cont_cuadruplos << ". "<< posible_operador << " " << opdo1 << " " << opdo2 <<" "<<tempDeAvail()<<endl;                                  
+                            fileout << cont_cuadruplos << ". "<< posible_operador << " " << opdo1 << " " << opdo2 <<" "<<tempDeAvail()<<endl; 
+
+                            //actualiza el contador de cuádruplos
+                            cont_cuadruplos++;
                         }
                     }
                 break;
@@ -119,6 +125,10 @@ class Generador {
                             POper.pop();
                             //genera(posible_operador,opdo1,opdo2, "", 0);
                             fileout << cont_cuadruplos << ". "<< posible_operador << " " << opdo1 << " " << opdo2 <<" "<<tempDeAvail()<<endl;
+                            
+                            //actualiza el contador de cuádruplos
+                            cont_cuadruplos++;
+
                         }
                     }
                 break;
@@ -128,8 +138,11 @@ class Generador {
                     if(!POper.empty() && !PilaO.empty()){
                         string op = popPOper();
                         string opdo1 = popPilaO();
-                        genera(posible_operador,opdo1, "", "", 1);
+                       // genera(posible_operador,opdo1, "", "", 1);
                         fileout << cont_cuadruplos << ". " << op << " " << opdo1 << endl;
+    
+                        //actualiza el contador de cuádruplos
+                        cont_cuadruplos++;
                     }
                 break;
 
@@ -140,40 +153,70 @@ class Generador {
                         string opdo2 = popPilaO();
                         string opdo1 = popPilaO();
                         //genera(posible_operador,opdo1, opdo2, "", 2);
-                        fileout << cont_cuadruplos << ". " << op << " " << opdo1 << " " << opdo2 << endl;      
+                        fileout << cont_cuadruplos << ". " << op << " " << opdo1 << " " << opdo2 << endl;  
+                    
+                         //actualiza el contador de cuádruplos
+                         cont_cuadruplos++;
+    
                     }
                 break;
 
                 case 5:
                     // 3 parámetros
-                    if(!POperEmpty() && PilaO.size() >=3){
+                    if(!POper.empty() && PilaO.size() >=3){
                         string op = popPOper();
                         string opdo3 = popPilaO();
                         string opdo2 = popPilaO();
                         string opdo1 = popPilaO();
                         //genera(posible_operador,opdo1, opdo2, opdo3, 3);
                         fileout << cont_cuadruplos << ". " << op << " " << opdo1 << " " << opdo2 << " " << opdo3 << endl;
+                        
+                        //actualiza el contador de cuádruplos
+                        cont_cuadruplos++;
+
                     }
                 break;
 
                 case 6:
                     // Sin parámetros y no regresa nada
-                    if(!POperEmpty()){
+                    if(!POper.empty()){
                         string op = popPOper();
                         //genera(op,"","","", 5);
                         fileout << cont_cuadruplos << ". " << op << endl;
+                        
+                        //actualiza el contador de cuádruplos
+                        cont_cuadruplos++;
+
                     }
                 break;
 
                 case 7:
                     // Sin parámetros y regresa algo
-                    if(!POperEmpty()){
+                    if(!POper.empty()){
                         string op = popPOper();
                         fileout << cont_cuadruplos << ". " << op << "  " << tempDeAvail() << endl;
+
+                        //actualiza el contador de cuádruplos
+                        cont_cuadruplos++;
+
                     }
                 break;
+
+                 case 8:
+                  // Comparadores
+                    if(!POper.empty() && PilaO.size() >=2){
+                        string op = popPOper();
+                        string opdo2 = popPilaO();
+                        string opdo1 = popPilaO();
+                        fileout << cont_cuadruplos << ". " << op << " " << opdo1 << " " << opdo2 << " " << tempDeAvail() << endl;        
+           
+                        //actualiza el contador de cuádruplos
+                        cont_cuadruplos++;
+
+                    }
+                break;
+
             }
-            //actualiza el contador de cuádruplos
-            cont_cuadruplos++;
+
         }
 };
