@@ -115,12 +115,8 @@ var:
 	;
 
 var1: 
-	RW_FLOAT {
-		cout<<"Matched RW_FLOAT"<<endl;
-	}
-	| RW_BOOLEAN {
-		cout<<"Matched RW_BOOLEAN"<<endl;
-	}
+	RW_FLOAT
+	| RW_BOOLEAN
 	;
 
 var2: /* empty */ 
@@ -136,21 +132,25 @@ programa:
 
 comandos: 
 	comando {
+		cout<<"Matched <COMANDO>: "<<$1<<endl;
 		//comandos que regresan nada
 	     generador.pushPOper($1);
          generador.start(6);
 	}
 	| comando_return{
+		cout<<"Matched <COMANDO_RETURN>: "<<$1<<endl;
 		//comandos que regresan algún valor
 	     generador.pushPOper($1);
 
 	}
     | comando1 expresion{
+    	cout<<"Matched <COMANDO1>: "<<$1<<endl;
 	    generador.pushPOper($1);
        	// if ($2 != '')
         generador.start(3);
     }
     | RW_SAVE ID variable {	
+    	cout<<"Matched <SAVE> a ID: "<<$2<<endl;
 		// Agrega una variable a la tabla de variables
         tabla.insert(make_pair($2, 0));
 	    generador.pushPOper($1);
@@ -159,11 +159,12 @@ comandos:
 
 	}
 	| RW_SETPOS expresion expresion {
-		cout<<"Matched COMANDO2 via RW_SETPOS"<<endl;
+		cout<<"Matched <COMANDO2>:"<<$1<<endl;
 	    generador.pushPOper($1);
         generador.start(4);    
 	}
 	| comando3 expresion expresion expresion {
+		cout<<"Matched <COMANDO3>: "<<$1<<endl;
 	    generador.pushPOper($1);
         generador.start(5); 
 	}
@@ -187,116 +188,92 @@ llamada_funcion:
 
 comando: 
 	RW_SHOW {
-		cout<<"Matched RW_SHOW"<<endl;
 		$$ = $1;
 	}
 	| RW_HIDE {
-		cout<<"Matched RW_HIDE"<<endl;
 		$$ = $1;
 	}
 	| RW_CLEAN {
-		cout<<"Matched RW_CLEAN"<<endl;
 		$$ = $1;
 	}
 	| RW_HOME {
-		cout<<"Matched RW_HOME"<<endl;
 		$$ = $1;
 	}
 	| RW_PLAYMUSIC {
-		cout<<"Matched RW_PLAYMUSIC"<<endl;
 		$$ = $1;
 	}
 	| RW_STOPMUSIC {
-		cout<<"Matched RW_STOPMUSIC"<<endl;
 		$$ = $1;
 	}
 	;
 
 comando_return:
 	RW_GETCOLORR {
-		cout<<"Matched RW_GETCOLORR"<<endl;
 		$$ = $1;
 	}
 	| RW_GETCOLORB {
-		cout<<"Matched RW_GETCOLORG"<<endl;
 		$$ = $1;
 	}
 	| RW_GETCOLORG 	{
-		cout<<"Matched RW_GETCOLORB"<<endl;
 		$$ = $1;
 	}
 	| RW_GETPENSIZE {
-		cout<<"Matched RW_GETPENSIZE"<<endl;
 		$$ = $1;
 	}
-	| RW_GETX 		{
-		cout<<"Matched GETX"<<endl;
+	| RW_GETX {
 		$$ = $1;
 	}
 	| RW_GETY {
-		cout<<"Matched GETY"<<endl;
 		$$ = $1;
 	}
 	;
 
 comando1: 
 	RW_MOVE {
-		cout<<"Matched RW_MOVE"<<endl;
 		$$ = $1;
 	}
 	| RW_TURN {
-		cout<<"Matched RW_TURN"<<endl;
 		$$ = $1;
 	}
 	| RW_SETX {
-		cout<<"Matched RW_SETX"<<endl;
 		$$ = $1;
 	}
 	| RW_SETY {
-		cout<<"Matched RW_SETY"<<endl;
 		$$ = $1;
 	}
 	| RW_SETPENSIZE {
-		cout<<"Matched RW_SETPENSIZE"<<endl;
 		$$ = $1;
 	}
 	| RW_SETBACKGROUNDTXT {
-		cout<<"Matched RW_SETBACKGROUNDTXT"<<endl;
 		$$ = $1;
 	}
 	| RW_CAMERAUP {
-		cout<<"Matched RW_CAMERAUP"<<endl;
 		$$ = $1;
 	}
 	| RW_CAMERADOWN {
-		cout<<"Matched RW_CAMERADOWN"<<endl;
 		$$ = $1;
 	}
 	| RW_CAMERALEFT {
-		cout<<"Matched RW_CAMERALEFT"<<endl;
 		$$ = $1;
 	}
 	| RW_CAMERARIGHT {
-		cout<<"Matched RW_CAMERARIGHT"<<endl;
 		$$ = $1;
 	}
 	;
 
 comando3: 
 	RW_SETCOLOR {
-		cout<<"Matched RW_SETCOLOR"<<endl;
         $$ = $1;
 	}
 	| RW_SETBACKGROUND 	{
-		cout<<"Matched RW_SETBACKGROUND"<<endl;
         $$ = $1;
 	}
 	;
 
 variable:
-	 expresion {
+	expresion {
 	 	cout<<"Matched SAVE_EXPRESION"<<endl;
-	 }
+	}
 	| lista {
 		cout<<"Matched SAVE_LISTA"<<endl;
 	}
@@ -341,7 +318,7 @@ lista_aux: /* empty */
 
 expresion: 
 	exp exp_aux	{
-		cout<<"Matched EXPRESION via EXP"<<endl;
+		cout<<"Matched EXPRESION"<<endl;
 	}
 	;
 
@@ -376,11 +353,11 @@ factor_aux: /* empty */
 
 factor: 
     OP_PAR expresion CL_PAR {
-    	cout<<"Matched FACTOR"<<endl;
+    	//cout<<"Matched FACTOR"<<endl;
     }
 
     | varCte {
-		cout<<"1.- Meter $1 a PilaO"<<endl;
+		cout<<"1.- Meter "<<$1<<" a PilaO"<<endl;
 		// 1.- Meter $1 a PilaO
 		generador.pushPilaO($1);
 	}
@@ -388,7 +365,7 @@ factor:
 
 varCte:
 	ID {
-		cout<<"Matched varCte via ID: "<<$1<<endl;
+		//cout<<"Matched varCte via ID: "<<$1<<endl;
 		tab = tabla.find($1);
 		// Busca si la variable no esta declarada
 		if(tab == tabla.end())
@@ -397,39 +374,39 @@ varCte:
 	}
 
 	| FLOAT	{
-		cout<<"Matched varCte via FLOAT: "<<$1<<endl;
+		//cout<<"Matched varCte via FLOAT: "<<$1<<endl;
 		$$ = $1;
 	}
 
 	| RW_TRUE {
-		cout<<"Matched varCte via TRUE"<<endl;
+		//cout<<"Matched varCte via TRUE"<<endl;
    		$$ = $1;
 	}
 
 	| RW_FALSE {
-		cout<<"Matched varCte via FALSE"<<endl;
+		//cout<<"Matched varCte via FALSE"<<endl;
 		$$ = $1;
     }
 	;
 
 comparador: 
 	EQUAL {
-		cout<<"Matched COMPARADOR via EQUAL"<<endl;
+		//cout<<"Matched COMPARADOR via EQUAL"<<endl;
 	}
 	| NOT_EQUAL {
-		cout<<"Matched COMPARADOR via NOT_EQUAL"<<endl;
+		//cout<<"Matched COMPARADOR via NOT_EQUAL"<<endl;
 	}
 	| GREAT_EQ_THAN {
-		cout<<"Matched COMPARADOR via GREAT_EQ_THAN"<<endl;
+		//cout<<"Matched COMPARADOR via GREAT_EQ_THAN"<<endl;
 	}
 	| LESS_EQ_THAN {
-		cout<<"Matched COMPARADOR via LESS_EQ_THAN"<<endl;
+		//cout<<"Matched COMPARADOR via LESS_EQ_THAN"<<endl;
 	}
 	| GREAT_THAN {
-		cout<<"Matched COMPARADOR via GREAT_THAN"<<endl;
+		//cout<<"Matched COMPARADOR via GREAT_THAN"<<endl;
 	}
 	| LESS_THAN {
-		cout<<"Matched COMPARADOR via LESS_THAN"<<endl;
+		//cout<<"Matched COMPARADOR via LESS_THAN"<<endl;
 	}
 	;
 %%
