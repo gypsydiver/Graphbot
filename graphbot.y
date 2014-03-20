@@ -143,6 +143,7 @@ comandos:
 	| comando_return{
 		//comandos que regresan algún valor
 	     generador.pushPOper($1);
+         generador.start(7);
 
 	}
     | comando1 expresion{
@@ -347,7 +348,7 @@ expresion:
 
 exp_aux: /* empty */
     | comparador exp { generador.pushPOper($1);
-                       generador.start(7); }
+                       generador.start(8); }
     ;
 
 exp:
