@@ -1,0 +1,11 @@
+Objetivos Semana 4
+
+- Generación de Cuadruplos 
+    . If 
+    . While
+    . For
+
+-----------No tan importante-------------
+*- Code refactoring
+*- Mas Tests
+

@@ -10,6 +10,7 @@ class Generador {
     private:
         stack<string> PilaO;
         stack<string> POper;
+        stack<string> PSaltos;
         stack<string> PilaO_aux;
         stack<string>  POper_aux;
        
@@ -93,6 +94,8 @@ class Generador {
         
         void start(int i){
             ofstream fileout;
+            ifstream filein;
+            filein.open("CodigoInt.txt");
             fileout.open("CodigoInt.txt", std::ios::app);
 
             switch(i) {
@@ -139,7 +142,7 @@ class Generador {
                         string op = popPOper();
                         string opdo1 = popPilaO();
                        // genera(posible_operador,opdo1, "", "", 1);
-                        fileout << cont_cuadruplos << ". " << op << " " << opdo1 << endl;
+                        fileout << cont_cuadruplos << ". " << op << " *"  << endl;
     
                         //actualiza el contador de cuádruplos
                         cont_cuadruplos++;
@@ -215,8 +218,31 @@ class Generador {
 
                     }
                 break;
+              /*  
+                 case 10:
+                   string line;
+                   string rep = "1";
+                   string str = "*";
+ 
+                   while (getline(filein, line))
+                    {
+                    while (true)
+                         {
+                            size_t pos = line.find(rep);
+                            size_t pos1 = line.find(str);
+                            size_t len = str.length();
+                            // Encontró la posición
+                            if ((pos != std::string::npos) && (pos1 != std::string::npos)){
+                            line.replace(pos1, len, to_string(cont_cuadruplos));
+                            }
+                            else 
+                            break;
+                            }
+                            
+                            fileout << line << '\n';
+                     }
 
-            }
+            }*/
 
         }
 };

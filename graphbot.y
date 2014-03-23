@@ -72,6 +72,7 @@ void print();
 graphbot: 
 	graph programa {
 		cout<<"Compilación Exitosa"<<endl;
+        generador.start(10);
 	}
 	;
 
