@@ -261,7 +261,7 @@ while:
 while_aux:
 	while_rw expresion{
 		//genera GotoF
-		generador.genera(9);
+		generador.start(9);
 	}
 	;
 

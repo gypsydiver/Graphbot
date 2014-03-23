@@ -44,13 +44,6 @@ class Generador {
             return top;
         }
 
-        string popPSaltos() {
-            string top;
-            top = PSaltos.top();
-            PSaltos.pop();
-            return top;
-        }
-
         void imprimePilaO(){
             while(!PilaO.empty()){
                 cout << PilaO.top() << ", ";
@@ -79,9 +72,15 @@ class Generador {
 
     public:
 
+        int popPSaltos() {
+            int top;
+            top = PSaltos.top();
+            PSaltos.pop();
+            return top;
+        }
         void rellena(int salto, int donde){
             //salto es donde se debe de rellenar, donde es a donde tiene que ir ese salto
-            
+
             //pon el en archivo el salto faltante
         }
 
