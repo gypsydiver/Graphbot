@@ -10,8 +10,9 @@ class Generador {
     private:
         stack<string> PilaO;
         stack<string> POper;
+        stack<int> PSaltos;
         stack<string> PilaO_aux;
-        stack<string>  POper_aux;
+        stack<string> POper_aux;
        
 
         int tempActual(){
@@ -43,6 +44,13 @@ class Generador {
             return top;
         }
 
+        string popPSaltos() {
+            string top;
+            top = PSaltos.top();
+            PSaltos.pop();
+            return top;
+        }
+
         void imprimePilaO(){
             while(!PilaO.empty()){
                 cout << PilaO.top() << ", ";
@@ -70,6 +78,13 @@ class Generador {
         }
 
     public:
+
+        void rellena(int salto, int donde){
+            //salto es donde se debe de rellenar, donde es a donde tiene que ir ese salto
+            
+            //pon el en archivo el salto faltante
+        }
+
         void agregaFF(){
             pushPOper("$");
         }
@@ -90,6 +105,9 @@ class Generador {
             PilaO.push(op);
         }
 
+        void pushPSaltos(int op) {
+            PSaltos.push(op);
+        }
         
         void start(int i){
             ofstream fileout;
@@ -202,8 +220,8 @@ class Generador {
                     }
                 break;
 
-                 case 8:
-                  // Comparadores
+                case 8:
+                    // Comparadores
                     if(!POper.empty() && PilaO.size() >=2){
                         string op = popPOper();
                         string opdo2 = popPilaO();
@@ -216,6 +234,29 @@ class Generador {
                     }
                 break;
 
+                case 9:
+                    //GotoF's
+                    /*Checar tipos*/
+                    if(!PilaO.empty()){
+                        string resultado = popPilaO();
+                        //Genera GotoF
+                        fileout << cont_cuadruplos << "." << "GotoF "<< resultado << " "<< endl;
+                        pushPSaltos(cont_cuadruplos);
+                        
+                        //actualiza el contador de cuádruplos
+                        cont_cuadruplos++;
+                    }
+                break;
+
+                case 10:
+                    //Goto's
+                    if(!PSaltos.empty()){
+                        int retorno = popPSaltos();
+                        fileout << cont_cuadruplos << "." << "Goto "<< retorno <<endl;
+
+                        //actualiza el contador de cuádruplos
+                        cont_cuadruplos++;
+                    }
             }
 
         }
