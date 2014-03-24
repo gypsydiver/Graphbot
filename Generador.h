@@ -80,43 +80,37 @@ class Generador {
 
         void rellena(int salto, int donde){
             //salto es donde se debe de rellenar, donde es a donde tiene que ir ese salto
+            ifstream filein;
+            ofstream fileout;
+            filein.open("CodigoInt.txt");
+            fileout.open("temp.txt");
+            string line;
+            string rep = to_string(salto);
+            string str = "#";
 
-                   ifstream filein;
-                   ofstream fileout;
-                   filein.open("CodigoInt.txt");
-                   fileout.open("temp.txt");
-                   string line;
-                   string rep = to_string(salto);
-                   string str = "#";
- 
-                   while (getline(filein, line))
-                    {
-                    while (true)
-                         {
-                            size_t pos = line.find(rep);
-                            size_t pos1 = line.find(str);
-                            size_t len = str.length();
+            while (getline(filein, line)){
+                while (true){
+                    size_t pos = line.find(rep);
+                    size_t pos1 = line.find(str);
+                    size_t len = str.length();
 
-                            // Encontró la posición del cuádruplo
-                            if ((pos != std::string::npos) && (pos1 != std::string::npos)){
-                            int size = line.size();
-                            line.replace(pos1, len, to_string(donde));
-                            fileout << line << endl;
-                            }
-                            else 
-                            fileout << line << endl;
-                                
-                    break;
-                            }
-                            
+                    // Encontró la posición del cuádruplo
+                    if ((pos != std::string::npos) && (pos1 != std::string::npos)){
+                        int size = line.size();
+                        line.replace(pos1, len, to_string(donde));
+                        fileout << line << endl;
+                    }else {
+                        fileout << line << endl;
                     }
+                    break;
+                }
+            }
 
-                    filein.close();
-                    fileout.close();
+            filein.close();
+            fileout.close();
 
-                    remove("CodigoInt.txt");
-                    rename("temp.txt","CodigoInt.txt");
-
+            remove("CodigoInt.txt");
+            rename("temp.txt","CodigoInt.txt");
         }
 
         void agregaFF(){

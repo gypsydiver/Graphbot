@@ -6,6 +6,6 @@ Objetivos Semana 4
     *. For
 
 -----------No tan importante-------------
-- Code refactoring
+*- Code refactoring
 - Mas Tests
 
