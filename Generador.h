@@ -10,9 +10,9 @@ class Generador {
     private:
         stack<string> PilaO;
         stack<string> POper;
-        stack<string> PSaltos;
+        stack<int> PSaltos;
         stack<string> PilaO_aux;
-        stack<string>  POper_aux;
+        stack<string> POper_aux;
        
 
         int tempActual(){
@@ -71,6 +71,47 @@ class Generador {
         }
 
     public:
+
+        int popPSaltos() {
+            int top;
+            top = PSaltos.top();
+            PSaltos.pop();
+            return top;
+        }
+
+        void rellena(int salto, int donde){
+            //salto es donde se debe de rellenar, donde es a donde tiene que ir ese salto
+
+                   fstream file;
+                   file.open("CodigoInt.txt");
+                   string line;
+                   string rep = to_string(salto);
+                   string str = "*";
+ 
+                   while (getline(file, line))
+                    {
+                    while (true)
+                         {
+                            size_t pos = line.find(rep);
+                            size_t pos1 = line.find(str);
+                            size_t len = str.length();
+                            // Encontró la posición del cuádruplo
+                            if ((pos != std::string::npos) && (pos1 != std::string::npos)){
+                            int size = line.size();
+                            line.replace(pos1, len, to_string(donde));
+                            file.seekp(-std::ios::off_type(size)-1, std::ios_base::cur);
+                            file << line << endl;
+                            }
+                            else 
+                                break;
+                            }
+                            
+                    }
+
+                   file.close();
+
+        }
+
         void agregaFF(){
             pushPOper("$");
         }
@@ -91,11 +132,12 @@ class Generador {
             PilaO.push(op);
         }
 
+        void pushPSaltos(int op) {
+            PSaltos.push(op);
+        }
         
         void start(int i){
             ofstream fileout;
-            ifstream filein;
-            filein.open("CodigoInt.txt");
             fileout.open("CodigoInt.txt", std::ios::app);
 
             switch(i) {
@@ -142,7 +184,7 @@ class Generador {
                         string op = popPOper();
                         string opdo1 = popPilaO();
                        // genera(posible_operador,opdo1, "", "", 1);
-                        fileout << cont_cuadruplos << ". " << op << " *"  << endl;
+                        fileout << cont_cuadruplos << ". " << op << " " << opdo1 << endl;
     
                         //actualiza el contador de cuádruplos
                         cont_cuadruplos++;
@@ -205,8 +247,8 @@ class Generador {
                     }
                 break;
 
-                 case 8:
-                  // Comparadores
+                case 8:
+                    // Comparadores
                     if(!POper.empty() && PilaO.size() >=2){
                         string op = popPOper();
                         string opdo2 = popPilaO();
@@ -218,31 +260,33 @@ class Generador {
 
                     }
                 break;
-              /*  
-                 case 10:
-                   string line;
-                   string rep = "1";
-                   string str = "*";
- 
-                   while (getline(filein, line))
-                    {
-                    while (true)
-                         {
-                            size_t pos = line.find(rep);
-                            size_t pos1 = line.find(str);
-                            size_t len = str.length();
-                            // Encontró la posición
-                            if ((pos != std::string::npos) && (pos1 != std::string::npos)){
-                            line.replace(pos1, len, to_string(cont_cuadruplos));
-                            }
-                            else 
-                            break;
-                            }
-                            
-                            fileout << line << '\n';
-                     }
+                         
+            case 9:
+                    //GotoF's
+                    /*Checar tipos*/
+                    if(!PilaO.empty()){
+                        string resultado = popPilaO();
+                        //Genera GotoF
+                        fileout << cont_cuadruplos << ". " << "GotoF "<< resultado << " *"<< endl;
+                        pushPSaltos(cont_cuadruplos);
+                        
+                        //actualiza el contador de cuádruplos
+                        cont_cuadruplos++;
+                    }
+                break;
 
-            }*/
+                case 10:
+                    //Goto's
+                    if(!PSaltos.empty()){
+                        int retorno = popPSaltos();
+                        fileout << cont_cuadruplos << ". " << "Goto "<< retorno <<endl;
+
+                        //actualiza el contador de cuádruplos
+                        cont_cuadruplos++;
+                    }
+
+                break;
+            }
 
         }
 };

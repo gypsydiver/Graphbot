@@ -249,14 +249,42 @@ for_aux:
 	;
 
 while: 
-	RW_WHILE expresion lista {
-		cout<<"Matched RW_WHILE"<<endl;
+	while_aux lista {
+		int falso = generador.popPSaltos();
+		//Genera retorno (Goto)
+		generador.start(10);
+
+		//rellena
+		generador.rellena(falso, cont_cuadruplos);
+	}
+	;
+
+while_aux:
+	while_rw expresion{
+		//genera GotoF
+		generador.start(9);
+	}
+	;
+
+while_rw:
+	RW_WHILE{
+		//1.- Meter cont_cuadruplos a PSaltos
+		generador.pushPSaltos(cont_cuadruplos);
 	}
 	;
 
 condicion: 
-	RW_IF expresion lista {
-		cout<<"Matched RW_IF"<<endl;
+	condicion_aux lista{
+		//rellena
+		int fin = generador.popPSaltos();
+		generador.rellena(fin, cont_cuadruplos);
+	}
+	;
+
+condicion_aux:
+	RW_IF expresion {
+		//genera GotoF
+		generador.start(9);
 	}
 	;
 
