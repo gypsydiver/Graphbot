@@ -1,11 +1,11 @@
 Objetivos Semana 4
 
-- Generación de Cuadruplos 
-    . If 
-    . While
-    . For
+*- Generación de Cuadruplos 
+    *. If 
+    *. While
+    *. For
 
 -----------No tan importante-------------
-*- Code refactoring
-*- Mas Tests
+- Code refactoring
+- Mas Tests
 

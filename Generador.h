@@ -30,13 +30,6 @@ class Generador {
             return temporalSolicitado;
         }
 
-        string popPilaO() {
-            string top;
-            top = PilaO.top();
-            PilaO.pop();
-            return top;
-        }
-
         string popPOper() {
             string top;
             top = POper.top();
@@ -71,6 +64,12 @@ class Generador {
         }
 
     public:
+        string popPilaO() {
+            string top;
+            top = PilaO.top();
+            PilaO.pop();
+            return top;
+        }
 
         int popPSaltos() {
             int top;
@@ -82,33 +81,41 @@ class Generador {
         void rellena(int salto, int donde){
             //salto es donde se debe de rellenar, donde es a donde tiene que ir ese salto
 
-                   fstream file;
-                   file.open("CodigoInt.txt");
+                   ifstream filein;
+                   ofstream fileout;
+                   filein.open("CodigoInt.txt");
+                   fileout.open("temp.txt");
                    string line;
                    string rep = to_string(salto);
-                   string str = "*";
+                   string str = "#";
  
-                   while (getline(file, line))
+                   while (getline(filein, line))
                     {
                     while (true)
                          {
                             size_t pos = line.find(rep);
                             size_t pos1 = line.find(str);
                             size_t len = str.length();
+
                             // Encontró la posición del cuádruplo
                             if ((pos != std::string::npos) && (pos1 != std::string::npos)){
                             int size = line.size();
                             line.replace(pos1, len, to_string(donde));
-                            file.seekp(-std::ios::off_type(size)-1, std::ios_base::cur);
-                            file << line << endl;
+                            fileout << line << endl;
                             }
                             else 
-                                break;
+                            fileout << line << endl;
+                                
+                    break;
                             }
                             
                     }
 
-                   file.close();
+                    filein.close();
+                    fileout.close();
+
+                    remove("CodigoInt.txt");
+                    rename("temp.txt","CodigoInt.txt");
 
         }
 
@@ -267,7 +274,7 @@ class Generador {
                     if(!PilaO.empty()){
                         string resultado = popPilaO();
                         //Genera GotoF
-                        fileout << cont_cuadruplos << ". " << "GotoF "<< resultado << " *"<< endl;
+                        fileout << cont_cuadruplos << ". " << "GotoF "<< resultado << " #"<< endl;
                         pushPSaltos(cont_cuadruplos);
                         
                         //actualiza el contador de cuádruplos
@@ -286,7 +293,35 @@ class Generador {
                     }
 
                 break;
-            }
+ 
+                case 11:
+                    //GotoF de for's
+                    /*Checar tipos*/
+                    if(PilaO.size() >= 3){
+                        string aumento = popPilaO();
+                        string id = popPilaO();
 
+                        string resultado = popPilaO();
+                        //Genera GotoF
+                        fileout << cont_cuadruplos << ". " << "GotoF "<< resultado << " #"<< endl;
+                        pushPSaltos(cont_cuadruplos);
+                        
+                        //actualiza el contador de cuádruplos
+                        cont_cuadruplos++;
+
+                        pushPilaO(id);
+                        pushPilaO(aumento);
+                        pushPilaO(id);
+                    }
+                break;
+
+                case 12:
+                    //aumento a la variable de control
+                    pushPOper("+");
+                    start(1);
+                    pushPOper("save");  
+                    start(4);
+                break;
+            }
         }
 };
