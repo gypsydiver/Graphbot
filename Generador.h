@@ -30,13 +30,6 @@ class Generador {
             return temporalSolicitado;
         }
 
-        string popPilaO() {
-            string top;
-            top = PilaO.top();
-            PilaO.pop();
-            return top;
-        }
-
         string popPOper() {
             string top;
             top = POper.top();
@@ -71,6 +64,12 @@ class Generador {
         }
 
     public:
+        string popPilaO() {
+            string top;
+            top = PilaO.top();
+            PilaO.pop();
+            return top;
+        }
 
         int popPSaltos() {
             int top;
@@ -256,7 +255,36 @@ class Generador {
                         //actualiza el contador de cuádruplos
                         cont_cuadruplos++;
                     }
-            }
+                break;
 
+                case 11:
+                    //GotoF de for's
+                    /*Checar tipos*/
+                    if(PilaO.size() >= 3){
+                        string aumento = popPilaO();
+                        string id = popPilaO();
+
+                        string resultado = popPilaO();
+                        //Genera GotoF
+                        fileout << cont_cuadruplos << "." << "GotoF "<< resultado << " "<< endl;
+                        pushPSaltos(cont_cuadruplos);
+                        
+                        //actualiza el contador de cuádruplos
+                        cont_cuadruplos++;
+
+                        pushPilaO(id);
+                        pushPilaO(aumento);
+                        pushPilaO(id);
+                    }
+                break;
+
+                case 12:
+                    //aumento a la variable de control
+                    pushPOper("+");
+                    start(1);
+                    pushPOper("save");  
+                    start(4);
+                break;
+            }
         }
 };

@@ -233,17 +233,54 @@ variable:
 	;
 
 for: 
-	RW_FOR for_aux lista {
-		cout<<"Matched RW_FOR"<<endl;
+	for_rw for_aux lista {
+		//generar aumento a la variable de control
+		generador.start(12);
+
+		int falso = generador.popPSaltos();
+		//Genera retorno (Goto)
+		generador.start(10);
+
+		//rellena
+		generador.rellena(falso,cont_cuadruplos);
+	}
+	;
+
+for_rw:
+	RW_FOR {
+		//1.- Meter cont_cuadruplos a PSaltos
+		generador.pushPSaltos(cont_cuadruplos);
 	}
 	;
 
 for_aux:
-	OP_BRACKET ID COMMA expresion COMMA expresion CL_BRACKET {
-        // Busca si la variable no esta declarada
+	for_id COMMA expresion COMMA expresion CL_BRACKET {
+		//generar el cuádruplo de comparación entre la variable de control y el valor límite
+		string aumento = generador.popPilaO();
+		string limite = generador.popPilaO();
+		string id = generador.popPilaO();
+
+		generador.pushPilaO(limite);
+		generador.pushPOper("<");
+		generador.start(8);
+
+		generador.pushPilaO(id);
+		generador.pushPilaO(aumento);
+		
+		//generar GotoF
+		generador.start(11);
+	}
+	;
+
+for_id:
+	OP_BRACKET ID{
+		// Busca si la variable no esta declarada
 		tab = tabla.find($2);	
-        if(tab == tabla.end())
-		errores(2, $2);
+        if(tab == tabla.end()){
+			errores(2, $2);
+		}
+		generador.pushPilaO($2);
+		generador.pushPilaO($2);
 	}
 	;
 
