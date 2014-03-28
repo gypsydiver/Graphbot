@@ -1,0 +1,12 @@
+Objetivos Semana 5
+
+- Generación de Cuadruplos 
+    . Funciones/Módulos
+    . Manejo de variables tipo lista (tabla de variables, memoria virtual)
+
+- Corregir estructura de datos utilizada para la tabla de variables y directorio de procedimientos
+- Diseño e implementación de esquema de manejo de memoria virtual
+
+-----------No tan importante-------------
+- Mas Tests
+- Iniciar con máquina virtual
