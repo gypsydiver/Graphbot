@@ -9,19 +9,18 @@
 #include <cstdio>
 #include <iostream>
 #include <string>
-#include <map>
-#include "Generador.h" 
+#include "Generador.h"
+#include "tablaVar.h"
+#include "dirProc.h" 
 using namespace std;
 
-// Tabla de variables
-typedef map<string, int> TablaVar;
-TablaVar tabla;
 // Directorio de Procedimientos
-multimap <string, TablaVar> dirProc;
+dirProcs directorio;
+procs pcd;
 
-// Iteradores
-multimap<string, TablaVar >::iterator proc;
-map<string, int>::iterator tab;
+// Tabla de variables
+tablaVariables tv;
+data tvar;
 
 // Generador de código intermedio
 Generador generador;
@@ -71,6 +70,8 @@ void print();
 //Grammar rules
 graphbot: 
 	graph programa {
+        // Imprime el directorio de procedimientos con sus respectivas tablas de variables
+        directorio.output_proc();
 		cout<<"Compilación Exitosa"<<endl;
         generador.start(10);
 	}
@@ -83,11 +84,19 @@ graph: /*empty*/
 
 funcion:
 	RW_FUNCTION ID parametros funciones RW_END {
-        proc = dirProc.find($2);
+        string id = $2;
         // Busca si la función no esta ya dentro del directorio de procedimientos
-        if(proc == dirProc.end())
+        if(!directorio.find_proc(id)) {
         // Agrega función al directorio con su respectiva tabla de variables
-        dirProc.insert(make_pair ($2, tabla));
+        pcd.nombre = $2;
+        pcd.dirI = 0;
+        pcd.tv = tv;
+        directorio.add_proc(pcd);
+        // Deja limpia la variable tablaVariables para el siguiente caso
+        tv.remove_all();
+	    generador.pushPOper($1);
+		generador.pushPilaO($2);
+}
         else
         errores(1, $2);
     }
@@ -111,7 +120,10 @@ funcion_aux: /* empty */
 var: 
 	var1 ID var2 {
 		// Agrega variable a la tabla
-		tabla.insert(make_pair($2, 0));
+        tvar.nombre = $2;
+        tvar.tipo = 3;
+        tvar.dirV = 0;
+        tv.add_var(tvar);
     }  
 	;
 
@@ -126,9 +138,18 @@ var2: /* empty */
 
 programa:
 	RW_PROGRAM ID funciones RW_END {
+        string id = $2;
 		// Agrega procedimiento main al directorio 
-		dirProc.insert(make_pair ($2, tabla));
+        if(!directorio.find_proc(id)) {
+        // Agrega función al directorio con su respectiva tabla de variables
+        pcd.nombre = $2;
+        pcd.dirI = 0;
+        pcd.tv = tv;
+        directorio.add_proc(pcd);
+        // Deja limpia la variable tablaVariables para el siguiente caso
+        tv.remove_all();
 	}
+}
 	;
 
 comandos: 
@@ -148,13 +169,21 @@ comandos:
     | comando1 expresion{
     	cout<<"Matched <COMANDO1>: "<<$1<<endl;
 	    generador.pushPOper($1);
-       	// if ($2 != '')
         generador.start(3);
     }
     | RW_SAVE ID variable {	
-    	cout<<"Matched <SAVE> a ID: "<<$2<<endl;
-		// Agrega una variable a la tabla de variables
-        tabla.insert(make_pair($2, 0));
+
+        cout<<"Matched <SAVE> a ID: "<<$2<<endl;
+        string id = $2;
+        // Si la misma variable se vuelve a asignar, se borra la anterior y se mete la nueva
+        if(tv.find_var(id)) {
+        int var = tv.getid_var(id);
+        tv.remove_var(var); }
+		// Agrega una variable a la tabla de variables        
+        tvar.nombre = $2;
+        tvar.dirV = 0;
+        tv.add_var(tvar);
+
 	    generador.pushPOper($1);
 		generador.pushPilaO($2);
         generador.start(4);
@@ -181,10 +210,10 @@ llamada_funcion_aux: /* empty */
 
 llamada_funcion:
 	ID llamada_funcion_aux {
-		proc = dirProc.find($1);
+        string id = $1;
 		// Busca si la función no esta ya dentro del directorio de procedimientos
-		if(proc == dirProc.end())
-		errores(3, $1); 
+        if(!directorio.find_proc(id)) 
+	    errores(3, $1); 
     }
 	;
 
@@ -227,9 +256,14 @@ comando3:
 variable:
 	expresion {
 	 	cout<<"Matched SAVE_EXPRESION"<<endl;
+        // Variable del tipo FLOAT representado por un 0
+        tvar.tipo = 0;
+        
 	}
 	| lista {
 		cout<<"Matched SAVE_LISTA"<<endl;
+        // Variable del tipo LISTA representado por un 1
+        tvar.tipo = 1;
 	}
 	;
 
@@ -275,11 +309,11 @@ for_aux:
 
 for_id:
 	OP_BRACKET ID{
-		// Busca si la variable no esta declarada
-		tab = tabla.find($2);	
-        if(tab == tabla.end()){
-			errores(2, $2);
-		}
+        // Busca si la variable no esta declarada
+        string id = $2;
+        if(!tv.find_var(id))
+		errores(2, $2);
+
 		generador.pushPilaO($2);
 		generador.pushPilaO($2);
 	}
@@ -384,9 +418,9 @@ factor:
 
 varCte:
 	ID {
-		tab = tabla.find($1);
-		// Busca si la variable no esta declarada
-		if(tab == tabla.end())
+        string id = $1;
+        // Busca si la variable no esta declarada
+        if(!tv.find_var(id))
 		errores(2, $1);
 		$$ = $1;
 	}
@@ -449,14 +483,4 @@ void errores(int i, string val) {
 			exit(-1);
 			break;
 	} 
-}
-
-// Imprime el Directorio de Procedimientos
-void print(){
-	for ( proc=dirProc.begin() ; proc != dirProc.end(); proc++ ) {
-		cout << "\n\nProcedimiento:\n" << (*proc).first << endl;
-		for( tab=(*proc).second.begin(); tab != (*proc).second.end(); tab++){
-			cout << (*tab).first << " => " << (*tab).second << endl;
-		}
-	}
 }
