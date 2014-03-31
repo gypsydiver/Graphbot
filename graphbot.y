@@ -25,6 +25,10 @@ data tvar;
 // Generador de código intermedio
 Generador generador;
 
+// Contador global de parámetros y variables
+int param = 0;
+int vars = 0;
+
 // stuff from flex that bison needs to know about:
 extern "C" int yylex();
 extern "C" int yyparse();
@@ -63,7 +67,7 @@ void print();
 //operandos y operadores
 %token <sval> BASIC_ARITHMETIC COM_ARITHMETIC ID FLOAT
 
-%type <sval> varCte comandos comando comando_return comando1 comando3 expresion variable comparador;
+%type <sval> varCte comandos comando comando_return comando1 comando3 expresion variable comparador llamada_funcion;
 %start graphbot
 %%
 
@@ -83,22 +87,33 @@ graph: /*empty*/
  	;
 
 funcion:
-	RW_FUNCTION ID parametros funciones RW_END {
+	funcion_rw funciones RW_END {
+        
+        pcd.tv = tv;
+        pcd.numParam = param;
+        pcd.varLocal = vars;
+        directorio.add_proc(pcd);
+        // Deja limpia la variable tablaVariables para el siguiente caso
+        tv.remove_all();
+        param = 0;
+        vars = 0; 
+        
+        // Genera retorno
+        generador.start(13);
+}
+    ;
+
+funcion_rw:
+   	RW_FUNCTION ID parametros {
         string id = $2;
         // Busca si la función no esta ya dentro del directorio de procedimientos
         if(!directorio.find_proc(id)) {
         // Agrega función al directorio con su respectiva tabla de variables
         pcd.nombre = $2;
-        pcd.dirI = 0;
-        pcd.tv = tv;
-        directorio.add_proc(pcd);
-        // Deja limpia la variable tablaVariables para el siguiente caso
-        tv.remove_all();
-	    generador.pushPOper($1);
-		generador.pushPilaO($2);
-}
+        pcd.dirI = cont_cuadruplos;
+        }
         else
-        errores(1, $2);
+            errores(1, $2);
     }
 	;
 
@@ -109,7 +124,7 @@ funciones:
 	| condicion funcion_aux
 	;
 
-funcion_aux: /* empty */ 
+funcion_aux: /* empty */
 	| funciones
 	;
 
@@ -117,9 +132,11 @@ parametros:
 	 ID var {
 		// Agrega variable a la tabla
         tvar.nombre = $1;
-        tvar.tipo = 3;
+        tvar.tipo = 0;
         tvar.dirV = 0;
+        tvar.dirI = 0;        
         tv.add_var(tvar);
+        param++;
     }  
 	;
 
@@ -128,17 +145,27 @@ var: /* empty */
 	;
 
 programa:
-	RW_PROGRAM ID funciones RW_END {
+        programa_rw funciones RW_END {
+
+        pcd.tv = tv;
+        pcd.numParam = param;
+        pcd.varLocal = vars;
+        directorio.add_proc(pcd);
+        // Deja limpia la variable tablaVariables para el siguiente caso
+        tv.remove_all();
+        vars = 0;
+}
+    ;
+
+programa_rw:
+	RW_PROGRAM ID {
         string id = $2;
 		// Agrega procedimiento main al directorio 
         if(!directorio.find_proc(id)) {
         // Agrega función al directorio con su respectiva tabla de variables
         pcd.nombre = $2;
-        pcd.dirI = 0;
-        pcd.tv = tv;
-        directorio.add_proc(pcd);
-        // Deja limpia la variable tablaVariables para el siguiente caso
-        tv.remove_all();
+        pcd.dirI = cont_cuadruplos;
+        generador.rellena(1, cont_cuadruplos);        
 	}
 }
 	;
@@ -174,13 +201,15 @@ comandos:
         tvar.nombre = $2;
         tvar.dirV = 0;
         tv.add_var(tvar);
+        vars++;
 
+        if(tvar.tipo == 0) {
 	    generador.pushPOper($1);
-        //if (tvar.tipo == 0)
 		generador.pushPilaO($2);
-        //else 
-        //generador.pushPilaO(to_string(cont_cuadruplos));
-        generador.start(4);
+        generador.start(4); }
+        else
+        generador.rellena_save(generador.popPSaltos(), $2);
+        
 
 	}
 	| RW_SETPOS expresion expresion {
@@ -194,23 +223,34 @@ comandos:
         generador.start(5); 
 	}
 	| llamada_funcion {
-		//pending
+        
+         generador.param(param);
+         param = 0;  
+         string id = $1;
+         int dir = directorio.get_dirI(id); 
+         generador.gosub(id, dir); 
+	
 	}
 	;
 
 llamada_funcion_aux: /* empty */
 	| expresion llamada_funcion_aux {
-        
-
+      param++;  
 }
 	;
 
 llamada_funcion:
-	ID llamada_funcion_aux {
+	ID OP_PAR llamada_funcion_aux CL_PAR {
         string id = $1;
 		// Busca si la función no esta ya dentro del directorio de procedimientos
         if(!directorio.find_proc(id)) 
-	    errores(3, $1);         
+	    errores(3, $1); 
+        else if (directorio.num_Param(id) != param)
+        errores(4, $1);
+
+        generador.era(directorio.get_tam(id));        
+        $$ = $1;
+
     }
 	;
 
@@ -255,39 +295,62 @@ variable:
 	 	cout<<"Matched SAVE_EXPRESION"<<endl;
         // Variable del tipo FLOAT representado por un 0
         tvar.tipo = 0;
+        tvar.dirI = 0;
         
 	}
-	| lista {
+    |	lista_OPBRACKET funciones lista_aux CL_BRACKET {
 		cout<<"Matched SAVE_LISTA"<<endl;
         // Variable del tipo LISTA representado por un 1
         tvar.tipo = 1;
+        // Retorno
+        generador.start(13);
+        // Rellena goto anterior con con_cuadruplos actual
+        generador.rellena(generador.popPSaltos(), cont_cuadruplos);
 	}
 	;
 
+lista_OPBRACKET:
+    OP_BRACKET {
+
+        // Genera cuádruplo de save para lista
+	    generador.pushPOper("save");
+        generador.pushPilaO(to_string(cont_cuadruplos+2));
+		generador.pushPilaO("&");
+        generador.pushPSaltos(cont_cuadruplos);
+        generador.start(4);
+
+        // Goto al final
+        generador.pushPSaltos(cont_cuadruplos);
+        generador.start(14);   
+ 
+        tvar.dirI = cont_cuadruplos;    
+    }
+    ;
+
 for: 
 	for_rw for_aux lista {
-		//generar aumento a la variable de control
+		// Generar aumento a la variable de control
 		generador.start(12);
 
 		int falso = generador.popPSaltos();
-		//Genera retorno (Goto)
+		// Genera retorno (Goto)
 		generador.start(10);
 
-		//rellena
+		// Rellena
 		generador.rellena(falso,cont_cuadruplos);
 	}
 	;
 
 for_rw:
 	RW_FOR {
-		//1.- Meter cont_cuadruplos a PSaltos
+		// 1.- Meter cont_cuadruplos a PSaltos
 		generador.pushPSaltos(cont_cuadruplos);
 	}
 	;
 
 for_aux:
 	for_id COMMA expresion COMMA expresion CL_BRACKET {
-		//generar el cuádruplo de comparación entre la variable de control y el valor límite
+		// Generar el cuádruplo de comparación entre la variable de control y el valor límite
 		string aumento = generador.popPilaO();
 		string limite = generador.popPilaO();
 		string id = generador.popPilaO();
@@ -299,7 +362,7 @@ for_aux:
 		generador.pushPilaO(id);
 		generador.pushPilaO(aumento);
 		
-		//generar GotoF
+		// Generar GotoF
 		generador.start(11);
 	}
 	;
@@ -319,31 +382,31 @@ for_id:
 while: 
 	while_aux lista {
 		int falso = generador.popPSaltos();
-		//Genera retorno (Goto)
+		// Genera retorno (Goto)
 		generador.start(10);
 
-		//rellena
+		// Rellena
 		generador.rellena(falso, cont_cuadruplos);
 	}
 	;
 
 while_aux:
 	while_rw expresion{
-		//genera GotoF
+		// Genera GotoF
 		generador.start(9);
 	}
 	;
 
 while_rw:
 	RW_WHILE{
-		//1.- Meter cont_cuadruplos a PSaltos
+		// 1.- Meter cont_cuadruplos a PSaltos
 		generador.pushPSaltos(cont_cuadruplos);
 	}
 	;
 
 condicion: 
 	condicion_aux lista{
-		//rellena
+		// Rellena
 		int fin = generador.popPSaltos();
 		generador.rellena(fin, cont_cuadruplos);
 	}
@@ -351,7 +414,7 @@ condicion:
 
 condicion_aux:
 	RW_IF expresion {
-		//genera GotoF
+		// Genera GotoF
 		generador.start(9);
 	}
 	;
@@ -419,6 +482,8 @@ varCte:
         // Busca si la variable no esta declarada
         if(!tv.find_var(id))
 		errores(2, $1);
+        else if (tv.find_type(id) != 0)
+        errores(5, $1);
 		$$ = $1;
 	}
 	| FLOAT	{$$ = $1;}
@@ -477,6 +542,16 @@ void errores(int i, string val) {
 		// La función no esta declarada
 		case 3:
 			cout << "Función " << val << " no existe." << endl;
+			exit(-1);
+			break;
+
+        case 4:
+			cout << "Cantidad de parámetros errónea en función " << val << " esperaba " << directorio.num_Param(val) << " recibí " << param << "." << endl;
+			exit(-1);
+			break;
+
+        case 5:
+			cout << "Variable " << val << " es de tipo lista y no puede ser utilizada en una expresión. " << endl;
 			exit(-1);
 			break;
 	} 

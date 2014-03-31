@@ -9,6 +9,7 @@ public:
         string nombre; // string name for each element
         int tipo; // type of the element
 		int dirV; // virtual address of the element
+        int dirI;
 };
 
 class tablaVariables {
@@ -23,6 +24,7 @@ public:
         void remove_all();
         int getid_var(string &name);
         bool find_var(string &name);
+        int find_type(string &name);
 		void output();
 };
 
@@ -46,6 +48,7 @@ tablaVariables::tablaVariables() {
 				tvar[i].nombre = ""; //set all ids to -1 to show they're empty
 				tvar[i].tipo = -1; //set all data values to 0, which is default
 				tvar[i].dirV = -1; //set all data values to 0, which is default
+				tvar[i].dirI = -1; //set all data values to 0, which is default                
 		}
 		numel = 0;
 }
@@ -60,6 +63,7 @@ int tablaVariables::add_var(data &d) {
 						tvar[hashed].nombre = d.nombre;
                         tvar[hashed].tipo = d.tipo;
                         tvar[hashed].dirV = d.dirV;
+                        tvar[hashed].dirI = d.dirI;
 						return 0;
 				} else {
 						//we need to rehash the id
@@ -72,6 +76,7 @@ int tablaVariables::add_var(data &d) {
 									tvar[hashed].nombre = d.nombre;
                                     tvar[hashed].tipo = d.tipo;
                                     tvar[hashed].dirV = d.dirV;
+                                    tvar[hashed].dirI = d.dirI;
 									return 0;
 							} else if(i==50) {
 									//we couldn't find the empty place
@@ -134,6 +139,16 @@ bool tablaVariables::find_var(string &name) {
 
     }
 
+int tablaVariables::find_type(string &name) {
+    
+    
+    for(int i=0;i<=50;i++) {
+		if(tvar[i].nombre.compare(name) == 0) 
+				return tvar[i].tipo; 
+        }
+        return -1;
+
+    }
 
 int tablaVariables::getid_var(string &name) {
     
@@ -150,7 +165,7 @@ void tablaVariables::output() {
 		int i;
 		for(i=0;i<51;i++) {
                 if(tvar[i].id != -1)
-				cout << "Variable: "<<tvar[i].nombre<<" Tipo: "<<tvar[i].tipo<<" dirV:"<<tvar[i].dirV<<endl;
+				cout << "Variable: "<<tvar[i].nombre<<" Tipo: "<<tvar[i].tipo<<" dirV: "<<tvar[i].dirV<< " dirI: " << tvar[i].dirI << endl;
 		}
 }
 

@@ -4,7 +4,7 @@
 using namespace std;
 
 int temporalActual = 1;
-int cont_cuadruplos = 1;
+int cont_cuadruplos = 2;
 
 class Generador {
     private:
@@ -112,6 +112,42 @@ class Generador {
             remove("CodigoInt.txt");
             rename("temp.txt","CodigoInt.txt");
         }
+
+         void rellena_save(int salto, string var){
+            //salto es donde se debe de rellenar, donde es a donde tiene que ir ese salto
+            ifstream filein;
+            ofstream fileout;
+            filein.open("CodigoInt.txt");
+            fileout.open("temp.txt");
+            string line;
+            string rep = to_string(salto);
+            string str = "&";
+
+            while (getline(filein, line)){
+                while (true){
+                    size_t pos = line.find(rep);
+                    size_t pos1 = line.find(str);
+                    size_t len = str.length();
+
+                    // Encontró la posición del cuádruplo
+                    if ((pos != std::string::npos) && (pos1 != std::string::npos)){
+                        int size = line.size();
+                        line.replace(pos1, len, var);
+                        fileout << line << endl;
+                    }else {
+                        fileout << line << endl;
+                    }
+                    break;
+                }
+            }
+
+            filein.close();
+            fileout.close();
+
+            remove("CodigoInt.txt");
+            rename("temp.txt","CodigoInt.txt");
+        }
+
 
         void agregaFF(){
             pushPOper("$");
@@ -316,6 +352,78 @@ class Generador {
                     pushPOper("save");  
                     start(4);
                 break;
+
+                case 13:
+                    // Genera retorno
+                    fileout << cont_cuadruplos << ". " << "retorno" << endl;
+                    //actualiza el contador de cuádruplos
+                    cont_cuadruplos++; 
+                break;
+
+                case 14:
+                    //Goto's
+                        fileout << cont_cuadruplos << ". " << "Goto #" << endl;
+
+                        //actualiza el contador de cuádruplos
+                        cont_cuadruplos++;
+                    
+
+                break;
+
+                case 15:
+                    // SAVE
+                    if(!POper.empty() && PilaO.size() >=2){
+                        string op = popPOper();
+                        string opdo2 = popPilaO();
+                        string opdo1 = popPilaO();
+                        //genera(posible_operador,opdo1, opdo2, "", 2);
+                        fileout << cont_cuadruplos << ". " << op << " " << opdo1 << " " << opdo2 << endl;  
+                    
+                         //actualiza el contador de cuádruplos
+                         cont_cuadruplos++;
+    
+                    }
+                break;
+
+
+             }
+                        }
+
+
+            void param(int param){
+            ofstream fileout;
+            fileout.open("CodigoInt.txt", std::ios::app);
+
+             // Genera parametros
+                    if (PilaO.size() >= param){
+                    for(int i = param; i > 0; i--){
+                    string param = popPilaO();
+                    fileout << cont_cuadruplos << ". " << "param " << param << " param" << i << endl;
+                    //actualiza el contador de cuádruplos
+                    cont_cuadruplos++; 
             }
-        }
+                    }
+            }
+
+            void gosub(string nombre, int dir){
+            ofstream fileout;
+            fileout.open("CodigoInt.txt", std::ios::app);
+
+            // Genera gosub
+            fileout << cont_cuadruplos << ". " << "gosub " << nombre << " " << dir << endl;
+            //actualiza el contador de cuádruplos
+            cont_cuadruplos++; 
+            }
+
+            void era(int tam){
+            ofstream fileout;
+            fileout.open("CodigoInt.txt", std::ios::app);
+
+            // Genera era
+            fileout << cont_cuadruplos << ". " << "era " << tam << endl;
+            //actualiza el contador de cuádruplos
+            cont_cuadruplos++; 
+            }
+
+
 };
