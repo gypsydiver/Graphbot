@@ -71,7 +71,7 @@ int dirProcs::add_proc(procs &d) {
 									dirproc[hashed].nombre = d.nombre;
                                     dirproc[hashed].dirI = d.dirI;
                                     dirproc[hashed].tam = d.tam;
-                                    dirproc[hashed].tv = d.tv;                     
+                                    dirproc[hashed].tv = d.tv; 
 									return 0;
 							} else if(i==50) {
 									//we couldn't find the empty place

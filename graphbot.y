@@ -102,10 +102,6 @@ funcion:
     }
 	;
 
-parametros: /* empty */ 
-	| var parametros
-	;
-
 funciones: 
 	 for funcion_aux 
     | comandos funcion_aux
@@ -117,23 +113,18 @@ funcion_aux: /* empty */
 	| funciones
 	;
 
-var: 
-	var1 ID var2 {
+parametros: 
+	 ID var {
 		// Agrega variable a la tabla
-        tvar.nombre = $2;
+        tvar.nombre = $1;
         tvar.tipo = 3;
         tvar.dirV = 0;
         tv.add_var(tvar);
     }  
 	;
 
-var1: 
-	RW_FLOAT
-	| RW_BOOLEAN
-	;
-
-var2: /* empty */ 
-	| COMMA var
+var: /* empty */ 
+	| COMMA parametros
 	;
 
 programa:
@@ -185,7 +176,10 @@ comandos:
         tv.add_var(tvar);
 
 	    generador.pushPOper($1);
+        //if (tvar.tipo == 0)
 		generador.pushPilaO($2);
+        //else 
+        //generador.pushPilaO(to_string(cont_cuadruplos));
         generador.start(4);
 
 	}
@@ -205,7 +199,10 @@ comandos:
 	;
 
 llamada_funcion_aux: /* empty */
-	| expresion llamada_funcion_aux
+	| expresion llamada_funcion_aux {
+        
+
+}
 	;
 
 llamada_funcion:
@@ -213,7 +210,7 @@ llamada_funcion:
         string id = $1;
 		// Busca si la función no esta ya dentro del directorio de procedimientos
         if(!directorio.find_proc(id)) 
-	    errores(3, $1); 
+	    errores(3, $1);         
     }
 	;
 
