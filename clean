@@ -1,2 +1,2 @@
 rm graphbot.output && rm graphbot.tab.* && rm lex.yy.c && rm graphbot && rm CodigoInt.txt
-echo "1. Goto main #" >> CodigoInt.txt 
+echo "1. 36 main #" >> CodigoInt.txt 

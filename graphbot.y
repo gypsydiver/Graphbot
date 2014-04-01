@@ -46,6 +46,7 @@ void print();
 %union {
 	char *sval;
 	char cval;
+    int ival;
 }
 
 //Bison declarations
@@ -67,7 +68,10 @@ void print();
 //operandos y operadores
 %token <sval> ADD SUB TIMES DIV ID FLOAT
 
-%type <sval> varCte comandos comando comando_return comando1 comando3 expresion variable comparador llamada_funcion;
+%type <sval> varCte expresion variable llamada_funcion;
+
+%type <ival> comparador comandos comando comando_return comando1 comando3
+
 %start graphbot
 %%
 
@@ -203,7 +207,7 @@ comandos:
         vars++;
 
         if(tvar.tipo == 0) {
-	    generador.pushPOper($1);
+	    generador.pushPOper(22);
 		generador.pushPilaO($2);
         generador.start(4); }
         else
@@ -213,7 +217,7 @@ comandos:
 	}
 	| RW_SETPOS expresion expresion {
 		//cout<<"Matched <COMANDO2>:"<<$1<<endl;
-	    generador.pushPOper($1);
+	    generador.pushPOper(23);
         generador.start(4);    
 	}
 	| comando3 expresion expresion expresion {
@@ -312,7 +316,7 @@ lista_OPBRACKET:
     OP_BRACKET {
 
         // Genera cuádruplo de save para lista
-	    generador.pushPOper("save");
+	    generador.pushPOper(22);
         generador.pushPilaO(to_string(cont_cuadruplos+2));
 		generador.pushPilaO("&");
         generador.pushPSaltos(cont_cuadruplos);
@@ -370,7 +374,7 @@ for_aux:
 		string id = generador.popPilaO();
 
 		generador.pushPilaO(limite);
-		generador.pushPOper("<");
+		generador.pushPOper(28);
 		generador.start(8);
 
 		generador.pushPilaO(id);
@@ -463,13 +467,13 @@ exp:
 	;
 
 termino_aux: /* empty */
-    | SUM exp 	{	
+    | ADD exp 	{	
 		// 3.- Meter '+' a POper
-	    generador.pushPOper($1);
+	    generador.pushPOper(32);
 	}
 	| SUB exp 	{	
 		// 3.- Meter '-' a POper
-	    generador.pushPOper($1);
+	    generador.pushPOper(33);
 	}
 	;
 
@@ -482,11 +486,11 @@ termino:
 factor_aux: /* empty */
 	| TIMES termino {
 		// 2.- Meter '*' a POper  
-		generador.pushPOper($1); 
+		generador.pushPOper(34); 
 	}
 	| DIV termino {
 		// 2.- Meter '/' a POper  
-		generador.pushPOper($1); 
+		generador.pushPOper(35); 
 	}
     ;
 
@@ -517,12 +521,12 @@ varCte:
 	;
 
 comparador: 
-	EQUAL {$$ = $1;}
-	| NOT_EQUAL {$$ = $1;}
-	| GREAT_EQ_THAN {$$ = $1;}
-	| LESS_EQ_THAN {$$ = $1;}
-	| GREAT_THAN {$$ = $1;}
-	| LESS_THAN {$$ = $1;}
+	EQUAL {$$ = 26;}
+	| NOT_EQUAL {$$ = 29;}
+	| GREAT_EQ_THAN {$$ = 30;}
+	| LESS_EQ_THAN {$$ = 31;}
+	| GREAT_THAN {$$ = 27;}
+	| LESS_THAN {$$ = 28;}
 	;
 %%
 

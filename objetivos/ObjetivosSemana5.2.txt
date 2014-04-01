@@ -1,0 +1,17 @@
+Objetivos Semana 5.2
+
+*- Codificar comandos
+ - 
+    *. Funciones/Módulos
+    *. Manejo de variables tipo lista (tabla de variables, memoria virtual)
+*- Corregir estructura de datos utilizada para la tabla de variables y directorio de procedimientos
+*- Corregir cuando se mandan llamar dos funciones definidas por el usuario seguidas
+-----------No tan importante-------------
+- Mas Tests
+- Iniciar con máquina virtual
+- Diseño e implementación de esquema de manejo de memoria virtual
+
+Dudas:
+- era
+- Manejo de tamaño 
+- Diferenciar entre saltos y direcciones de memoria
