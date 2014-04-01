@@ -65,7 +65,7 @@ void print();
 %token <sval> EQUAL GREAT_THAN LESS_THAN
 %token <sval> NOT_EQUAL GREAT_EQ_THAN LESS_EQ_THAN
 //operandos y operadores
-%token <sval> BASIC_ARITHMETIC COM_ARITHMETIC ID FLOAT
+%token <sval> ADD SUB TIMES DIV ID FLOAT
 
 %type <sval> varCte comandos comando comando_return comando1 comando3 expresion variable comparador llamada_funcion;
 %start graphbot
@@ -172,26 +172,25 @@ programa_rw:
 
 comandos: 
 	comando {
-		cout<<"Matched <COMANDO>: "<<$1<<endl;
+		//cout<<"Matched <COMANDO>: "<<$1<<endl;
 		//comandos que regresan nada
 	     generador.pushPOper($1);
          generador.start(6);
 	}
 	| comando_return{
-		cout<<"Matched <COMANDO_RETURN>: "<<$1<<endl;
+		//cout<<"Matched <COMANDO_RETURN>: "<<$1<<endl;
 		//comandos que regresan algún valor
 	     generador.pushPOper($1);
          generador.start(7);
 
 	}
     | comando1 expresion{
-    	cout<<"Matched <COMANDO1>: "<<$1<<endl;
+    	//cout<<"Matched <COMANDO1>: "<<$1<<endl;
 	    generador.pushPOper($1);
         generador.start(3);
     }
     | RW_SAVE ID variable {	
-
-        cout<<"Matched <SAVE> a ID: "<<$2<<endl;
+        //cout<<"Matched <SAVE> a ID: "<<$2<<endl;
         string id = $2;
         // Si la misma variable se vuelve a asignar, se borra la anterior y se mete la nueva
         if(tv.find_var(id)) {
@@ -213,12 +212,12 @@ comandos:
 
 	}
 	| RW_SETPOS expresion expresion {
-		cout<<"Matched <COMANDO2>:"<<$1<<endl;
+		//cout<<"Matched <COMANDO2>:"<<$1<<endl;
 	    generador.pushPOper($1);
         generador.start(4);    
 	}
 	| comando3 expresion expresion expresion {
-		cout<<"Matched <COMANDO3>: "<<$1<<endl;
+		//cout<<"Matched <COMANDO3>: "<<$1<<endl;
 	    generador.pushPOper($1);
         generador.start(5); 
 	}
@@ -292,14 +291,14 @@ comando3:
 
 variable:
 	expresion {
-	 	cout<<"Matched SAVE_EXPRESION"<<endl;
+	 	//cout<<"Matched SAVE_EXPRESION"<<endl;
         // Variable del tipo FLOAT representado por un 0
         tvar.tipo = 0;
         tvar.dirI = 0;
         
 	}
-    |	lista_OPBRACKET funciones lista_aux CL_BRACKET {
-		cout<<"Matched SAVE_LISTA"<<endl;
+    | lista_OPBRACKET funciones lista_aux CL_BRACKET {
+		//cout<<"Matched SAVE_LISTA"<<endl;
         // Variable del tipo LISTA representado por un 1
         tvar.tipo = 1;
         // Retorno
@@ -438,7 +437,7 @@ condicion_aux:
 
 lista:
 	OP_BRACKET funciones lista_aux CL_BRACKET {
-		cout<<"Matched LISTA"<<endl;
+		//cout<<"Matched LISTA"<<endl;
 	}
 	;
 
@@ -448,7 +447,7 @@ lista_aux: /* empty */
 
 expresion: 
 	exp exp_aux	{
-		cout<<"Matched EXPRESION"<<endl;
+		//cout<<"Matched EXPRESION"<<endl;
 	}
 	;
 
@@ -464,10 +463,15 @@ exp:
 	;
 
 termino_aux: /* empty */
-    | BASIC_ARITHMETIC exp 	{	
-		// 3.- Meter $2 ('+' o '-') a POper
+    | SUM exp 	{	
+		// 3.- Meter '+' a POper
 	    generador.pushPOper($1);
 	}
+	| SUB exp 	{	
+		// 3.- Meter '-' a POper
+	    generador.pushPOper($1);
+	}
+	;
 
 termino:
 	factor factor_aux {	
@@ -476,8 +480,12 @@ termino:
 	;
 
 factor_aux: /* empty */
-	| COM_ARITHMETIC termino {
-		// 2.- Meter $2 ('*' o '/') a POper  
+	| TIMES termino {
+		// 2.- Meter '*' a POper  
+		generador.pushPOper($1); 
+	}
+	| DIV termino {
+		// 2.- Meter '/' a POper  
 		generador.pushPOper($1); 
 	}
     ;
@@ -487,7 +495,7 @@ factor:
     }
 
     | varCte {
-		cout<<"1.- Meter "<<$1<<" a PilaO"<<endl;
+		//cout<<"1.- Meter "<<$1<<" a PilaO"<<endl;
 		// 1.- Meter $1 a PilaO
 		generador.pushPilaO($1);
 	}

@@ -64,8 +64,10 @@ while 				{ yylval.sval = strdup(yytext); return RW_WHILE; }
 "<="				{ yylval.sval = strdup(yytext); return LESS_EQ_THAN; }
 "<"				   	{ yylval.sval = strdup(yytext); return LESS_THAN; }
 ">"				   	{ yylval.sval = strdup(yytext); return GREAT_THAN; }
-"+"|"-"   			{ yylval.sval = strdup(yytext); return BASIC_ARITHMETIC; }
-"*"|"/"   			{ yylval.sval = strdup(yytext); return COM_ARITHMETIC; }
+"+"					{ yylval.sval = strdup(yytext); return ADD; }
+"-"   				{ yylval.sval = strdup(yytext); return SUB; }
+"*"					{ yylval.sval = strdup(yytext); return TIMES; }
+"/"   				{ yylval.sval = strdup(yytext); return DIV; }
 [[:alpha:]][[:alnum:]|_[:alnum:]]*	 	{ yylval.sval = strdup(yytext); return ID; }
 [[:digit:]]+"."[[:digit:]]+			{ yylval.sval = strdup(yytext); return FLOAT; }
 %%
