@@ -255,39 +255,39 @@ llamada_funcion:
 	;
 
 comando: 
-	RW_SHOW {$$ = $1;}
-	| RW_HIDE {$$ = $1;}
-	| RW_CLEAN {$$ = $1;}
-	| RW_HOME {$$ = $1;}
-	| RW_PLAYMUSIC {$$ = $1;}
-	| RW_STOPMUSIC {$$ = $1;}
+	RW_SHOW {$$ = 0;}
+	| RW_HIDE {$$ = 1;}
+	| RW_CLEAN {$$ = 2;}
+	| RW_HOME {$$ = 3;}
+	| RW_PLAYMUSIC {$$ = 11;}
+	| RW_STOPMUSIC {$$ = 10;}
 	;
 
 comando_return:
-	RW_GETCOLORR {$$ = $1;}
-	| RW_GETCOLORB {$$ = $1;}
-	| RW_GETCOLORG {$$ = $1;}
-	| RW_GETPENSIZE {$$ = $1;}
-	| RW_GETX {$$ = $1;}
-	| RW_GETY {$$ = $1;}
+	RW_GETCOLORR {$$ = 4;}
+	| RW_GETCOLORB {$$ = 6;}
+	| RW_GETCOLORG {$$ = 5;}
+	| RW_GETPENSIZE {$$ = 7;}
+	| RW_GETX {$$ = 8;}
+	| RW_GETY {$$ = 9;}
 	;
 
 comando1: 
-	RW_MOVE {$$ = $1;}
-	| RW_TURN {$$ = $1;}
-	| RW_SETX {$$ = $1;}
-	| RW_SETY {$$ = $1;}
-	| RW_SETPENSIZE {$$ = $1;}
-	| RW_SETBACKGROUNDTXT {$$ = $1;}
-	| RW_CAMERAUP {$$ = $1;}
-	| RW_CAMERADOWN {$$ = $1;}
-	| RW_CAMERALEFT {$$ = $1;}
-	| RW_CAMERARIGHT {$$ = $1;}
+	RW_MOVE {$$ = 12;}
+	| RW_TURN {$$ = 13;}
+	| RW_SETX {$$ = 14;}
+	| RW_SETY {$$ = 15;}
+	| RW_SETPENSIZE {$$ = 16;}
+	| RW_SETBACKGROUNDTXT {$$ = 21;}
+	| RW_CAMERAUP {$$ = 17;}
+	| RW_CAMERADOWN {$$ = 18;}
+	| RW_CAMERALEFT {$$ = 19;}
+	| RW_CAMERARIGHT {$$ = 20;}
 	;
 
 comando3: 
-	RW_SETCOLOR {$$ = $1;}
-	| RW_SETBACKGROUND {$$ = $1;}
+	RW_SETCOLOR {$$ = 24;}
+	| RW_SETBACKGROUND {$$ = 25;}
 	;
 
 variable:
