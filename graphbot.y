@@ -328,7 +328,7 @@ lista_OPBRACKET:
     ;
 
 for: 
-	for_rw for_aux lista {
+	for_rw for_aux ciclo_estatutos {
 		// Generar aumento a la variable de control
 		generador.start(12);
 
@@ -340,6 +340,21 @@ for:
 		generador.rellena(falso,cont_cuadruplos);
 	}
 	;
+
+ciclo_estatutos:
+        lista
+        | ID {
+            // Verifica que variable sea de tipo lista
+            string id = $1;        
+            if(tv.find_type(id) == 0)
+            errores(6, $1);
+            
+            int dir = tv.getdirI(id); 
+            generador.era(tv.get_tam(id));    
+            generador.gosub(id, dir); 
+            
+}
+        ;
 
 for_rw:
 	RW_FOR {
@@ -373,6 +388,8 @@ for_id:
         string id = $2;
         if(!tv.find_var(id))
 		errores(2, $2);
+        else if (tv.find_type(id) == 1)
+        errores(5, $2);
 
 		generador.pushPilaO($2);
 		generador.pushPilaO($2);
@@ -380,7 +397,7 @@ for_id:
 	;
 
 while: 
-	while_aux lista {
+	while_aux ciclo_estatutos {
 		int falso = generador.popPSaltos();
 		// Genera retorno (Goto)
 		generador.start(10);
@@ -405,7 +422,7 @@ while_rw:
 	;
 
 condicion: 
-	condicion_aux lista{
+	condicion_aux ciclo_estatutos{
 		// Rellena
 		int fin = generador.popPSaltos();
 		generador.rellena(fin, cont_cuadruplos);
@@ -554,5 +571,11 @@ void errores(int i, string val) {
 			cout << "Variable " << val << " es de tipo lista y no puede ser utilizada en una expresión. " << endl;
 			exit(-1);
 			break;
+
+        case 6:
+			cout << "Variable " << val << " no es de tipo lista." << endl;
+            exit(-1);
+			break;
+
 	} 
 }

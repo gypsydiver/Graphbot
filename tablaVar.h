@@ -10,6 +10,7 @@ public:
         int tipo; // type of the element
 		int dirV; // virtual address of the element
         int dirI;
+        int tam;
 };
 
 class tablaVariables {
@@ -25,6 +26,8 @@ public:
         int getid_var(string &name);
         bool find_var(string &name);
         int find_type(string &name);
+        int getdirI(string &name); 
+        int get_tam(string &name);       
 		void output();
 };
 
@@ -48,7 +51,8 @@ tablaVariables::tablaVariables() {
 				tvar[i].nombre = ""; //set all ids to -1 to show they're empty
 				tvar[i].tipo = -1; //set all data values to 0, which is default
 				tvar[i].dirV = -1; //set all data values to 0, which is default
-				tvar[i].dirI = -1; //set all data values to 0, which is default                
+				tvar[i].dirI = -1; //set all data values to 0, which is default   
+				tvar[i].tam = -1; //set all data values to 0, which is default                                
 		}
 		numel = 0;
 }
@@ -64,6 +68,7 @@ int tablaVariables::add_var(data &d) {
                         tvar[hashed].tipo = d.tipo;
                         tvar[hashed].dirV = d.dirV;
                         tvar[hashed].dirI = d.dirI;
+                        tvar[hashed].tam = d.tam;
 						return 0;
 				} else {
 						//we need to rehash the id
@@ -77,6 +82,7 @@ int tablaVariables::add_var(data &d) {
                                     tvar[hashed].tipo = d.tipo;
                                     tvar[hashed].dirV = d.dirV;
                                     tvar[hashed].dirI = d.dirI;
+                                    tvar[hashed].tam = d.tam;
 									return 0;
 							} else if(i==50) {
 									//we couldn't find the empty place
@@ -156,6 +162,29 @@ int tablaVariables::getid_var(string &name) {
     for(int i=0;i<=50;i++) {
 		if(tvar[i].nombre.compare(name) == 0) 
 				return tvar[i].id; 
+        }
+        return -1;
+
+    }
+
+int tablaVariables::getdirI(string &name) {
+    
+    
+    for(int i=0;i<=50;i++) {
+		if(tvar[i].nombre.compare(name) == 0) 
+				return tvar[i].dirI; 
+        }
+        return -1;
+
+    }
+
+
+int tablaVariables::get_tam(string &name) {
+    
+    
+    for(int i=0;i<=50;i++) {
+		if(tvar[i].nombre.compare(name) == 0) 
+				return tvar[i].tam; 
         }
         return -1;
 
