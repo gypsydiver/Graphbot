@@ -47,6 +47,17 @@ class Globalizador {
        }
     }
 
+    int busca_salto(int direccion){
+        int tam = saltos.size();
+
+        for(sal = saltos.begin(); sal != saltos.end(); ++sal) {
+        if(sal -> second == direccion){
+            return sal -> first;
+        } 
+        }
+        return -1;
+    }
+
     void setValues(int x, int y) {
         constanteActual = x;
         saltoActual = y; 
@@ -56,8 +67,12 @@ class Globalizador {
     
     }
 
-    void readFromFile(string filename){
+    void readFromFile(){
         
+        for(sal = saltos.begin(); sal != saltos.end(); ++sal) {
+            cout << "Salto: " << sal -> first << " Dirección Virtual:" << sal -> second << endl;
+        } 
+
     }
 
     private:

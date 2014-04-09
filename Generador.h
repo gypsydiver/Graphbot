@@ -102,6 +102,7 @@ class Generador {
             int top;
             top = PSaltos.top();
             PSaltos.pop();
+            // Regresa el salto si ya esta asignado 
             return top;
         }
 
@@ -148,7 +149,7 @@ class Generador {
             fileout.open("temp.txt");
             string line;
             string rep = to_string(salto);
-            string str = "-1";
+            string str = "&";
 
             while (getline(filein, line)){
                 while (true){
@@ -262,8 +263,14 @@ class Generador {
                         int opdo2 = popPilaO();
                         int opdo1 = popPilaO();
                         //genera(posible_operador,opdo1, opdo2, "", 2);
+                        
+                        if (opdo2 == -1){
+                        fileout << cont_cuadruplos << ". " << op << " " << opdo1 << " &" << endl;  
+                        }
+                        else {
                         fileout << cont_cuadruplos << ". " << op << " " << opdo1 << " " << opdo2 << endl;  
-                    
+                        }
+
                          //actualiza el contador de cuádruplos
                          cont_cuadruplos++;
     

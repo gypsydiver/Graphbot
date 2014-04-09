@@ -9,8 +9,8 @@
 #include <cstdio>
 #include <iostream>
 #include <string>
-#include "Generador.h"
 #include "Globalizador.h"
+#include "Generador.h"
 #include "tablaVar.h"
 #include "dirProc.h" 
 using namespace std;
@@ -83,6 +83,7 @@ graphbot:
 	graph programa {
         // Imprime el directorio de procedimientos con sus respectivas tablas de variables
         directorio.output_proc();
+        globalizador.readFromFile();
 		cout<<"Compilación Exitosa"<<endl;
         generador.start(10);
 	}
@@ -324,13 +325,13 @@ lista_OPBRACKET:
 
         // Genera cuádruplo de save para lista
 	    generador.pushPOper(22);
-        generador.pushPilaO(globalizador.asigna_saltos(cont_cuadruplos+2));
+        generador.pushPilaO(cont_cuadruplos+2);
 		generador.pushPilaO(-1);
-        generador.pushPSaltos(globalizador.asigna_saltos(cont_cuadruplos));
+        generador.pushPSaltos(cont_cuadruplos);
         generador.start(4);
 
         // Goto al final
-        generador.pushPSaltos(globalizador.asigna_saltos(cont_cuadruplos));
+        generador.pushPSaltos(cont_cuadruplos);
         generador.start(14);   
  
         tvar.dirI = cont_cuadruplos;    
@@ -369,7 +370,7 @@ ciclo_estatutos:
 for_rw:
 	RW_FOR {
 		// 1.- Meter cont_cuadruplos a PSaltos
-		generador.pushPSaltos(globalizador.asigna_saltos(cont_cuadruplos));
+		generador.pushPSaltos(cont_cuadruplos);
 	}
 	;
 
@@ -429,7 +430,7 @@ while_aux:
 while_rw:
 	RW_WHILE{
 		// 1.- Meter cont_cuadruplos a PSaltos
-		generador.pushPSaltos(globalizador.asigna_saltos(cont_cuadruplos));
+		generador.pushPSaltos(cont_cuadruplos);
 	}
 	;
 
