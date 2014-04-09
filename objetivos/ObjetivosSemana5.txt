@@ -1,14 +1,17 @@
 Objetivos Semana 5.2
 
- - Implementar diseño de memoria
 *- Codificar comandos
-*- Convertir constantes númericas en direcciones virtuales
-*- Codificar comparadores y operadores aritmeticos
-*- Convertir saltos en direcciones virtuales
-*- Convertir variables en direcciones virtuales
-*- Convertir temporales en direcciones virtuales
- - Cálculo de tamaño de funciones
-
+ - 
+    *. Funciones/Módulos
+    *. Manejo de variables tipo lista (tabla de variables, memoria virtual)
+*- Corregir estructura de datos utilizada para la tabla de variables y directorio de procedimientos
+*- Corregir cuando se mandan llamar dos funciones definidas por el usuario seguidas
 -----------No tan importante-------------
-- Code Refactoring
+- Mas Tests
+- Iniciar con máquina virtual
+- Diseño e implementación de esquema de manejo de memoria virtual
 
+Dudas:
+- era
+- Manejo de tamaño 
+- Diferenciar entre saltos y direcciones de memoria

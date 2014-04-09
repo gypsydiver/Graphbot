@@ -1,0 +1,14 @@
+Objetivos Semana 6
+
+ - Implementar diseño de memoria
+*- Codificar comandos
+*- Convertir constantes númericas en direcciones virtuales
+*- Codificar comparadores y operadores aritmeticos
+*- Convertir saltos en direcciones virtuales
+*- Convertir variables en direcciones virtuales
+*- Convertir temporales en direcciones virtuales
+*- Cálculo de tamaño de funciones
+
+-----------No tan importante-------------
+*- Code Refactoring
+

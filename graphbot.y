@@ -352,8 +352,7 @@ ciclo_estatutos:
         errores(6, $1);
         
         int dir = tv.getdirI(id); 
-        generador.era(0,0,0);    
-        generador.gosub(dir); 
+        generador.gosub(dir);
     }
     ;
 
