@@ -8,7 +8,7 @@ public:
 		int id; //to hold a unique id for each element
         string nombre; // string name for each element
         int dirI; // initial address of the element
-		int tam; // size of the element
+		int tmp; // size of the element
         tablaVariables tv; // vars table
         int numParam;
         int varLocal;
@@ -25,7 +25,7 @@ public:
         bool find_proc(string &name);  
         int num_Param(string &name);
         int get_dirI(string &name);
-        int get_tam(string &name);        
+        int get_tmp(string &name);        
 		void output_proc();
 };
 
@@ -48,7 +48,7 @@ dirProcs::dirProcs() {
 				dirproc[i].id = -1; //set all ids to -1 to show they're empty
 				dirproc[i].nombre = ""; //set all ids to -1 to show they're empty
 				dirproc[i].dirI = -1; //set all data values to 0, which is default
-				dirproc[i].tam = -1; //set all data values to 0, which is default
+				dirproc[i].tmp = -1; //set all data values to 0, which is default
                 dirproc[i].numParam = -1;
                 dirproc[i].varLocal = -1;                 
 		}
@@ -64,7 +64,7 @@ int dirProcs::add_proc(procs &d) {
 						dirproc[hashed].id = d.id;
 						dirproc[hashed].nombre = d.nombre;
                         dirproc[hashed].dirI = d.dirI;
-                        dirproc[hashed].tam = d.tam;
+                        dirproc[hashed].tmp = d.tmp;
                         dirproc[hashed].tv = d.tv;
                         dirproc[hashed].numParam = d.numParam; 
                         dirproc[hashed].varLocal = d.varLocal;                       
@@ -79,7 +79,7 @@ int dirProcs::add_proc(procs &d) {
 					            	dirproc[hashed].id = d.id;                                
 									dirproc[hashed].nombre = d.nombre;
                                     dirproc[hashed].dirI = d.dirI;
-                                    dirproc[hashed].tam = d.tam;
+                                    dirproc[hashed].tmp = d.tmp;
                                     dirproc[hashed].tv = d.tv; 
                                     dirproc[hashed].numParam = d.numParam; 
                                     dirproc[hashed].varLocal = d.varLocal;   
@@ -132,12 +132,12 @@ int dirProcs::get_dirI(string &name) {
 
     }
 
-int dirProcs::get_tam(string &name) {
+int dirProcs::get_tmp(string &name) {
     
     
     for(int i=0;i<=50;i++) {
 		if(dirproc[i].nombre.compare(name) == 0) 
-				return dirproc[i].tam; 
+				return dirproc[i].tmp; 
         }
         return -1;
 
@@ -148,7 +148,7 @@ void dirProcs::output_proc() {
 		int i;
 		for(i=0;i<51;i++) {
                 if(dirproc[i].id != -1) {
-				cout << "Procedimiento: "<<dirproc[i].nombre<<" DirInicial: "<<dirproc[i].dirI<<" Tamaño:"<<dirproc[i].tam<< " Num Param: " << dirproc[i].numParam << " Num Vars: " << dirproc[i].varLocal << "\nTabla Variables: " << endl;
+				cout << "Procedimiento: "<<dirproc[i].nombre<<" DirInicial: "<<dirproc[i].dirI<<" Temporales:"<<dirproc[i].tmp<< " Num Param: " << dirproc[i].numParam << " Num Vars: " << dirproc[i].varLocal << "\nTabla Variables: " << endl;
                 (dirproc[i].tv).output();
 		}
 }

@@ -10,6 +10,7 @@
 #include <iostream>
 #include <string>
 #include "Generador.h"
+#include "Globalizador.h"
 #include "tablaVar.h"
 #include "dirProc.h" 
 using namespace std;
@@ -21,6 +22,9 @@ procs pcd;
 // Tabla de variables
 tablaVariables tv;
 data tvar;
+
+// Maneja la asignación de memoria de constantes numericas y saltos
+Globalizador globalizador;
 
 // Generador de código intermedio
 Generador generador;
@@ -59,7 +63,7 @@ void print();
 //comandos de tres parámetros
 %token <sval> RW_SETCOLOR RW_SETBACKGROUND
 //palabras reservadas
-%token <sval> RW_FUNCTION RW_END RW_TRUE RW_FALSE RW_BOOLEAN RW_PROGRAM RW_FOR RW_WHILE RW_IF RW_FLOAT
+%token <sval> RW_FUNCTION RW_END RW_PROGRAM RW_FOR RW_WHILE RW_IF
 //caractéres del lenguaje
 %token <cval> OP_BRACKET CL_BRACKET OP_PAR CL_PAR COMMA
 //comparadores
@@ -68,10 +72,9 @@ void print();
 //operandos y operadores
 %token <sval> ADD SUB TIMES DIV ID FLOAT
 
-%type <sval> varCte expresion variable llamada_funcion;
+%type <sval> llamada_funcion;
 
-%type <ival> comparador comandos comando comando_return comando1 comando3
-
+%type <ival> comparador comandos comando comando_return comando1 comando3 varCte expresion variable
 %start graphbot
 %%
 
@@ -91,11 +94,12 @@ graph: /*empty*/
  	;
 
 funcion:
-	funcion_rw funciones RW_END {
+	funcion_rw funciones funcion_aux RW_END {
         
         pcd.tv = tv;
         pcd.numParam = param;
         pcd.varLocal = vars;
+        pcd.tmp = generador.tempActual()-2000;  
         directorio.add_proc(pcd);
         // Deja limpia la variable tablaVariables para el siguiente caso
         tv.remove_all();
@@ -104,6 +108,9 @@ funcion:
         
         // Genera retorno
         generador.start(13);
+
+        generador.reinicializa_temp();
+        generador.reinicializa_variable();
 }
     ;
 
@@ -122,14 +129,14 @@ funcion_rw:
 	;
 
 funciones: 
-	 for funcion_aux 
-    | comandos funcion_aux
-	| while funcion_aux
-	| condicion funcion_aux
+	 for  
+    | comandos 
+	| while 
+	| condicion 
 	;
 
 funcion_aux: /* empty */
-	| funciones
+	| funciones funcion_aux
 	;
 
 parametros: 
@@ -137,7 +144,7 @@ parametros:
 		// Agrega variable a la tabla
         tvar.nombre = $1;
         tvar.tipo = 0;
-        tvar.dirV = 0;
+        tvar.dirV = generador.variablesDeAvail();
         tvar.dirI = 0;        
         tv.add_var(tvar);
         param++;
@@ -149,7 +156,7 @@ var: /* empty */
 	;
 
 programa:
-        programa_rw funciones RW_END {
+        programa_rw funciones funcion_aux RW_END {
 
         pcd.tv = tv;
         pcd.numParam = param;
@@ -202,16 +209,16 @@ comandos:
         tv.remove_var(var); }
 		// Agrega una variable a la tabla de variables        
         tvar.nombre = $2;
-        tvar.dirV = 0;
+        tvar.dirV = generador.variablesDeAvail();
         tv.add_var(tvar);
         vars++;
 
         if(tvar.tipo == 0) {
 	    generador.pushPOper(22);
-		generador.pushPilaO($2);
+		generador.pushPilaO(tvar.dirV);
         generador.start(4); }
         else
-        generador.rellena_save(generador.popPSaltos(), $2);
+        generador.rellena_save(generador.popPSaltos(), tvar.dirV);
         
 
 	}
@@ -231,7 +238,7 @@ comandos:
          param = 0;  
          string id = $1;
          int dir = directorio.get_dirI(id); 
-         generador.gosub(id, dir); 
+         generador.gosub(dir); 
 	
 	}
 	;
@@ -251,7 +258,7 @@ llamada_funcion:
         else if (directorio.num_Param(id) != param)
         errores(4, $1);
 
-        generador.era(directorio.get_tam(id));        
+        generador.era(0);        
         $$ = $1;
 
     }
@@ -317,13 +324,13 @@ lista_OPBRACKET:
 
         // Genera cuádruplo de save para lista
 	    generador.pushPOper(22);
-        generador.pushPilaO(to_string(cont_cuadruplos+2));
-		generador.pushPilaO("&");
-        generador.pushPSaltos(cont_cuadruplos);
+        generador.pushPilaO(globalizador.asigna_saltos(cont_cuadruplos+2));
+		generador.pushPilaO(-1);
+        generador.pushPSaltos(globalizador.asigna_saltos(cont_cuadruplos));
         generador.start(4);
 
         // Goto al final
-        generador.pushPSaltos(cont_cuadruplos);
+        generador.pushPSaltos(globalizador.asigna_saltos(cont_cuadruplos));
         generador.start(14);   
  
         tvar.dirI = cont_cuadruplos;    
@@ -354,7 +361,7 @@ ciclo_estatutos:
             
             int dir = tv.getdirI(id); 
             generador.era(tv.get_tam(id));    
-            generador.gosub(id, dir); 
+            generador.gosub(dir); 
             
 }
         ;
@@ -362,16 +369,16 @@ ciclo_estatutos:
 for_rw:
 	RW_FOR {
 		// 1.- Meter cont_cuadruplos a PSaltos
-		generador.pushPSaltos(cont_cuadruplos);
+		generador.pushPSaltos(globalizador.asigna_saltos(cont_cuadruplos));
 	}
 	;
 
 for_aux:
 	for_id COMMA expresion COMMA expresion CL_BRACKET {
 		// Generar el cuádruplo de comparación entre la variable de control y el valor límite
-		string aumento = generador.popPilaO();
-		string limite = generador.popPilaO();
-		string id = generador.popPilaO();
+		int aumento = generador.popPilaO();
+		int limite = generador.popPilaO();
+		int id = generador.popPilaO();
 
 		generador.pushPilaO(limite);
 		generador.pushPOper(28);
@@ -393,10 +400,12 @@ for_id:
 		errores(2, $2);
         else if (tv.find_type(id) == 1)
         errores(5, $2);
+        
+        int direccion = tv.getdirV(id);
 
-		generador.pushPilaO($2);
-		generador.pushPilaO($2);
-	}
+		generador.pushPilaO(direccion);
+		generador.pushPilaO(direccion);
+    }
 	;
 
 while: 
@@ -420,7 +429,7 @@ while_aux:
 while_rw:
 	RW_WHILE{
 		// 1.- Meter cont_cuadruplos a PSaltos
-		generador.pushPSaltos(cont_cuadruplos);
+		generador.pushPSaltos(globalizador.asigna_saltos(cont_cuadruplos));
 	}
 	;
 
@@ -513,11 +522,13 @@ varCte:
 		errores(2, $1);
         else if (tv.find_type(id) != 0)
         errores(5, $1);
-		$$ = $1;
+		
+        $$ = tv.getdirV(id);
 	}
-	| FLOAT	{$$ = $1;}
-	| RW_TRUE {$$ = $1;}
-	| RW_FALSE {$$ = $1;}
+	| FLOAT	{
+               $$ = globalizador.asigna_globales($1);
+                
+                                    }
 	;
 
 comparador: 

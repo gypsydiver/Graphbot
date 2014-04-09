@@ -26,7 +26,8 @@ public:
         int getid_var(string &name);
         bool find_var(string &name);
         int find_type(string &name);
-        int getdirI(string &name); 
+        int getdirI(string &name);
+        int getdirV(string &name);         
         int get_tam(string &name);       
 		void output();
 };
@@ -178,6 +179,16 @@ int tablaVariables::getdirI(string &name) {
 
     }
 
+int tablaVariables::getdirV(string &name) {
+    
+    
+    for(int i=0;i<=50;i++) {
+		if(tvar[i].nombre.compare(name) == 0) 
+				return tvar[i].dirV; 
+        }
+        return -1;
+
+    }
 
 int tablaVariables::get_tam(string &name) {
     
