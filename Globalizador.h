@@ -4,6 +4,7 @@
 using namespace std;
 
 class Globalizador {
+    
     const static int offset_constantesg = 1000;
 
     map<float, int> constantes_globales; 

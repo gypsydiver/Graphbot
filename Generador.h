@@ -4,7 +4,8 @@
 using namespace std;
 
 int temporalActual = 2000;
-int variablesActual = 3000;
+int variableFlotanteActual = 3000;
+int variableListaActual = 4000;
 int cont_cuadruplos = 2;
 
 class Generador {
@@ -57,8 +58,12 @@ class Generador {
         }
 
     public:
-        int variableActual() {
-            return variablesActual;
+        int variableActual(bool flotante) {
+            if (flotante){
+                return variableFlotanteActual;
+            }else{
+                return variableListaActual;
+            } 
         }
 
         int tempActual(){
@@ -66,16 +71,21 @@ class Generador {
         }
 
         void reinicializa_variable() {
-            variablesActual = 3000;
+            variableFlotanteActual = 3000;
+            variableListaActual = 4000;
         }
 
         void reinicializa_temp() {
             temporalActual = 2000;
         }
 
-        int variablesDeAvail() {
-            int variableSolicitada = variableActual();
-            variablesActual++;
+        int variablesDeAvail(bool flotante) {
+            int variableSolicitada = variableActual(flotante);
+            if(flotante){
+                variableFlotanteActual++;
+            }else{
+                variableListaActual++;
+            }
             return variableSolicitada;
         }
 

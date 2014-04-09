@@ -144,7 +144,7 @@ parametros:
 		// Agrega variable a la tabla
         tvar.nombre = $1;
         tvar.tipo = 0;
-        tvar.dirV = generador.variablesDeAvail();
+        tvar.dirV = generador.variablesDeAvail(true);
         tvar.dirI = 0;        
         tv.add_var(tvar);
         param++;
@@ -207,16 +207,23 @@ comandos:
         tv.remove_var(var); }
 		// Agrega una variable a la tabla de variables        
         tvar.nombre = $2;
-        tvar.dirV = generador.variablesDeAvail();
+        if(tvar.tipo == 0) {
+            //genera direccion virtual para variable de tipo flotante
+            tvar.dirV = generador.variablesDeAvail(true);
+            //genera cuadruplo save flotante
+        	generador.pushPOper(5022);
+		    generador.pushPilaO(tvar.dirV);
+            generador.start(4); 
+        }else if(tvar.tipo == 1){
+            //genera direccion virtual para variable tipo lista
+            tvar.dirV = generador.variablesDeAvail(false);
+            //genera cuadruplo save lista
+            generador.rellena_save(generador.popPSaltos(), tvar.dirV);
+        }
+        //agrega variable a tabla de variables
         tv.add_var(tvar);
         vars++;
 
-        if(tvar.tipo == 0) {
-	    generador.pushPOper(5022);
-		generador.pushPilaO(tvar.dirV);
-        generador.start(4); }
-        else
-        generador.rellena_save(generador.popPSaltos(), tvar.dirV);
 	}
 	| RW_SETPOS expresion expresion {
 		//cout<<"Matched <COMANDO2>:"<<$1<<endl;

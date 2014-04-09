@@ -1,8 +1,8 @@
 0001 - 0999 : constantes saltos
 1000 - 1999 : constantes numéricas
 2000 - 2999 : temporales
-3000 - 3999 : variables
-4000 - 4999 : saltos
+3000 - 3999 : variables flotantes
+4000 - 4999 : variables enteras
 5000 - 5042 : comandos
 
 Codificación de comandos
