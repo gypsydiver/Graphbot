@@ -449,12 +449,12 @@ class Generador {
             cont_cuadruplos++; 
             }
 
-            void era(int tam){
+            void era(int param, int var, int tmp){
             ofstream fileout;
             fileout.open("CodigoInt.txt", std::ios::app);
 
             // Genera era
-            fileout << cont_cuadruplos << ". " << "40 " << tam << endl;
+            fileout << cont_cuadruplos << ". " << "40 " << param  << " " << var << " " << tmp << endl;
             //actualiza el contador de cuádruplos
             cont_cuadruplos++; 
             }

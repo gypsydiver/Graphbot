@@ -259,7 +259,7 @@ llamada_funcion:
         else if (directorio.num_Param(id) != param)
         errores(4, $1);
 
-        generador.era(0);        
+        generador.era(directorio.num_Param(id), directorio.num_Vars(id), directorio.get_tmp(id));        
         $$ = $1;
 
     }
@@ -361,7 +361,7 @@ ciclo_estatutos:
             errores(6, $1);
             
             int dir = tv.getdirI(id); 
-            generador.era(tv.get_tam(id));    
+            generador.era(0,0,0);    
             generador.gosub(dir); 
             
 }

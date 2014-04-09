@@ -24,6 +24,7 @@ public:
 		int add_proc(procs &d);        
         bool find_proc(string &name);  
         int num_Param(string &name);
+        int num_Vars(string &name);
         int get_dirI(string &name);
         int get_tmp(string &name);        
 		void output_proc();
@@ -116,6 +117,18 @@ int dirProcs::num_Param(string &name) {
     for(int i=0;i<=50;i++) {
 		if(dirproc[i].nombre.compare(name) == 0) 
 				return dirproc[i].numParam; 
+        }
+        return -1;
+
+    }
+
+
+int dirProcs::num_Vars(string &name) {
+    
+    
+    for(int i=0;i<=50;i++) {
+		if(dirproc[i].nombre.compare(name) == 0) 
+				return dirproc[i].varLocal; 
         }
         return -1;
 
