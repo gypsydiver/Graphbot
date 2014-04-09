@@ -6,8 +6,8 @@
 
 //Parser verificador de gramática correcta de graphbot
 
-#include <cstdio>
-#include <iostream>
+//#include <cstdio>
+//#include <iostream>
 #include <string>
 #include "Globalizador.h"
 #include "Generador.h"
@@ -83,7 +83,7 @@ graphbot:
 	graph programa {
         // Imprime el directorio de procedimientos con sus respectivas tablas de variables
         directorio.output_proc();
-        globalizador.readFromFile();
+        globalizador.toFile();
 		cout<<"Compilación Exitosa"<<endl;
         generador.start(10);
 	}
@@ -96,7 +96,6 @@ graph: /*empty*/
 
 funcion:
 	funcion_rw funciones funcion_aux RW_END {
-        
         pcd.tv = tv;
         pcd.numParam = param;
         pcd.varLocal = vars;
@@ -112,7 +111,7 @@ funcion:
 
         generador.reinicializa_temp();
         generador.reinicializa_variable();
-}
+	}
     ;
 
 funcion_rw:
@@ -120,9 +119,9 @@ funcion_rw:
         string id = $2;
         // Busca si la función no esta ya dentro del directorio de procedimientos
         if(!directorio.find_proc(id)) {
-        // Agrega función al directorio con su respectiva tabla de variables
-        pcd.nombre = $2;
-        pcd.dirI = cont_cuadruplos;
+	        // Agrega función al directorio con su respectiva tabla de variables
+	        pcd.nombre = $2;
+	        pcd.dirI = cont_cuadruplos;
         }
         else
             errores(1, $2);
@@ -141,7 +140,7 @@ funcion_aux: /* empty */
 	;
 
 parametros: 
-	 ID var {
+	ID var {
 		// Agrega variable a la tabla
         tvar.nombre = $1;
         tvar.tipo = 0;
@@ -157,8 +156,7 @@ var: /* empty */
 	;
 
 programa:
-        programa_rw funciones funcion_aux RW_END {
-
+    programa_rw funciones funcion_aux RW_END {
         pcd.tv = tv;
         pcd.numParam = param;
         pcd.varLocal = vars;
@@ -166,7 +164,7 @@ programa:
         // Deja limpia la variable tablaVariables para el siguiente caso
         tv.remove_all();
         vars = 0;
-}
+	}
     ;
 
 programa_rw:
@@ -174,12 +172,12 @@ programa_rw:
         string id = $2;
 		// Agrega procedimiento main al directorio 
         if(!directorio.find_proc(id)) {
-        // Agrega función al directorio con su respectiva tabla de variables
-        pcd.nombre = $2;
-        pcd.dirI = cont_cuadruplos;
-        generador.rellena(1, cont_cuadruplos);        
+	        // Agrega función al directorio con su respectiva tabla de variables
+	        pcd.nombre = $2;
+	        pcd.dirI = cont_cuadruplos;
+	        generador.rellena(1, cont_cuadruplos);        
+		}
 	}
-}
 	;
 
 comandos: 
@@ -194,7 +192,6 @@ comandos:
 		//comandos que regresan algún valor
 	     generador.pushPOper($1);
          generador.start(7);
-
 	}
     | comando1 expresion{
     	//cout<<"Matched <COMANDO1>: "<<$1<<endl;
@@ -215,17 +212,15 @@ comandos:
         vars++;
 
         if(tvar.tipo == 0) {
-	    generador.pushPOper(22);
+	    generador.pushPOper(5022);
 		generador.pushPilaO(tvar.dirV);
         generador.start(4); }
         else
         generador.rellena_save(generador.popPSaltos(), tvar.dirV);
-        
-
 	}
 	| RW_SETPOS expresion expresion {
 		//cout<<"Matched <COMANDO2>:"<<$1<<endl;
-	    generador.pushPOper(23);
+	    generador.pushPOper(5023);
         generador.start(4);    
 	}
 	| comando3 expresion expresion expresion {
@@ -234,20 +229,18 @@ comandos:
         generador.start(5); 
 	}
 	| llamada_funcion {
-        
          generador.param(param);
          param = 0;  
          string id = $1;
          int dir = directorio.get_dirI(id); 
          generador.gosub(dir); 
-	
 	}
 	;
 
 llamada_funcion_aux: /* empty */
 	| expresion llamada_funcion_aux {
       param++;  
-}
+	}
 	;
 
 llamada_funcion:
@@ -261,44 +254,43 @@ llamada_funcion:
 
         generador.era(directorio.num_Param(id), directorio.num_Vars(id), directorio.get_tmp(id));        
         $$ = $1;
-
     }
 	;
 
 comando: 
-	RW_SHOW {$$ = 0;}
-	| RW_HIDE {$$ = 1;}
-	| RW_CLEAN {$$ = 2;}
-	| RW_HOME {$$ = 3;}
-	| RW_PLAYMUSIC {$$ = 11;}
-	| RW_STOPMUSIC {$$ = 10;}
+	RW_SHOW {$$ = 5000;}
+	| RW_HIDE {$$ = 5001;}
+	| RW_CLEAN {$$ = 5002;}
+	| RW_HOME {$$ = 5003;}
+	| RW_PLAYMUSIC {$$ = 5011;}
+	| RW_STOPMUSIC {$$ = 5010;}
 	;
 
 comando_return:
-	RW_GETCOLORR {$$ = 4;}
-	| RW_GETCOLORB {$$ = 6;}
-	| RW_GETCOLORG {$$ = 5;}
-	| RW_GETPENSIZE {$$ = 7;}
-	| RW_GETX {$$ = 8;}
-	| RW_GETY {$$ = 9;}
+	RW_GETCOLORR {$$ = 5004;}
+	| RW_GETCOLORB {$$ = 5006;}
+	| RW_GETCOLORG {$$ = 5005;}
+	| RW_GETPENSIZE {$$ = 5007;}
+	| RW_GETX {$$ = 5008;}
+	| RW_GETY {$$ = 5009;}
 	;
 
 comando1: 
-	RW_MOVE {$$ = 12;}
-	| RW_TURN {$$ = 13;}
-	| RW_SETX {$$ = 14;}
-	| RW_SETY {$$ = 15;}
-	| RW_SETPENSIZE {$$ = 16;}
-	| RW_SETBACKGROUNDTXT {$$ = 21;}
-	| RW_CAMERAUP {$$ = 17;}
-	| RW_CAMERADOWN {$$ = 18;}
-	| RW_CAMERALEFT {$$ = 19;}
-	| RW_CAMERARIGHT {$$ = 20;}
+	RW_MOVE {$$ = 5012;}
+	| RW_TURN {$$ = 5013;}
+	| RW_SETX {$$ = 5014;}
+	| RW_SETY {$$ = 5015;}
+	| RW_SETPENSIZE {$$ = 5016;}
+	| RW_SETBACKGROUNDTXT {$$ = 5021;}
+	| RW_CAMERAUP {$$ = 5017;}
+	| RW_CAMERADOWN {$$ = 5018;}
+	| RW_CAMERALEFT {$$ = 5019;}
+	| RW_CAMERARIGHT {$$ = 5020;}
 	;
 
 comando3: 
-	RW_SETCOLOR {$$ = 24;}
-	| RW_SETBACKGROUND {$$ = 25;}
+	RW_SETCOLOR {$$ = 5024;}
+	| RW_SETBACKGROUND {$$ = 5025;}
 	;
 
 variable:
@@ -322,9 +314,8 @@ variable:
 
 lista_OPBRACKET:
     OP_BRACKET {
-
         // Genera cuádruplo de save para lista
-	    generador.pushPOper(22);
+	    generador.pushPOper(5022);
         generador.pushPilaO(cont_cuadruplos+2);
 		generador.pushPilaO(-1);
         generador.pushPSaltos(cont_cuadruplos);
@@ -353,19 +344,18 @@ for:
 	;
 
 ciclo_estatutos:
-        lista
-        | ID {
-            // Verifica que variable sea de tipo lista
-            string id = $1;        
-            if(tv.find_type(id) == 0)
-            errores(6, $1);
-            
-            int dir = tv.getdirI(id); 
-            generador.era(0,0,0);    
-            generador.gosub(dir); 
-            
-}
-        ;
+    lista
+    | ID {
+        // Verifica que variable sea de tipo lista
+        string id = $1;        
+        if(tv.find_type(id) == 0)
+        errores(6, $1);
+        
+        int dir = tv.getdirI(id); 
+        generador.era(0,0,0);    
+        generador.gosub(dir); 
+    }
+    ;
 
 for_rw:
 	RW_FOR {
@@ -382,7 +372,7 @@ for_aux:
 		int id = generador.popPilaO();
 
 		generador.pushPilaO(limite);
-		generador.pushPOper(28);
+		generador.pushPOper(5028);
 		generador.start(8);
 
 		generador.pushPilaO(id);
@@ -414,7 +404,6 @@ while:
 		int falso = generador.popPSaltos();
 		// Genera retorno (Goto)
 		generador.start(10);
-
 		// Rellena
 		generador.rellena(falso, cont_cuadruplos);
 	}
@@ -466,8 +455,10 @@ expresion:
 	;
 
 exp_aux: /* empty */
-    | comparador exp { generador.pushPOper($1);
-                       generador.start(8); }
+    | comparador exp {
+    	generador.pushPOper($1);
+    	generador.start(8);
+    }
     ;
 
 exp:
@@ -479,11 +470,11 @@ exp:
 termino_aux: /* empty */
     | ADD exp 	{	
 		// 3.- Meter '+' a POper
-	    generador.pushPOper(32);
+	    generador.pushPOper(5032);
 	}
 	| SUB exp 	{	
 		// 3.- Meter '-' a POper
-	    generador.pushPOper(33);
+	    generador.pushPOper(5033);
 	}
 	;
 
@@ -496,18 +487,17 @@ termino:
 factor_aux: /* empty */
 	| TIMES termino {
 		// 2.- Meter '*' a POper  
-		generador.pushPOper(34); 
+		generador.pushPOper(5034); 
 	}
 	| DIV termino {
 		// 2.- Meter '/' a POper  
-		generador.pushPOper(35); 
+		generador.pushPOper(5035); 
 	}
     ;
 
 factor: 
     OP_PAR expresion CL_PAR {
     }
-
     | varCte {
 		//cout<<"1.- Meter "<<$1<<" a PilaO"<<endl;
 		// 1.- Meter $1 a PilaO
@@ -527,18 +517,17 @@ varCte:
         $$ = tv.getdirV(id);
 	}
 	| FLOAT	{
-               $$ = globalizador.asigna_globales($1);
-                
-                                    }
+		$$ = globalizador.asigna_globales($1);
+    }
 	;
 
 comparador: 
-	EQUAL {$$ = 26;}
-	| NOT_EQUAL {$$ = 29;}
-	| GREAT_EQ_THAN {$$ = 30;}
-	| LESS_EQ_THAN {$$ = 31;}
-	| GREAT_THAN {$$ = 27;}
-	| LESS_THAN {$$ = 28;}
+	EQUAL {$$ = 5026;}
+	| NOT_EQUAL {$$ = 5029;}
+	| GREAT_EQ_THAN {$$ = 5030;}
+	| LESS_EQ_THAN {$$ = 5031;}
+	| GREAT_THAN {$$ = 5027;}
+	| LESS_THAN {$$ = 5028;}
 	;
 %%
 
@@ -572,34 +561,33 @@ void errores(int i, string val) {
 		case 1: 
 			cout << "Función "<< val << " ya declarada." << endl;
 			exit(-1);
-			break;
+		break;
 
 		// La variable no ha sido declarada
 		case 2:
 			cout << "Variable "<< val <<  " no declarada." <<  endl;
 			exit(-1);
-			break;
+		break;
 
 		// La función no esta declarada
 		case 3:
 			cout << "Función " << val << " no existe." << endl;
 			exit(-1);
-			break;
+		break;
 
         case 4:
 			cout << "Cantidad de parámetros errónea en función " << val << " esperaba " << directorio.num_Param(val) << " recibí " << param << "." << endl;
 			exit(-1);
-			break;
+		break;
 
         case 5:
 			cout << "Variable " << val << " es de tipo lista y no puede ser utilizada en una expresión. " << endl;
 			exit(-1);
-			break;
+		break;
 
         case 6:
 			cout << "Variable " << val << " no es de tipo lista." << endl;
             exit(-1);
-			break;
-
+		break;
 	} 
 }

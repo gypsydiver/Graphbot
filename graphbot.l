@@ -6,8 +6,8 @@
 
 //Definición de léxico
 
-#include <iostream>
-using namespace std;
+//#include <iostream>
+//using namespace std;
 #define YY_DECL extern "C" int yylex()
 
 #include "graphbot.tab.h"

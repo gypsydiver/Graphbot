@@ -4,17 +4,11 @@
 using namespace std;
 
 class Globalizador {
-    
     const static int offset_constantesg = 1000;
-    const static int offset_saltos = 4000;
 
     map<float, int> constantes_globales; 
     map<float, int>::const_iterator it;
     int constanteActual = 0;
-
-    map<int, int > saltos;
-    map<int, int>::const_iterator sal;
-    int saltoActual = 0;
     
     public:
    
@@ -32,56 +26,22 @@ class Globalizador {
            return direccion;
        }
     }
-
-    int asigna_saltos(int saltillo) {
-       sal = saltos.find(saltillo); 
-        // Checar si el salto ya esta en la estructura
-       if (sal != saltos.end()) {
-           // Si sí, regresa el valor
-           return saltos[saltillo];
-       }else {
-           // Si no, agrega a hash table y regresa el valor asignado
-           int direccion = asigna_salto();   
-           saltos[saltillo] = direccion;
-           return direccion;
-       }
-    }
-
-    int busca_salto(int direccion){
-        int tam = saltos.size();
-
-        for(sal = saltos.begin(); sal != saltos.end(); ++sal) {
-        if(sal -> second == direccion){
-            return sal -> first;
-        } 
-        }
-        return -1;
-    }
-
-    void setValues(int x, int y) {
-        constanteActual = x;
-        saltoActual = y; 
-    }
     
     void toFile(){
-    
+        ofstream fileout;
+        fileout.open("constNum.txt", std::ios::app);
+        for(it = constantes_globales.begin(); it != constantes_globales.end(); ++it) {
+            fileout <<it->first<<":"<<it->second<<endl;
+        }
+        fileout.close();
     }
 
     void readFromFile(){
-        
-        for(sal = saltos.begin(); sal != saltos.end(); ++sal) {
-            cout << "Salto: " << sal -> first << " Dirección Virtual:" << sal -> second << endl;
-        } 
 
     }
 
     private:
-
         int asigna_constante() {
             return offset_constantesg + (constanteActual++);
-        }
-
-        int asigna_salto() {
-            return offset_saltos + (saltoActual++);
         }
 };

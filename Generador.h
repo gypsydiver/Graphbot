@@ -17,12 +17,9 @@ class Generador {
        
         int tempDeAvail(){
             int temporalSolicitado = tempActual();
-
             //agrega tempActual a PilaO
             pushPilaO(temporalSolicitado);
-
             temporalActual++;
-
             return temporalSolicitado;
         }
 
@@ -60,7 +57,6 @@ class Generador {
         }
 
     public:
-
         int variableActual() {
             return variablesActual;
         }
@@ -69,26 +65,18 @@ class Generador {
             return temporalActual;
         }
 
-
         void reinicializa_variable() {
-        
-        variablesActual = 3000;
-
+            variablesActual = 3000;
         }
 
         void reinicializa_temp() {
-       
-         temporalActual = 2000;
-        
+            temporalActual = 2000;
         }
 
         int variablesDeAvail() {
             int variableSolicitada = variableActual();
-
             variablesActual++;
-
             return variableSolicitada;
-
         }
 
         int popPilaO() {
@@ -102,10 +90,10 @@ class Generador {
             int top;
             top = PSaltos.top();
             PSaltos.pop();
-            // Regresa el salto si ya esta asignado 
             return top;
         }
 
+        //THIS
         void rellena(int salto, int donde){
             //salto es donde se debe de rellenar, donde es a donde tiene que ir ese salto
             ifstream filein;
@@ -140,8 +128,8 @@ class Generador {
             remove("CodigoInt.txt");
             rename("temp.txt","CodigoInt.txt");
         }
-
-         void rellena_save(int salto, int var){
+        //THIS
+        void rellena_save(int salto, int var){
             //salto es donde se debe de rellenar, donde es a donde tiene que ir ese salto
             ifstream filein;
             ofstream fileout;
@@ -176,19 +164,6 @@ class Generador {
             rename("temp.txt","CodigoInt.txt");
         }
 
-
-        /*void agregaFF(){
-            pushPOper("$");
-        }
-
-        bool sacarFF(){
-            if(POper.top() == "$"){
-                POper.pop();
-                //cout<<"Después de FF: "<<POper.top()<<endl;
-            }
-            return false;
-        } */
-
         void pushPOper(int op) {  
             POper.push(op);
         }
@@ -210,14 +185,13 @@ class Generador {
                     // 5.- Si pop(POper) == '+' o '-'            
                     if(!POper.empty() && PilaO.size() >=2){
                         int posible_operador = POper.top();
-                        if((posible_operador == 32) || (posible_operador == 33)){
+                        if((posible_operador == 5032) || (posible_operador == 5033)){
                             int opdo2 = popPilaO();
                             int opdo1= popPilaO();
                             //sacar posible_operador de la pila
                             POper.pop();
                             //genera(posible_operador,opdo1,opdo2, "", 0);
                             fileout << cont_cuadruplos << ". "<< posible_operador << " " << opdo1 << " " << opdo2 <<" "<<tempDeAvail()<<endl; 
-
                             //actualiza el contador de cuádruplos
                             cont_cuadruplos++;
                         }
@@ -228,17 +202,15 @@ class Generador {
                     // 4.- Si pop(POper) == '*' o '/'            
                     if(!POper.empty() && PilaO.size() >=2){
                         int posible_operador = POper.top();
-                        if((posible_operador == 34) || (posible_operador == 35)){
+                        if((posible_operador == 5034) || (posible_operador == 5035)){
                             int opdo2 = popPilaO();
                             int opdo1= popPilaO();
                             //sacar posible_operador de la pila
                             POper.pop();
                             //genera(posible_operador,opdo1,opdo2, "", 0);
                             fileout << cont_cuadruplos << ". "<< posible_operador << " " << opdo1 << " " << opdo2 <<" "<<tempDeAvail()<<endl;
-                            
                             //actualiza el contador de cuádruplos
                             cont_cuadruplos++;
-
                         }
                     }
                 break;
@@ -248,9 +220,8 @@ class Generador {
                     if(!POper.empty() && !PilaO.empty()){
                         int op = popPOper();
                         int opdo1 = popPilaO();
-                       // genera(posible_operador,opdo1, "", "", 1);
+                        // genera(posible_operador,opdo1, "", "", 1);
                         fileout << cont_cuadruplos << ". " << op << " " << opdo1 << endl;
-    
                         //actualiza el contador de cuádruplos
                         cont_cuadruplos++;
                     }
@@ -262,18 +233,15 @@ class Generador {
                         int op = popPOper();
                         int opdo2 = popPilaO();
                         int opdo1 = popPilaO();
-                        //genera(posible_operador,opdo1, opdo2, "", 2);
-                        
+                        //si es un salto pendiente se marca y se rellena con rellena_save
                         if (opdo2 == -1){
-                        fileout << cont_cuadruplos << ". " << op << " " << opdo1 << " &" << endl;  
+                            fileout << cont_cuadruplos << ". " << op << " " << opdo1 << " &" << endl;  
                         }
                         else {
-                        fileout << cont_cuadruplos << ". " << op << " " << opdo1 << " " << opdo2 << endl;  
+                            fileout << cont_cuadruplos << ". " << op << " " << opdo1 << " " << opdo2 << endl;  
                         }
-
-                         //actualiza el contador de cuádruplos
-                         cont_cuadruplos++;
-    
+                        //actualiza el contador de cuádruplos
+                        cont_cuadruplos++;
                     }
                 break;
 
@@ -286,10 +254,8 @@ class Generador {
                         int opdo1 = popPilaO();
                         //genera(posible_operador,opdo1, opdo2, opdo3, 3);
                         fileout << cont_cuadruplos << ". " << op << " " << opdo1 << " " << opdo2 << " " << opdo3 << endl;
-                        
                         //actualiza el contador de cuádruplos
                         cont_cuadruplos++;
-
                     }
                 break;
 
@@ -299,10 +265,8 @@ class Generador {
                         int op = popPOper();
                         //genera(op,"","","", 5);
                         fileout << cont_cuadruplos << ". " << op << endl;
-                        
                         //actualiza el contador de cuádruplos
                         cont_cuadruplos++;
-
                     }
                 break;
 
@@ -311,10 +275,8 @@ class Generador {
                     if(!POper.empty()){
                         int op = popPOper();
                         fileout << cont_cuadruplos << ". " << op << " " << tempDeAvail() << endl;
-
                         //actualiza el contador de cuádruplos
                         cont_cuadruplos++;
-
                     }
                 break;
 
@@ -324,23 +286,19 @@ class Generador {
                         int op = popPOper();
                         int opdo2 = popPilaO();
                         int opdo1 = popPilaO();
-                        fileout << cont_cuadruplos << ". " << op << " " << opdo1 << " " << opdo2 << " " << tempDeAvail() << endl;        
-           
+                        fileout << cont_cuadruplos << ". " << op << " " << opdo1 << " " << opdo2 << " " << tempDeAvail() << endl;
                         //actualiza el contador de cuádruplos
                         cont_cuadruplos++;
-
                     }
                 break;
                          
-            case 9:
+                case 9:
                     //GotoF's
-                    /*Checar tipos*/
                     if(!PilaO.empty()){
                         int resultado = popPilaO();
                         //Genera GotoF
-                        fileout << cont_cuadruplos << ". " << "37 "<< resultado << " #"<< endl;
+                        fileout << cont_cuadruplos << ". " << "5037 "<< resultado << " #"<< endl;
                         pushPSaltos(cont_cuadruplos);
-                        
                         //actualiza el contador de cuádruplos
                         cont_cuadruplos++;
                     }
@@ -350,8 +308,7 @@ class Generador {
                     //Goto's
                     if(!PSaltos.empty()){
                         int retorno = popPSaltos();
-                        fileout << cont_cuadruplos << ". " << "36 "<< retorno <<endl;
-
+                        fileout << cont_cuadruplos << ". " << "5036 "<< retorno <<endl;
                         //actualiza el contador de cuádruplos
                         cont_cuadruplos++;
                     }
@@ -367,7 +324,7 @@ class Generador {
 
                         int resultado = popPilaO();
                         //Genera GotoF
-                        fileout << cont_cuadruplos << ". " << "37 "<< resultado << " #"<< endl;
+                        fileout << cont_cuadruplos << ". " << "5037 "<< resultado << " #"<< endl;
                         pushPSaltos(cont_cuadruplos);
                         
                         //actualiza el contador de cuádruplos
@@ -381,83 +338,57 @@ class Generador {
 
                 case 12:
                     //aumento a la variable de control
-                    pushPOper(32);
+                    pushPOper(5032);
                     start(1);
-                    pushPOper(22);  
+                    pushPOper(5022);  
                     start(4);
                 break;
 
                 case 13:
                     // Genera retorno
-                    fileout << cont_cuadruplos << ". " << 41 << endl;
+                    fileout << cont_cuadruplos << ". " << "5041" << endl;
                     //actualiza el contador de cuádruplos
                     cont_cuadruplos++; 
                 break;
 
                 case 14:
                     //Goto's
-                        fileout << cont_cuadruplos << ". " << "36 #" << endl;
-
-                        //actualiza el contador de cuádruplos
-                        cont_cuadruplos++;
-                    
-
+                    fileout << cont_cuadruplos << ". " << "5036 #" << endl;
+                    //actualiza el contador de cuádruplos
+                    cont_cuadruplos++;
                 break;
+            }
+        }
 
-                case 15:
-                    // SAVE
-                    if(!POper.empty() && PilaO.size() >=2){
-                        int op = popPOper();
-                        int opdo2 = popPilaO();
-                        int opdo1 = popPilaO();
-                        //genera(posible_operador,opdo1, opdo2, "", 2);
-                        fileout << cont_cuadruplos << ". " << op << " " << opdo1 << " " << opdo2 << endl;  
-                    
-                         //actualiza el contador de cuádruplos
-                         cont_cuadruplos++;
-    
-                    }
-                break;
-
-
-             }
-                        }
-
-
-            void param(int param){
+        void param(int param){
             ofstream fileout;
             fileout.open("CodigoInt.txt", std::ios::app);
-
-             // Genera parametros
-                    if (PilaO.size() >= param){
-                    for(int i = param; i > 0; i--){
+            // Genera parametros
+            if (PilaO.size() >= param){
+                for(int i = param; i > 0; i--){
                     int param = popPilaO();
-                    fileout << cont_cuadruplos << ". " << "39 " << param << " param" << i << endl;
+                    fileout << cont_cuadruplos << ". " << "5039 " << param << " param" << i << endl;
                     //actualiza el contador de cuádruplos
                     cont_cuadruplos++; 
+                }
             }
-                    }
-            }
+        }
 
-            void gosub(int dir){
+        void gosub(int dir){
             ofstream fileout;
             fileout.open("CodigoInt.txt", std::ios::app);
-
             // Genera gosub
-            fileout << cont_cuadruplos << ". " << "42 " << dir << endl;
+            fileout << cont_cuadruplos << ". " << "5042 " << dir << endl;
             //actualiza el contador de cuádruplos
             cont_cuadruplos++; 
-            }
-
-            void era(int param, int var, int tmp){
+        }
+        
+        void era(int param, int var, int tmp){
             ofstream fileout;
             fileout.open("CodigoInt.txt", std::ios::app);
-
             // Genera era
-            fileout << cont_cuadruplos << ". " << "40 " << param  << " " << var << " " << tmp << endl;
+            fileout << cont_cuadruplos << ". " << "5040 "<< param << " " << var << " " << tmp << endl;
             //actualiza el contador de cuádruplos
             cont_cuadruplos++; 
-            }
-
-
+        }
 };

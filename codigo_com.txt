@@ -1,44 +1,51 @@
+0001 - 0999 : constantes saltos
+1000 - 1999 : constantes numéricas
+2000 - 2999 : temporales
+3000 - 3999 : variables
+4000 - 4999 : saltos
+5000 - 5042 : comandos
+
 Codificación de comandos
 
-0 : show
-1 : hide
-2 : clean
-3 : home 
-4 : getcolorr
-5 : getcolorg
-6 : getcolorb
-7 : getpensize
-8 : getx
-9 : gety
-10 : stopmusic
-11 : playmusic
-12 : move
-13 : turn
-14 : setx
-15 : sety
-16 : setpensize
-17 : cameraup
-18 : cameradown
-19 : cameraleft
-20 : cameraright
-21 : setbackgroundtxt
-22 : save
-23 : setpos
-24 : setcolor
-25 : setbackground
-26 : =
-27 : >
-28 : <
-29 : !=
-30 : >=
-31 : <=
-32 : +
-33 : -
-34 : *
-35 : /
-36 : goto
-37 : gotoF
-39 : param
-40 : era
-41 : retorno
-42 : gosub
+5000 : show
+5001 : hide
+5002 : clean
+5003 : home 
+5004 : getcolorr
+5005 : getcolorg
+5006 : getcolorb
+5007 : getpensize
+5008 : getx
+5009 : gety
+5010 : stopmusic
+5011 : playmusic
+5012 : move
+5013 : turn
+5014 : setx
+5015 : sety
+5016 : setpensize
+5017 : cameraup
+5018 : cameradown
+5019 : cameraleft
+5020 : cameraright
+5021 : setbackgroundtxt
+5022 : save
+5023 : setpos
+5024 : setcolor
+5025 : setbackground
+5026 : =
+5027 : >
+5028 : <
+5029 : !=
+5030 : >=
+5031 : <=
+5032 : +
+5033 : -
+5034 : *
+5035 : /
+5036 : goto
+5037 : gotoF
+5039 : param
+5040 : era
+5041 : retorno
+5042 : gosub
