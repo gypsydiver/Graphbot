@@ -11,7 +11,8 @@ public:
 		int tmp; // size of the element
         tablaVariables tv; // vars table
         int numParam;
-        int varLocal;
+        int varFlotante;
+        int varLista;
 };
 
 class dirProcs {
@@ -24,7 +25,8 @@ public:
 		int add_proc(procs &d);        
         bool find_proc(string &name);  
         int num_Param(string &name);
-        int num_Vars(string &name);
+        int num_varLista(string &name);
+        int num_varFlotante(string &name);
         int get_dirI(string &name);
         int get_tmp(string &name);        
 		void output_proc();
@@ -51,7 +53,8 @@ dirProcs::dirProcs() {
 				dirproc[i].dirI = -1; //set all data values to 0, which is default
 				dirproc[i].tmp = -1; //set all data values to 0, which is default
                 dirproc[i].numParam = -1;
-                dirproc[i].varLocal = -1;                 
+                dirproc[i].varFlotante = -1;                 
+                dirproc[i].varLista = -1;                 
 		}
 		numel = 0;
 }
@@ -68,7 +71,8 @@ int dirProcs::add_proc(procs &d) {
                         dirproc[hashed].tmp = d.tmp;
                         dirproc[hashed].tv = d.tv;
                         dirproc[hashed].numParam = d.numParam; 
-                        dirproc[hashed].varLocal = d.varLocal;                       
+                        dirproc[hashed].varFlotante = d.varFlotante;                       
+                        dirproc[hashed].varLista = d.varLista;                       
 						return 0;
 				} else {
 						//we need to rehash the id
@@ -83,7 +87,8 @@ int dirProcs::add_proc(procs &d) {
                                     dirproc[hashed].tmp = d.tmp;
                                     dirproc[hashed].tv = d.tv; 
                                     dirproc[hashed].numParam = d.numParam; 
-                                    dirproc[hashed].varLocal = d.varLocal;   
+                                    dirproc[hashed].varFlotante = d.varFlotante;   
+                                    dirproc[hashed].varLista = d.varLista;   
 									return 0;
 							} else if(i==50) {
 									//we couldn't find the empty place
@@ -123,15 +128,20 @@ int dirProcs::num_Param(string &name) {
     }
 
 
-int dirProcs::num_Vars(string &name) {
-    
-    
+int dirProcs::num_varFlotante(string &name) {
     for(int i=0;i<=50;i++) {
 		if(dirproc[i].nombre.compare(name) == 0) 
-				return dirproc[i].varLocal; 
+				return dirproc[i].varFlotante; 
         }
         return -1;
+    }
 
+int dirProcs::num_varLista(string &name) {
+    for(int i=0;i<=50;i++) {
+		if(dirproc[i].nombre.compare(name) == 0) 
+				return dirproc[i].varLista; 
+        }
+        return -1;
     }
 
 int dirProcs::get_dirI(string &name) {
@@ -161,7 +171,7 @@ void dirProcs::output_proc() {
 		int i;
 		for(i=0;i<51;i++) {
                 if(dirproc[i].id != -1) {
-				cout << "Procedimiento: "<<dirproc[i].nombre<<" DirInicial: "<<dirproc[i].dirI<<" Temporales:"<<dirproc[i].tmp<< " Num Param: " << dirproc[i].numParam << " Num Vars: " << dirproc[i].varLocal << "\nTabla Variables: " << endl;
+				cout << "Procedimiento: "<<dirproc[i].nombre<<" DirInicial: "<<dirproc[i].dirI<<" Temporales:"<<dirproc[i].tmp<< " Num Param: " << dirproc[i].numParam << " Num Vars Flotantes: " << dirproc[i].varFlotante << " Num varLista: " << dirproc[i].varLista << "\nTabla Variables: " << endl;
                 (dirproc[i].tv).output();
 		}
 }
