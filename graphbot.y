@@ -166,7 +166,7 @@ programa:
         pcd.varLista = varsLista;
         //mala práctica
         pcd.tmp = generador.tempActual()-2000;
-        //generador.generaEraMain(varsFlotante, varsLista, pcd.tmp);
+        generador.generaEraMain(pcd.varFlotante, pcd.varLista, pcd.tmp);
         directorio.add_proc(pcd);
         // Deja limpia la variable tablaVariables para el siguiente caso
         tv.remove_all();

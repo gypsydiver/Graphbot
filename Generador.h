@@ -61,14 +61,25 @@ class Generador {
     public:
         //tengo hueva
         void generaEraMain(int flotantes, int listas, int temporales){
-            //ofstream fileout;
-            FILE *codigo = fopen("CodigoInt.txt", "r+");
-            fprintf(codigo,"1. 5040 %d %d %d\n",flotantes,listas,temporales);
-            //FILE fileout.open("CodigoInt.txt", ios::in);
-            //fileout << "1. 5040 "<< flotantes <<" "<< listas <<" "<< temporales<< endl;
-            //fileout << "2. 5036 main #"<<endl;
-            //fileout.close();
-            fclose(codigo);
+
+            ifstream filein;
+            ofstream fileout;
+            filein.open("CodigoInt.txt");
+            fileout.open("temp.txt");
+            string line;
+
+            fileout << "1. 5040 "<< flotantes <<" "<< listas <<" "<< temporales<< endl;
+
+            while (getline(filein, line)){
+                    fileout << line << endl;
+            }
+
+            filein.close();
+            fileout.close();
+
+            remove("CodigoInt.txt");
+            rename("temp.txt","CodigoInt.txt");
+
         }
 
         void imprimePSaltos(){
