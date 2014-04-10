@@ -18,6 +18,7 @@ int yylineco = 1;
 [ \t]				;
 \n					{++yylineco;}
 move 				{ yylval.sval = strdup(yytext); return RW_MOVE; }
+main 				{ yylval.sval = strdup(yytext); return RW_MAIN; }
 turn 				{ yylval.sval = strdup(yytext); return RW_TURN; }
 setpos				{ yylval.sval = strdup(yytext); return RW_SETPOS; }
 setx 				{ yylval.sval = strdup(yytext); return RW_SETX; }
