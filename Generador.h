@@ -6,7 +6,7 @@ using namespace std;
 int temporalActual = 2000;
 int variableFlotanteActual = 3000;
 int variableListaActual = 4000;
-int cont_cuadruplos = 2;
+int cont_cuadruplos = 3;
 
 class Generador {
     private:
@@ -15,6 +15,7 @@ class Generador {
         stack<int> PSaltos;
         stack<int> PilaO_aux;
         stack<int> POper_aux;
+        stack<int> PSaltos_aux;
        
         int tempDeAvail(){
             int temporalSolicitado = tempActual();
@@ -58,6 +59,31 @@ class Generador {
         }
 
     public:
+        //tengo hueva
+        void generaEraMain(int flotantes, int listas, int temporales){
+            //ofstream fileout;
+            FILE *codigo = fopen("CodigoInt.txt", "r+");
+            fprintf(codigo,"1. 5040 %d %d %d\n",flotantes,listas,temporales);
+            //FILE fileout.open("CodigoInt.txt", ios::in);
+            //fileout << "1. 5040 "<< flotantes <<" "<< listas <<" "<< temporales<< endl;
+            //fileout << "2. 5036 main #"<<endl;
+            //fileout.close();
+            fclose(codigo);
+        }
+
+        void imprimePSaltos(){
+            while(! PSaltos.empty()){
+                cout << PSaltos.top() << ", ";
+                PSaltos_aux.push(popPSaltos());
+            }
+            cout<<endl;
+
+            while(! PSaltos_aux.empty()){
+                pushPSaltos(PSaltos_aux.top());
+                PSaltos_aux.pop();
+            }
+        }
+
         int variableActual(bool flotante) {
             if (flotante){
                 return variableFlotanteActual;
@@ -111,7 +137,7 @@ class Generador {
             filein.open("CodigoInt.txt");
             fileout.open("temp.txt");
             string line;
-            string rep = to_string(salto);
+            string rep = to_string(salto) + ".";
             string str = "#";
 
             while (getline(filein, line)){
@@ -121,7 +147,7 @@ class Generador {
                     size_t len = str.length();
 
                     // Encontró la posición del cuádruplo
-                    if ((pos != std::string::npos) && (pos1 != std::string::npos)){
+                    if ((pos != string::npos) && (pos1 != string::npos)){
                         int size = line.size();
                         line.replace(pos1, len, to_string(donde));
                         fileout << line << endl;
@@ -146,7 +172,7 @@ class Generador {
             filein.open("CodigoInt.txt");
             fileout.open("temp.txt");
             string line;
-            string rep = to_string(salto);
+            string rep = to_string(salto) + ".";
             string str = "&";
 
             while (getline(filein, line)){
@@ -156,7 +182,7 @@ class Generador {
                     size_t len = str.length();
 
                     // Encontró la posición del cuádruplo
-                    if ((pos != std::string::npos) && (pos1 != std::string::npos)){
+                    if ((pos != string::npos) && (pos1 != string::npos)){
                         int size = line.size();
                         line.replace(pos1, len, to_string(var));
                         fileout << line << endl;
@@ -188,7 +214,7 @@ class Generador {
         
         void start(int i){
             ofstream fileout;
-            fileout.open("CodigoInt.txt", std::ios::app);
+            fileout.open("CodigoInt.txt", ios::app);
 
             switch(i) {
                 case 1:
@@ -335,6 +361,7 @@ class Generador {
                         int resultado = popPilaO();
                         //Genera GotoF
                         fileout << cont_cuadruplos << ". " << "5037 "<< resultado << " #"<< endl;
+                        cout << "GENERA 11 PUSHPSALTOS -> " <<cont_cuadruplos<< endl;
                         pushPSaltos(cont_cuadruplos);
                         
                         //actualiza el contador de cuádruplos
@@ -372,7 +399,7 @@ class Generador {
 
         void param(int param){
             ofstream fileout;
-            fileout.open("CodigoInt.txt", std::ios::app);
+            fileout.open("CodigoInt.txt", ios::app);
             // Genera parametros
             if (PilaO.size() >= param){
                 for(int i = param; i > 0; i--){
@@ -386,18 +413,18 @@ class Generador {
 
         void gosub(int dir){
             ofstream fileout;
-            fileout.open("CodigoInt.txt", std::ios::app);
+            fileout.open("CodigoInt.txt", ios::app);
             // Genera gosub
             fileout << cont_cuadruplos << ". " << "5042 " << dir << endl;
             //actualiza el contador de cuádruplos
             cont_cuadruplos++; 
         }
         
-        void era(int param, int var, int tmp){
+        void era(int param, int varf, int varl, int tmp){
             ofstream fileout;
-            fileout.open("CodigoInt.txt", std::ios::app);
+            fileout.open("CodigoInt.txt", ios::app);
             // Genera era
-            fileout << cont_cuadruplos << ". " << "5040 "<< param << " " << var << " " << tmp << endl;
+            fileout << cont_cuadruplos << ". " << "5040 "<< param + varf <<" "<< varl <<" "<< tmp << endl;
             //actualiza el contador de cuádruplos
             cont_cuadruplos++; 
         }
