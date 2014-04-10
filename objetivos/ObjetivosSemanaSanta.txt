@@ -1,0 +1,12 @@
+Objetivos Semana Santa
+
+- Cargar memoria en ejecución
+- Cargar constantes
+- Ejecución de Funciones aritméticas
+- Text Areas de GUI
+
+-----------No tan importante-------------
+- Code Refactoring
+- Actualizar Flex y Bison
+- Quitar Warning (cambiar a C++11)
+
