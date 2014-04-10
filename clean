@@ -1,1 +1,2 @@
-rm graphbot.output && rm graphbot.tab.* && rm lex.yy.c && rm graphbot && rm CodigoInt.txt && echo "1. 5036 main #" >> CodigoInt.txt && rm constNum.txt 
+rm graphbot.output && rm graphbot.tab.* && rm lex.yy.c && rm graphbot && rm constNum.txt
+rm CodigoInt.txt && echo -e "2. 5036 main #" >> CodigoInt.txt 
