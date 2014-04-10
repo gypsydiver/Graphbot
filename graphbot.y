@@ -31,7 +31,8 @@ Generador generador;
 
 // Contador global de parámetros y variables
 int param = 0;
-int vars = 0;
+int varsFlotante = 0;
+int varsLista = 0;
 
 // stuff from flex that bison needs to know about:
 extern "C" int yylex();
@@ -73,7 +74,8 @@ void print();
 %token <sval> ADD SUB TIMES DIV ID FLOAT
 
 %type <sval> llamada_funcion;
-
+//tengo hueva
+%token <sval> RW_MAIN
 %type <ival> comparador comandos comando comando_return comando1 comando3 varCte expresion variable
 %start graphbot
 %%
@@ -85,7 +87,6 @@ graphbot:
         directorio.output_proc();
         globalizador.toFile();
 		cout<<"Compilación Exitosa"<<endl;
-        generador.start(10);
 	}
 	;
 
@@ -98,13 +99,15 @@ funcion:
 	funcion_rw funciones funcion_aux RW_END {
         pcd.tv = tv;
         pcd.numParam = param;
-        pcd.varLocal = vars;
+        pcd.varFlotante = varsFlotante;
+        pcd.varLista = varsLista;
         pcd.tmp = generador.tempActual()-2000;  
         directorio.add_proc(pcd);
         // Deja limpia la variable tablaVariables para el siguiente caso
         tv.remove_all();
         param = 0;
-        vars = 0; 
+        varsLista = 0;
+        varsFlotante = 0;
         
         // Genera retorno
         generador.start(13);
@@ -139,8 +142,8 @@ funcion_aux: /* empty */
 	| funciones funcion_aux
 	;
 
-parametros: 
-	ID var {
+parametros: /* empty */
+	|ID var {
 		// Agrega variable a la tabla
         tvar.nombre = $1;
         tvar.tipo = 0;
@@ -159,23 +162,28 @@ programa:
     programa_rw funciones funcion_aux RW_END {
         pcd.tv = tv;
         pcd.numParam = param;
-        pcd.varLocal = vars;
+        pcd.varFlotante = varsFlotante;
+        pcd.varLista = varsLista;
+        //mala práctica
+        pcd.tmp = generador.tempActual()-2000;
+        //generador.generaEraMain(varsFlotante, varsLista, pcd.tmp);
         directorio.add_proc(pcd);
         // Deja limpia la variable tablaVariables para el siguiente caso
         tv.remove_all();
-        vars = 0;
+        varsFlotante = 0;
+        varsLista = 0;
 	}
     ;
 
 programa_rw:
-	RW_PROGRAM ID {
-        string id = $2;
+	RW_PROGRAM RW_MAIN {
+		string id = $2;
 		// Agrega procedimiento main al directorio 
         if(!directorio.find_proc(id)) {
 	        // Agrega función al directorio con su respectiva tabla de variables
-	        pcd.nombre = $2;
+	        pcd.nombre = id;
 	        pcd.dirI = cont_cuadruplos;
-	        generador.rellena(1, cont_cuadruplos);        
+	        generador.rellena(2, pcd.dirI);
 		}
 	}
 	;
@@ -208,6 +216,7 @@ comandos:
 		// Agrega una variable a la tabla de variables        
         tvar.nombre = $2;
         if(tvar.tipo == 0) {
+        	varsFlotante++;
             //genera direccion virtual para variable de tipo flotante
             tvar.dirV = generador.variablesDeAvail(true);
             //genera cuadruplo save flotante
@@ -215,6 +224,7 @@ comandos:
 		    generador.pushPilaO(tvar.dirV);
             generador.start(4); 
         }else if(tvar.tipo == 1){
+        	varsLista++;
             //genera direccion virtual para variable tipo lista
             tvar.dirV = generador.variablesDeAvail(false);
             //genera cuadruplo save lista
@@ -222,7 +232,6 @@ comandos:
         }
         //agrega variable a tabla de variables
         tv.add_var(tvar);
-        vars++;
 
 	}
 	| RW_SETPOS expresion expresion {
@@ -251,17 +260,21 @@ llamada_funcion_aux: /* empty */
 	;
 
 llamada_funcion:
-	ID OP_PAR llamada_funcion_aux CL_PAR {
+	ID parametros_llamada_funcion {
         string id = $1;
 		// Busca si la función no esta ya dentro del directorio de procedimientos
         if(!directorio.find_proc(id)) 
-	    errores(3, $1); 
+	    	errores(3, $1); 
         else if (directorio.num_Param(id) != param)
-        errores(4, $1);
+        	errores(4, $1);
 
-        generador.era(directorio.num_Param(id), directorio.num_Vars(id), directorio.get_tmp(id));        
+        generador.era(directorio.num_Param(id), directorio.num_varFlotante(id), directorio.num_varLista(id),directorio.get_tmp(id));        
         $$ = $1;
     }
+	;
+
+parametros_llamada_funcion: /*empty*/
+	| OP_PAR llamada_funcion_aux CL_PAR 
 	;
 
 comando: 
@@ -315,7 +328,7 @@ variable:
         // Retorno
         generador.start(13);
         // Rellena goto anterior con con_cuadruplos actual
-        generador.rellena(generador.popPSaltos(), cont_cuadruplos);
+       	generador.rellena(generador.popPSaltos(), cont_cuadruplos);
 	}
 	;
 
