@@ -1,6 +1,6 @@
 Objetivos Semana 6
 
- - Implementar diseño de memoria
+*- Implementar diseño de memoria
 *- Codificar comandos
 *- Convertir constantes númericas en direcciones virtuales
 *- Codificar comparadores y operadores aritmeticos
