@@ -1,8 +1,8 @@
 Objetivos Semana Santa
 
-- Cargar memoria en ejecución
-- Cargar constantes
-- Ejecución de Funciones aritméticas
+*- Cargar memoria en ejecución
+*- Cargar constantes
+*- Ejecución de Funciones aritméticas
 - Text Areas de GUI
 
 -----------No tan importante-------------

@@ -49,3 +49,4 @@ Codificación de comandos
 5040 : era
 5041 : retorno
 5042 : gosub
+5043 : main

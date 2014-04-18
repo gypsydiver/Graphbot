@@ -30,7 +30,7 @@ class Globalizador {
     
     void toFile(){
         ofstream fileout;
-        fileout.open("constNum.txt", std::ios::app);
+        fileout.open("MaquinaVirtual/MaquinaVirtual/constNum.txt", std::ios::app);
         for(it = constantes_globales.begin(); it != constantes_globales.end(); ++it) {
             fileout <<it->first<<":"<<it->second<<endl;
         }

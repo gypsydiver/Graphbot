@@ -12,7 +12,7 @@
 #include "Globalizador.h"
 #include "Generador.h"
 #include "tablaVar.h"
-#include "dirProc.h" 
+#include "dirProc.h"
 using namespace std;
 
 // Directorio de Procedimientos

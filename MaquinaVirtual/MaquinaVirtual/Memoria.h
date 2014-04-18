@@ -1,3 +1,5 @@
+Cargador cargando;
+
 class Memoria {
     
     const static int offset_temporales = 2000;
@@ -12,6 +14,9 @@ class Memoria {
     
         void nueva(int temp, int flotantes, int listas);
         void destruye(); 
+        float get(int dir);
+
+        
     
         // Asigna valores en una dirección virtual
         bool setTemporal(int dir, float valor);
@@ -46,12 +51,14 @@ bool Memoria::rangoCorrecto(int dir){
 bool Memoria::setTemporal(int dir, float valor){
     int direccionReal = dir - offset_temporales;
     if(rangoCorrecto(direccionReal)){
-        if(&temporales[direccionReal] != nullptr){
-            return false;
-        }else{
+        //if(&temporales[direccionReal] != nullptr){
+          //  cout << "AQUI ME ATORO ): " << endl;
+            //return false;
+    //    }
+  //  else{
             temporales[direccionReal] = valor;
             return true;
-        }
+     //   }
     }
     return false;
 }
@@ -80,6 +87,20 @@ bool Memoria::setLista(int dir, int valor){
         }
     }
     return false;
+}
+
+float Memoria::get(int dir){
+    
+    if(dir >= 1000 && dir <= 1999) {
+    return cargando.getConstante(dir); }
+
+    else if(dir >= 2000 && dir <= 2999)  
+    return getTemporal(dir);
+
+    else if(dir >= 3000 && dir <= 3999) 
+    return getFlotante(dir);
+
+    return 0.0;
 }
 
 float Memoria::getTemporal(int dir){
