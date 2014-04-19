@@ -51,14 +51,8 @@ bool Memoria::rangoCorrecto(int dir){
 bool Memoria::setTemporal(int dir, float valor){
     int direccionReal = dir - offset_temporales;
     if(rangoCorrecto(direccionReal)){
-        //if(&temporales[direccionReal] != nullptr){
-          //  cout << "AQUI ME ATORO ): " << endl;
-            //return false;
-    //    }
-  //  else{
             temporales[direccionReal] = valor;
             return true;
-     //   }
     }
     return false;
 }
@@ -66,12 +60,8 @@ bool Memoria::setTemporal(int dir, float valor){
 bool Memoria::setFlotante(int dir, float valor){
     int direccionReal = dir - offset_variablesFlotantes;
     if(rangoCorrecto(direccionReal)){
-        if(&variablesFlotantes[direccionReal] != nullptr){
-            return false;
-        }else{
             variablesFlotantes[direccionReal] = valor;
             return true;
-        }
     }
     return false;
 }
@@ -79,12 +69,8 @@ bool Memoria::setFlotante(int dir, float valor){
 bool Memoria::setLista(int dir, int valor){
     int direccionReal = dir - offset_variablesListas;
     if(rangoCorrecto(direccionReal)){
-        if(&variablesListas[direccionReal] != nullptr){
-            return false;
-        }else{
             variablesListas[direccionReal] = valor;
             return true;
-        }
     }
     return false;
 }
@@ -99,6 +85,9 @@ float Memoria::get(int dir){
 
     else if(dir >= 3000 && dir <= 3999) 
     return getFlotante(dir);
+    
+    else if(dir >= 4000 && dir <= 4999)
+        return getLista(dir);
 
     return 0.0;
 }

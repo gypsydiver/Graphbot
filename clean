@@ -1,2 +1,2 @@
 rm graphbot.output && rm graphbot.tab.* && rm lex.yy.c && rm graphbot && rm MaquinaVirtual/MaquinaVirtual/constNum.txt
-rm MaquinaVirtual/MaquinaVirtual/CodigoInt.txt && echo -e "2. 5036 5043 #" >> MaquinaVirtual/MaquinaVirtual/CodigoInt.txt 
+rm MaquinaVirtual/MaquinaVirtual/CodigoInt.txt && echo -e "2. 5036 #" >> MaquinaVirtual/MaquinaVirtual/CodigoInt.txt 

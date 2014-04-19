@@ -32,38 +32,53 @@ void init()
     gluOrtho2D(-200,200,-200,200);
 }
 
-void display() {
+void graphbot(int num) {
     
-    file.open("/Users/claudiahdz/Graphbot/MaquinaVirtual/MaquinaVirtual/CodigoInt.txt");
+    file.seekg(0, ios::beg);
+    
+    for(int i = 1; i < num; i++) {
+        getline(file, line);
+    }
+    
+}
+
+void display() {
     
     // Lee Código Intermedio
     while (getline(file, line)){
         
         tok = &*line.begin();
         tokens = strtok(tok,".");
+        
         // Obtiene el cuadruplo actual
         cuadruplo = atoi(tokens);
         tokens = strtok (NULL, " ");
         cout << cuadruplo << endl;
+        
         // Obtiene el comando
         comando = atoi(tokens);
         tokens = strtok (NULL, " ");
-        cout << comando << endl;
+
         // Obtiene el primer operando
         if (tokens != NULL)
-        opdo1 = atoi(tokens);
-            tokens = strtok (NULL, " ");
-        cout << opdo1 << endl;
+            opdo1 = atoi(tokens);
+        else
+            opdo1 = NULL;
+        tokens = strtok (NULL, " ");
+
         // Obtiene el segundo operando
         if (tokens != NULL)
-        opdo2 = atoi(tokens);
-            tokens = strtok (NULL, " ");
-        cout << opdo2 << endl;
+            opdo2 = atoi(tokens);
+        else
+            opdo2 = NULL;
+        tokens = strtok (NULL, " ");
+
         // Obtiene el tercer operando
         if (tokens != NULL)
             opdo3 = atoi(tokens);
+        else
+            opdo3 = NULL;
         tokens = strtok (NULL, " ");
-        cout << opdo3 << endl;
         
         // Prepara ventana
         glClear(GL_COLOR_BUFFER_BIT);
@@ -71,45 +86,72 @@ void display() {
         glPointSize(3.0);
         
         switch(comando) {
-                /*
-                 case 5000:
+                
+                 // Show
+            case 5000:
+                
+                glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
+                
+                glBegin(GL_TRIANGLES);
+                glVertex2f(-5, 0);
+                glVertex2f(5, 0);
+                glVertex2f(0, 10);
+                glEnd();
+                glFlush();
+                
+                 break;
+                
+                // Hide
+            case 5001:
+                 break;
+                
+                // Clean
+            case 5002:
+                
+                 glClearColor(1.0f, 1.0f, 1.0f, 1.0f);
+                 glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+                 glutSwapBuffers();
+                
                  break;
                  
-                 case 5001:
+                 // Home
+            case 5003:
                  break;
                  
-                 case 5002:
+                 // GetColorR
+            case 5004:
                  break;
                  
-                 case 5003:
+                 // GetColorG
+            case 5005:
                  break;
                  
-                 case 5004:
+                 // GetColorB
+            case 5006:
                  break;
                  
-                 case 5005:
+                 // GetPenSize
+            case 5007:
                  break;
                  
-                 case 5006:
+                 // Get X
+            case 5008:
                  break;
                  
-                 case 5007:
+                 // Get Y
+            case 5009:
                  break;
                  
-                 case 5008:
+                 // StopMusic
+            case 5010:
                  break;
                  
-                 case 5009:
+                 // PlayMusic
+            case 5011:
                  break;
-                 
-                 case 5010:
-                 break;
-                 
-                 case 5011:
-                 break;
-*/
+
                  // Move
-                case 5012:
+            case 5012:
                 
                 glBegin(GL_LINES);
                 
@@ -120,76 +162,130 @@ void display() {
                 glEnd();
                 glFlush();
                 break;
-                
-                
-                 /* Turn
-                 case 5013:
+            
+                 //Turn
+            case 5013:
                 cout << "ENTRE AL TURN" << endl;
                 glRotatef (memoria.get(opdo1), 0.0, 0.0, 1.0);
                 //glFlush ();
-                break;*/
+                break;
                 
                  // Set X
-                case 5014:
+            case 5014:
             
                 pointerx = memoria.get(opdo1);
                 
                 break;
                 
                  // Set Y
-                case 5015:
+            case 5015:
                 
                 pointery = memoria.get(opdo1);
 
                 break;
-                /*
-                 case 5016:
+                
+                 // SetPenSize
+            case 5016:
                  break;
                  
-                 case 5017:
+                 // CameraUp
+            case 5017:
                  break;
                  
-                 case 5018:
+                 // CameraDown
+            case 5018:
                  break;
                  
-                 case 5019:
+                 // CameraLeft
+            case 5019:
                  break;
                  
-                 case 5020:
+                 // CameraRight
+            case 5020:
                  break;
                  
-                 case 5021:
+                 // SetBackgroundText
+            case 5021:
+                 break;
+
+                 // Save
+            case 5022:
+                
+                 // Guarda variable tipo Lista
+                 if(opdo1 < 1000)
+                 memoria.setLista(opdo2, opdo1);
+                 // Guarda variable tipo Flotante
+                 else
+                 memoria.setFlotante(opdo2, memoria.get(opdo1));
+                
+                 cout << "Variable con dirección: " << opdo2 << " , tiene valor: " << memoria.get(opdo2) << endl;
+                 break;
+                
+                 // SetPos
+            case 5023:
                  break;
                  
-                 case 5022:
+                 // SetColor
+            case 5024:
                  break;
                  
-                 case 5023:
+                 // SetBackground
+            case 5025:
                  break;
-                 
-                 case 5024:
-                 break;
-                 
-                 case 5025:
-                 break;
-                 
+
+                  // Igual =
                  case 5026:
                  break;
                  
-                 case 5027:
+                 // Mayor que >
+            case 5027:
+                  
+                  if(memoria.get(opdo1) > memoria.get(opdo2))
+                  memoria.setTemporal(opdo3, 1);
+                  else
+                  memoria.setTemporal(opdo3, 0);
+                  
                  break;
                  
-                 case 5028:
+                 // Menor que <
+            case 5028:
+                  
+                  if(memoria.get(opdo1) < memoria.get(opdo2))
+                  memoria.setTemporal(opdo3, 1);
+                  else
+                  memoria.setTemporal(opdo3, 0);
+                  
                  break;
                  
-                 case 5029:
+                 // Diferente de !=
+            case 5029:
+                  
+                  if(memoria.get(opdo1) != memoria.get(opdo2))
+                    memoria.setTemporal(opdo3, 1);
+                  else
+                    memoria.setTemporal(opdo3, 0);
+                  
                  break;
                  
-                 case 5030:
+                 // Mayor o igual que >=
+            case 5030:
+                  
+                  if(memoria.get(opdo1) >= memoria.get(opdo2))
+                  memoria.setTemporal(opdo3, 1);
+                  else
+                  memoria.setTemporal(opdo3, 0);
+                  
                  break;
                  
-                 case 5031:
-                 break; */
+                 // Menor o igual que <=
+            case 5031:
+                  
+                  if(memoria.get(opdo1) <= memoria.get(opdo2))
+                  memoria.setTemporal(opdo3, 1);
+                  else
+                  memoria.setTemporal(opdo3, 0);
+                  
+                 break;
                 
                 // Suma
             case 5032:
@@ -225,7 +321,6 @@ void display() {
                 
                 break;
                 
-                
                 // División
             case 5035:
                 
@@ -237,37 +332,54 @@ void display() {
                 
                 break;
                 
-                /*   
+                
                  // Goto 
                  case 5036:
-                 
-                 
+                
+                file.clear();
+                graphbot(opdo1);
+                
                  break;
-                 
-                 case 5037:
+            
+                // GotoF
+            case 5037:
+                
+                if(opdo1 == 0) {
+                    file.clear();
+                    graphbot(memoria.get(opdo2)); }
                  break;
-                 
-                 case 5038:
-                 break;
-                 
-                 case 5039:
+                
+                 // Param
+            case 5038:
                  break;
                  
                  // Era
-                 case 5040:
+            case 5039:
                  break;
                  
-                 case 5042:
+                 // Retorno
+            case 5040:
                  break;
-                 */
+
                 // Main
-            case 5043:
+            case 5042:
             {
                 // Crea una nueva memoria para el main 
                 memoria.nueva(opdo3, opdo1, opdo2);
                 
                 // Carga las constantes
                 cargando.carga_globales();
+                
+                glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
+                
+                // Triángulo inicial
+                glBegin(GL_TRIANGLES);
+                glVertex2f(-5, 0);
+                glVertex2f(5, 0);
+                glVertex2f(0, 10);
+                glEnd();
+                glFlush();
+                
             }
                 break;
                 
@@ -279,12 +391,16 @@ void display() {
 
 int main(int argc,char** argv) {
 
+    file.open("/Users/claudiahdz/Graphbot/MaquinaVirtual/MaquinaVirtual/CodigoInt.txt");
+
     glutInit(&argc, argv);
     glutInitDisplayMode(GLUT_SINGLE | GLUT_RGB);
     glutInitWindowSize(500,500);
     glutInitWindowPosition(0, 0);
     glutCreateWindow("Graphbot");
+   // glutSwapBuffer();
     init();
+    graphbot(1);
     glutDisplayFunc(display);
     glutMainLoop();
     return 0;

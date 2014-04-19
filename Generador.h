@@ -68,7 +68,7 @@ class Generador {
             fileout.open("MaquinaVirtual/MaquinaVirtual/temp.txt");
             string line;
 
-            fileout << "1. 5043 "<< flotantes <<" "<< listas <<" "<< temporales<< endl;
+            fileout << "1. 5042 "<< flotantes <<" "<< listas <<" "<< temporales<< endl;
 
             while (getline(filein, line)){
                     fileout << line << endl;
