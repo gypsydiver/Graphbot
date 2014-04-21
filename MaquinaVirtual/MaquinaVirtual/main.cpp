@@ -3,6 +3,7 @@
 #include <GLUT/glut.h>
 #include "Cargador.h"
 #include "Memoria.h"
+#include "Sound.h"
 using namespace std;
 
 // Manejo de archivo de Código Intermedio
@@ -144,11 +145,15 @@ void display() {
                  
                  // StopMusic
             case 5010:
+                alSourceStop(source);
+                cleanUp();
                  break;
                  
                  // PlayMusic
             case 5011:
-                 break;
+                loadSoundSource();
+                alSourcePlay(source);
+                break;
 
                  // Move
             case 5012:
@@ -391,7 +396,7 @@ void display() {
 
 int main(int argc,char** argv) {
 
-    file.open("/Users/claudiahdz/Graphbot/MaquinaVirtual/MaquinaVirtual/CodigoInt.txt");
+    file.open("CodigoInt.txt");
 
     glutInit(&argc, argv);
     glutInitDisplayMode(GLUT_SINGLE | GLUT_RGB);

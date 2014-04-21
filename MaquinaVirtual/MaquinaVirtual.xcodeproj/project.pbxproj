@@ -10,6 +10,7 @@
 		51072CAA1900EE9C0023401F /* main.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 51072CA71900EE9C0023401F /* main.cpp */; };
 		51B7723F1900D08C00A08AF0 /* GLUT.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 51B7723D1900D08C00A08AF0 /* GLUT.framework */; };
 		51B772401900D08C00A08AF0 /* OpenGL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 51B7723E1900D08C00A08AF0 /* OpenGL.framework */; };
+		ED3E4A701904FF0000D5640B /* OpenAL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = ED3E4A6F1904FF0000D5640B /* OpenAL.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -34,6 +35,8 @@
 		51B772311900D01C00A08AF0 /* MaquinaVirtual */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = MaquinaVirtual; sourceTree = BUILT_PRODUCTS_DIR; };
 		51B7723D1900D08C00A08AF0 /* GLUT.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = GLUT.framework; path = System/Library/Frameworks/GLUT.framework; sourceTree = SDKROOT; };
 		51B7723E1900D08C00A08AF0 /* OpenGL.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenGL.framework; path = System/Library/Frameworks/OpenGL.framework; sourceTree = SDKROOT; };
+		ED3E4A6E1904F9BB00D5640B /* Sound.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Sound.h; sourceTree = "<group>"; };
+		ED3E4A6F1904FF0000D5640B /* OpenAL.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenAL.framework; path = Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.8.sdk/System/Library/Frameworks/OpenAL.framework; sourceTree = DEVELOPER_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -41,6 +44,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				ED3E4A701904FF0000D5640B /* OpenAL.framework in Frameworks */,
 				51B7723F1900D08C00A08AF0 /* GLUT.framework in Frameworks */,
 				51B772401900D08C00A08AF0 /* OpenGL.framework in Frameworks */,
 			);
@@ -52,6 +56,7 @@
 		51B772281900D01C00A08AF0 = {
 			isa = PBXGroup;
 			children = (
+				ED3E4A6F1904FF0000D5640B /* OpenAL.framework */,
 				51B7723D1900D08C00A08AF0 /* GLUT.framework */,
 				51B7723E1900D08C00A08AF0 /* OpenGL.framework */,
 				51B772331900D01C00A08AF0 /* MaquinaVirtual */,
@@ -72,6 +77,7 @@
 			children = (
 				51072CA41900EE9C0023401F /* Cargador.h */,
 				51072CA51900EE9C0023401F /* CodigoInt.txt */,
+				ED3E4A6E1904F9BB00D5640B /* Sound.h */,
 				51072CA61900EE9C0023401F /* constNum.txt */,
 				51072CA71900EE9C0023401F /* main.cpp */,
 				51072CA81900EE9C0023401F /* MaquinaVirtual.1 */,
