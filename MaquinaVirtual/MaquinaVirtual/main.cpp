@@ -62,7 +62,7 @@ void display() {
         // Obtiene el cuadruplo actual
         cuadruplo = atoi(tokens);
         tokens = strtok (NULL, " ");
-        cout << cuadruplo << endl;
+        cout << "Cuadruplo Actual: " << cuadruplo << endl;
         
         // Obtiene el comando
         comando = atoi(tokens);
@@ -165,7 +165,7 @@ void display() {
 
                  // Move
             case 5012:
-                
+                /*
                 glBegin(GL_LINES);
                 
                 glVertex2i(pointerx, pointery);
@@ -173,14 +173,14 @@ void display() {
                 glVertex2i(pointerx, pointery);
         
                 glEnd();
-                glFlush();
+                glFlush();*/
                 break;
             
                  //Turn
-            case 5013:
+            case 5013:/*
                 cout << "ENTRE AL TURN" << endl;
                 glRotatef (memoria_actual.get(opdo1), 0.0, 0.0, 1.0);
-                //glFlush ();
+                //glFlush ();*/
                 break;
                 
                  // Set X
@@ -246,9 +246,15 @@ void display() {
             case 5025:
                  break;
 
-                  // Igual =
-                 case 5026:
-                 break;
+                // Igual ==
+            case 5026:
+                
+                if(memoria_actual.get(opdo1) == memoria_actual.get(opdo2))
+                    memoria_actual.setTemporal(opdo3, 1);
+                else
+                    memoria_actual.setTemporal(opdo3, 0);
+                
+                break;
                  
                  // Mayor que >
             case 5027:
@@ -376,10 +382,12 @@ void display() {
                 memoria.nueva(opdo3, opdo1, opdo2);
                 Pila_Memorias.push(memoria);
                 memoria_actual = Pila_Memorias.top();
+                
+                cout << "En Era funciono bien." << endl;
 
                  break;
                  
-                 // Retorno
+                 // Retorno Funcion
             case 5040:
                 
                 memoria_actual = Pila_Memorias.top();
@@ -392,14 +400,22 @@ void display() {
                 graphbot(Pila_Cuadruplos.top());
                 Pila_Cuadruplos.pop();
                 
+                cout << "En Retorno funciono bien." << endl;
+
+                break;
+                
+                // Retorno Lista
+            case 5041:
                 break;
                 
                 // Gosub
-            case 5041:
+            case 5042:
                 
                 Pila_Cuadruplos.push(cuadruplo+1);
                 file.clear();
                 graphbot(opdo1);
+                
+                cout << "En Gosub funciono bien." << endl;
 
                 break;
 

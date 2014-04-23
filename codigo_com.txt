@@ -47,5 +47,7 @@ Codificación de comandos
 5037 : gotoF
 5038 : param
 5039 : era
-5040 : retorno
-5041 : gosub
+5040 : retorno función
+5041 : retorno lista
+5042 : gosub
+

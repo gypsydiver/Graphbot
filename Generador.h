@@ -391,7 +391,7 @@ class Generador {
                 break;
 
                 case 13:
-                    // Genera retorno
+                    // Genera retorno Función
                     fileout << cont_cuadruplos << ". " << "5040" << endl;
                     //actualiza el contador de cuádruplos
                     cont_cuadruplos++; 
@@ -402,6 +402,13 @@ class Generador {
                     fileout << cont_cuadruplos << ". " << "5036 #" << endl;
                     //actualiza el contador de cuádruplos
                     cont_cuadruplos++;
+                break;
+
+                case 15:
+                    // Genera retorno Lista
+                    fileout << cont_cuadruplos << ". " << "5041" << endl;
+                    //actualiza el contador de cuádruplos
+                    cont_cuadruplos++; 
                 break;
             }
         }
@@ -426,7 +433,7 @@ class Generador {
             ofstream fileout;
             fileout.open("MaquinaVirtual/MaquinaVirtual/CodigoInt.txt", ios::app);
             // Genera gosub
-            fileout << cont_cuadruplos << ". " << "5041 " << dir << endl;
+            fileout << cont_cuadruplos << ". " << "5042 " << dir << endl;
             //actualiza el contador de cuádruplos
             cont_cuadruplos++; 
         }

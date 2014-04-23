@@ -326,7 +326,7 @@ variable:
         // Variable del tipo LISTA representado por un 1
         tvar.tipo = 1;
         // Retorno
-        generador.start(13);
+        generador.start(15);
         // Rellena goto anterior con con_cuadruplos actual
        	generador.rellena(generador.popPSaltos(), cont_cuadruplos);
 	}
