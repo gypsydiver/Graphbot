@@ -363,9 +363,10 @@ void display() {
                 // GotoF
             case 5037:
                 
-                if(opdo1 == 0) {
+                if(!memoria_actual.get(opdo1)) {
+                    cout << "Nunca entro ):" << endl;
                     file.clear();
-                    graphbot(memoria_actual.get(opdo2)); }
+                    graphbot(opdo2); }
                  break;
                 
                  // Param
@@ -406,6 +407,12 @@ void display() {
                 
                 // Retorno Lista
             case 5041:
+                
+                // Regresa al cuadruplo donde estaba antes
+                file.clear();
+                graphbot(Pila_Cuadruplos.top());
+                Pila_Cuadruplos.pop();
+                
                 break;
                 
                 // Gosub
