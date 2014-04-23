@@ -310,10 +310,7 @@ void display() {
             case 5032:
                 
                 res = memoria_actual.get(opdo1) + memoria_actual.get(opdo2);
-                cout << memoria_actual.get(opdo1) << " + " << memoria_actual.get(opdo2) << endl;
-                
                 memoria_actual.setTemporal(opdo3, res);
-                cout << memoria_actual.get(opdo3) << " TEMPORAL" << endl;
                 
                 break;
                 
@@ -321,10 +318,7 @@ void display() {
             case 5033:
                 
                 res = memoria_actual.get(opdo1) - memoria_actual.get(opdo2);
-                cout << memoria_actual.get(opdo1) << " - " << memoria_actual.get(opdo2) << endl;
-
                 memoria_actual.setTemporal(opdo3, res);
-                cout << memoria_actual.get(opdo3) << " TEMPORAL" << endl;
                 
                 break;
                 
@@ -332,11 +326,7 @@ void display() {
             case 5034:
                 
                 res = memoria_actual.get(opdo1) * memoria_actual.get(opdo2);
-                cout << memoria_actual.get(opdo1) << " * " << memoria_actual.get(opdo2) << endl;
-
-                
                 memoria_actual.setTemporal(opdo3, res);
-                cout << memoria_actual.get(opdo3) << " TEMPORAL" << endl;
                 
                 break;
                 
@@ -344,10 +334,7 @@ void display() {
             case 5035:
                 
                 res = memoria_actual.get(opdo1) / memoria_actual.get(opdo2);
-                cout << memoria_actual.get(opdo1) << " / " << memoria_actual.get(opdo2) << endl;
-                
                 memoria_actual.setTemporal(opdo3, res);
-                cout << memoria_actual.get(opdo3) << " TEMPORAL" << endl;
                 
                 break;
                 
@@ -364,7 +351,6 @@ void display() {
             case 5037:
                 
                 if(!memoria_actual.get(opdo1)) {
-                    cout << "Nunca entro ):" << endl;
                     file.clear();
                     graphbot(opdo2); }
                  break;
@@ -384,8 +370,6 @@ void display() {
                 Pila_Memorias.push(memoria);
                 memoria_actual = Pila_Memorias.top();
                 
-                cout << "En Era funciono bien." << endl;
-
                  break;
                  
                  // Retorno Funcion
@@ -401,8 +385,6 @@ void display() {
                 graphbot(Pila_Cuadruplos.top());
                 Pila_Cuadruplos.pop();
                 
-                cout << "En Retorno funciono bien." << endl;
-
                 break;
                 
                 // Retorno Lista
@@ -422,8 +404,6 @@ void display() {
                 file.clear();
                 graphbot(opdo1);
                 
-                cout << "En Gosub funciono bien." << endl;
-
                 break;
 
         }

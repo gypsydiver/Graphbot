@@ -6,6 +6,7 @@ graphbot.output
 *.swp
 *.swo
 *.swn
+*.swm
 /testfiles
 CodigoInt.txt
 MaquinaVirtual/MaquinaVirtual.xcodeproj/project.xcworkspace

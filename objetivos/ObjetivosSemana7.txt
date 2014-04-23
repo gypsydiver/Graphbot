@@ -1,11 +1,11 @@
-Objetivos Semana Santa
+Objetivos Semana 7
 
-*- Cargar memoria en ejecución
-*- Cargar constantes
-*- Ejecución de Funciones aritméticas
+*- Manejo de Memorias 
+*- Ejecución de Estatutos Condicionales
 -----------No tan importante-------------
 - Code Refactoring
 - Text Areas de GUI
 - Actualizar Flex y Bison
 - Quitar Warning (cambiar a C++11)
+
 
