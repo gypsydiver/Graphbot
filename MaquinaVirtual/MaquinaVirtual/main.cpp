@@ -24,7 +24,7 @@ stack<int> Pila_Cuadruplos;
 // Manejo de cursor
 int pointerx = 0;
 int pointery = 0;
-int dir = 1;
+float direccionEnGrados = 0.0;
 float res;
 
 // Manejo de Memorias
