@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <string.h>
 #include <GLUT/glut.h>
+#include <stack>
 #include "Cargador.h"
 #include "Memoria.h"
 #include "Sound.h"
@@ -18,19 +19,26 @@ int opdo1;
 int opdo2;
 int opdo3;
 
+stack<int> Pila_Cuadruplos;
+
 // Manejo de cursor
 int pointerx = 0;
 int pointery = 0;
 int dir = 1;
 float res;
 
-Memoria memoria;
+// Manejo de Memorias
+stack<Memoria> Pila_Memorias;
+Memoria memoria_actual;
 
 void init()
 {
     glClearColor(1.0,1.0,1.0,1.0);
     glMatrixMode(GL_PROJECTION);
     gluOrtho2D(-200,200,-200,200);
+    
+    // Carga las constantes
+    cargando.carga_globales();
 }
 
 void graphbot(int num) {
@@ -161,7 +169,7 @@ void display() {
                 glBegin(GL_LINES);
                 
                 glVertex2i(pointerx, pointery);
-                pointery = pointery + memoria.get(opdo1);
+                pointery = pointery + memoria_actual.get(opdo1);
                 glVertex2i(pointerx, pointery);
         
                 glEnd();
@@ -171,21 +179,21 @@ void display() {
                  //Turn
             case 5013:
                 cout << "ENTRE AL TURN" << endl;
-                glRotatef (memoria.get(opdo1), 0.0, 0.0, 1.0);
+                glRotatef (memoria_actual.get(opdo1), 0.0, 0.0, 1.0);
                 //glFlush ();
                 break;
                 
                  // Set X
             case 5014:
             
-                pointerx = memoria.get(opdo1);
+                pointerx = memoria_actual.get(opdo1);
                 
                 break;
                 
                  // Set Y
             case 5015:
                 
-                pointery = memoria.get(opdo1);
+                pointery = memoria_actual.get(opdo1);
 
                 break;
                 
@@ -218,12 +226,12 @@ void display() {
                 
                  // Guarda variable tipo Lista
                  if(opdo1 < 1000)
-                 memoria.setLista(opdo2, opdo1);
+                 memoria_actual.setLista(opdo2, opdo1);
                  // Guarda variable tipo Flotante
                  else
-                 memoria.setFlotante(opdo2, memoria.get(opdo1));
+                 memoria_actual.setFlotante(opdo2, memoria_actual.get(opdo1));
                 
-                 cout << "Variable con dirección: " << opdo2 << " , tiene valor: " << memoria.get(opdo2) << endl;
+                 cout << "Variable con dirección: " << opdo2 << " , tiene valor: " << memoria_actual.get(opdo2) << endl;
                  break;
                 
                  // SetPos
@@ -245,95 +253,95 @@ void display() {
                  // Mayor que >
             case 5027:
                   
-                  if(memoria.get(opdo1) > memoria.get(opdo2))
-                  memoria.setTemporal(opdo3, 1);
+                  if(memoria_actual.get(opdo1) > memoria_actual.get(opdo2))
+                  memoria_actual.setTemporal(opdo3, 1);
                   else
-                  memoria.setTemporal(opdo3, 0);
+                  memoria_actual.setTemporal(opdo3, 0);
                   
                  break;
                  
                  // Menor que <
             case 5028:
                   
-                  if(memoria.get(opdo1) < memoria.get(opdo2))
-                  memoria.setTemporal(opdo3, 1);
+                  if(memoria_actual.get(opdo1) < memoria_actual.get(opdo2))
+                  memoria_actual.setTemporal(opdo3, 1);
                   else
-                  memoria.setTemporal(opdo3, 0);
+                  memoria_actual.setTemporal(opdo3, 0);
                   
                  break;
                  
                  // Diferente de !=
             case 5029:
                   
-                  if(memoria.get(opdo1) != memoria.get(opdo2))
-                    memoria.setTemporal(opdo3, 1);
+                  if(memoria_actual.get(opdo1) != memoria_actual.get(opdo2))
+                    memoria_actual.setTemporal(opdo3, 1);
                   else
-                    memoria.setTemporal(opdo3, 0);
+                    memoria_actual.setTemporal(opdo3, 0);
                   
                  break;
                  
                  // Mayor o igual que >=
             case 5030:
                   
-                  if(memoria.get(opdo1) >= memoria.get(opdo2))
-                  memoria.setTemporal(opdo3, 1);
+                  if(memoria_actual.get(opdo1) >= memoria_actual.get(opdo2))
+                  memoria_actual.setTemporal(opdo3, 1);
                   else
-                  memoria.setTemporal(opdo3, 0);
+                  memoria_actual.setTemporal(opdo3, 0);
                   
                  break;
                  
                  // Menor o igual que <=
             case 5031:
                   
-                  if(memoria.get(opdo1) <= memoria.get(opdo2))
-                  memoria.setTemporal(opdo3, 1);
+                  if(memoria_actual.get(opdo1) <= memoria_actual.get(opdo2))
+                  memoria_actual.setTemporal(opdo3, 1);
                   else
-                  memoria.setTemporal(opdo3, 0);
+                  memoria_actual.setTemporal(opdo3, 0);
                   
                  break;
                 
                 // Suma
             case 5032:
                 
-                res = memoria.get(opdo1) + memoria.get(opdo2);
-                cout << memoria.get(opdo1) << " + " << memoria.get(opdo2) << endl;
+                res = memoria_actual.get(opdo1) + memoria_actual.get(opdo2);
+                cout << memoria_actual.get(opdo1) << " + " << memoria_actual.get(opdo2) << endl;
                 
-                memoria.setTemporal(opdo3, res);
-                cout << memoria.get(opdo3) << " TEMPORAL" << endl;
+                memoria_actual.setTemporal(opdo3, res);
+                cout << memoria_actual.get(opdo3) << " TEMPORAL" << endl;
                 
                 break;
                 
                 // Resta
             case 5033:
                 
-                res = memoria.get(opdo1) - memoria.get(opdo2);
-                cout << memoria.get(opdo1) << " - " << memoria.get(opdo2) << endl;
+                res = memoria_actual.get(opdo1) - memoria_actual.get(opdo2);
+                cout << memoria_actual.get(opdo1) << " - " << memoria_actual.get(opdo2) << endl;
 
-                memoria.setTemporal(opdo3, res);
-                cout << memoria.get(opdo3) << " TEMPORAL" << endl;
+                memoria_actual.setTemporal(opdo3, res);
+                cout << memoria_actual.get(opdo3) << " TEMPORAL" << endl;
                 
                 break;
                 
                 // Multiplicación
             case 5034:
                 
-                res = memoria.get(opdo1) * memoria.get(opdo2);
-                cout << memoria.get(opdo1) << " * " << memoria.get(opdo2) << endl;
+                res = memoria_actual.get(opdo1) * memoria_actual.get(opdo2);
+                cout << memoria_actual.get(opdo1) << " * " << memoria_actual.get(opdo2) << endl;
 
                 
-                memoria.setTemporal(opdo3, res);
-                cout << memoria.get(opdo3) << " TEMPORAL" << endl;
+                memoria_actual.setTemporal(opdo3, res);
+                cout << memoria_actual.get(opdo3) << " TEMPORAL" << endl;
                 
                 break;
                 
                 // División
             case 5035:
                 
-                res = memoria.get(opdo1) / memoria.get(opdo2);
-                cout << memoria.get(opdo1) << " / " << memoria.get(opdo2) << endl;
+                res = memoria_actual.get(opdo1) / memoria_actual.get(opdo2);
+                cout << memoria_actual.get(opdo1) << " / " << memoria_actual.get(opdo2) << endl;
                 
-                memoria.setTemporal(opdo3, res);
-                cout << memoria.get(opdo3) << " TEMPORAL" << endl;
+                memoria_actual.setTemporal(opdo3, res);
+                cout << memoria_actual.get(opdo3) << " TEMPORAL" << endl;
                 
                 break;
                 
@@ -351,43 +359,50 @@ void display() {
                 
                 if(opdo1 == 0) {
                     file.clear();
-                    graphbot(memoria.get(opdo2)); }
+                    graphbot(memoria_actual.get(opdo2)); }
                  break;
                 
                  // Param
             case 5038:
+                
+                memoria_actual.setFlotante(opdo1, opdo2);
+                
                  break;
                  
                  // Era
             case 5039:
+                
+                Memoria memoria;
+                memoria.nueva(opdo3, opdo1, opdo2);
+                Pila_Memorias.push(memoria);
+                memoria_actual = Pila_Memorias.top();
+
                  break;
                  
                  // Retorno
             case 5040:
-                 break;
-
-                // Main
-            case 5042:
-            {
-                // Crea una nueva memoria para el main 
-                memoria.nueva(opdo3, opdo1, opdo2);
                 
-                // Carga las constantes
-                cargando.carga_globales();
+                memoria_actual = Pila_Memorias.top();
+                Pila_Memorias.pop();
+                memoria_actual.destruye();
+                memoria_actual = Pila_Memorias.top();
                 
-                glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
+                // Regresa al cuadruplo donde estaba antes
+                file.clear();
+                graphbot(Pila_Cuadruplos.top());
+                Pila_Cuadruplos.pop();
                 
-                // Triángulo inicial
-                glBegin(GL_TRIANGLES);
-                glVertex2f(-5, 0);
-                glVertex2f(5, 0);
-                glVertex2f(0, 10);
-                glEnd();
-                glFlush();
-                
-            }
                 break;
                 
+                // Gosub
+            case 5041:
+                
+                Pila_Cuadruplos.push(cuadruplo+1);
+                file.clear();
+                graphbot(opdo1);
+
+                break;
+
         }
         
     }

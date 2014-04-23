@@ -46,7 +46,6 @@ Codificación de comandos
 5036 : goto
 5037 : gotoF
 5038 : param
-5049 : era
+5039 : era
 5040 : retorno
 5041 : gosub
-5042 : main

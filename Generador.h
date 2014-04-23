@@ -68,7 +68,7 @@ class Generador {
             fileout.open("MaquinaVirtual/MaquinaVirtual/temp.txt");
             string line;
 
-            fileout << "1. 5042 "<< flotantes <<" "<< listas <<" "<< temporales<< endl;
+            fileout << "1. 5039 "<< flotantes <<" "<< listas <<" "<< temporales<< endl;
 
             while (getline(filein, line)){
                     fileout << line << endl;
@@ -392,7 +392,7 @@ class Generador {
 
                 case 13:
                     // Genera retorno
-                    fileout << cont_cuadruplos << ". " << "5041" << endl;
+                    fileout << cont_cuadruplos << ". " << "5040" << endl;
                     //actualiza el contador de cuádruplos
                     cont_cuadruplos++; 
                 break;
@@ -410,12 +410,14 @@ class Generador {
             ofstream fileout;
             fileout.open("MaquinaVirtual/MaquinaVirtual/CodigoInt.txt", ios::app);
             // Genera parametros
+            int dirV = 3000+param;
             if (PilaO.size() >= param){
                 for(int i = param; i > 0; i--){
                     int param = popPilaO();
-                    fileout << cont_cuadruplos << ". " << "5039 " << param << " param" << i << endl;
+                    fileout << cont_cuadruplos << ". " << "5038 " << param << " " << dirV << endl;
                     //actualiza el contador de cuádruplos
                     cont_cuadruplos++; 
+                    dirV--;
                 }
             }
         }
@@ -424,7 +426,7 @@ class Generador {
             ofstream fileout;
             fileout.open("MaquinaVirtual/MaquinaVirtual/CodigoInt.txt", ios::app);
             // Genera gosub
-            fileout << cont_cuadruplos << ". " << "5042 " << dir << endl;
+            fileout << cont_cuadruplos << ". " << "5041 " << dir << endl;
             //actualiza el contador de cuádruplos
             cont_cuadruplos++; 
         }
@@ -433,7 +435,7 @@ class Generador {
             ofstream fileout;
             fileout.open("MaquinaVirtual/MaquinaVirtual/CodigoInt.txt", ios::app);
             // Genera era
-            fileout << cont_cuadruplos << ". " << "5040 "<< param + varf <<" "<< varl <<" "<< tmp << endl;
+            fileout << cont_cuadruplos << ". " << "5039 "<< param + varf <<" "<< varl <<" "<< tmp << endl;
             //actualiza el contador de cuádruplos
             cont_cuadruplos++; 
         }
