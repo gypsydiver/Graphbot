@@ -27,11 +27,10 @@
 
 /* Begin PBXFileReference section */
 		51072CA41900EE9C0023401F /* Cargador.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Cargador.h; sourceTree = "<group>"; };
-		51072CA51900EE9C0023401F /* CodigoInt.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = CodigoInt.txt; sourceTree = "<group>"; };
-		51072CA61900EE9C0023401F /* constNum.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = constNum.txt; sourceTree = "<group>"; };
 		51072CA71900EE9C0023401F /* main.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = main.cpp; sourceTree = "<group>"; };
 		51072CA81900EE9C0023401F /* MaquinaVirtual.1 */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.man; path = MaquinaVirtual.1; sourceTree = "<group>"; };
 		51072CA91900EE9C0023401F /* Memoria.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Memoria.h; sourceTree = "<group>"; };
+		51619F8F19088CA100445249 /* Imageloader.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Imageloader.h; sourceTree = "<group>"; };
 		51B772311900D01C00A08AF0 /* MaquinaVirtual */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = MaquinaVirtual; sourceTree = BUILT_PRODUCTS_DIR; };
 		51B7723D1900D08C00A08AF0 /* GLUT.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = GLUT.framework; path = System/Library/Frameworks/GLUT.framework; sourceTree = SDKROOT; };
 		51B7723E1900D08C00A08AF0 /* OpenGL.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenGL.framework; path = System/Library/Frameworks/OpenGL.framework; sourceTree = SDKROOT; };
@@ -76,9 +75,8 @@
 			isa = PBXGroup;
 			children = (
 				51072CA41900EE9C0023401F /* Cargador.h */,
-				51072CA51900EE9C0023401F /* CodigoInt.txt */,
 				ED3E4A6E1904F9BB00D5640B /* Sound.h */,
-				51072CA61900EE9C0023401F /* constNum.txt */,
+				51619F8F19088CA100445249 /* Imageloader.h */,
 				51072CA71900EE9C0023401F /* main.cpp */,
 				51072CA81900EE9C0023401F /* MaquinaVirtual.1 */,
 				51072CA91900EE9C0023401F /* Memoria.h */,
