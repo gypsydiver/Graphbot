@@ -1,4 +1,5 @@
 #include <stdio.h>
+#include <cmath>
 #include <string.h>
 #include <GLUT/glut.h>
 #include <stack>
@@ -6,6 +7,8 @@
 #include "Memoria.h"
 #include "Sound.h"
 using namespace std;
+
+const float PI = 3.141592653589793238462643383279502884197169399375105820974944;
 
 // Manejo de archivo de Código Intermedio
 ifstream file;
@@ -34,6 +37,7 @@ Memoria memoria_actual;
 void init()
 {
     glClearColor(1.0,1.0,1.0,1.0);
+    glClear(GL_COLOR_BUFFER_BIT);
     glMatrixMode(GL_PROJECTION);
     gluOrtho2D(-200,200,-200,200);
     
@@ -49,6 +53,19 @@ void graphbot(int num) {
         getline(file, line);
     }
     
+}
+
+float degreestoRadians(float degrees){
+    return PI * degrees/180;
+}
+
+void newPosition(float length){
+    pointerx = pointerx+length * cos(degreestoRadians(direccionEnGrados));
+    pointery = pointery+length * sin(degreestoRadians(direccionEnGrados));
+}
+
+int updateAngle(int newToBeAngle){
+    return newToBeAngle % 360;
 }
 
 void display() {
@@ -69,9 +86,10 @@ void display() {
         tokens = strtok (NULL, " ");
 
         // Obtiene el primer operando
-        if (tokens != NULL)
+        if (tokens != NULL){
             opdo1 = atoi(tokens);
-        else
+            cout << "ATOI tokens opdo1 " << opdo1 << " en memoria: "<< memoria_actual.get(opdo1)<<endl;
+        }else
             opdo1 = NULL;
         tokens = strtok (NULL, " ");
 
@@ -90,7 +108,7 @@ void display() {
         tokens = strtok (NULL, " ");
         
         // Prepara ventana
-        glClear(GL_COLOR_BUFFER_BIT);
+        //glClear(GL_COLOR_BUFFER_BIT);
         glColor3f(0.0, 0.0, 0.0);
         glPointSize(3.0);
         
@@ -165,22 +183,25 @@ void display() {
 
                  // Move
             case 5012:
-                /*
+                
                 glBegin(GL_LINES);
                 
                 glVertex2i(pointerx, pointery);
-                pointery = pointery + memoria_actual.get(opdo1);
+                newPosition(memoria_actual.get(opdo1));
                 glVertex2i(pointerx, pointery);
         
                 glEnd();
-                glFlush();*/
+                
+                cout << "Posx: " << pointerx << " PosY: "<<pointery << endl;
+                
+                glFlush();
                 break;
             
                  //Turn
-            case 5013:/*
-                cout << "ENTRE AL TURN" << endl;
-                glRotatef (memoria_actual.get(opdo1), 0.0, 0.0, 1.0);
-                //glFlush ();*/
+            case 5013:
+                
+                direccionEnGrados = updateAngle(direccionEnGrados + memoria_actual.get(opdo1)) * 1.0;
+                cout << "Dirección grados : " << direccionEnGrados << endl;
                 break;
                 
                  // Set X
@@ -226,10 +247,10 @@ void display() {
                 
                  // Guarda variable tipo Lista
                  if(opdo1 < 1000)
-                 memoria_actual.setLista(opdo2, opdo1);
+                     memoria_actual.setLista(opdo2, opdo1);
                  // Guarda variable tipo Flotante
                  else
-                 memoria_actual.setFlotante(opdo2, memoria_actual.get(opdo1));
+                     memoria_actual.setFlotante(opdo2, memoria_actual.get(opdo1));
                 
                  cout << "Variable con dirección: " << opdo2 << " , tiene valor: " << memoria_actual.get(opdo2) << endl;
                  break;
@@ -260,15 +281,16 @@ void display() {
             case 5027:
                   
                   if(memoria_actual.get(opdo1) > memoria_actual.get(opdo2))
-                  memoria_actual.setTemporal(opdo3, 1);
+                      memoria_actual.setTemporal(opdo3, 1);
                   else
-                  memoria_actual.setTemporal(opdo3, 0);
+                      memoria_actual.setTemporal(opdo3, 0);
                   
                  break;
                  
                  // Menor que <
             case 5028:
-                  
+                cout << "opdo1 - " <<opdo1<< " : "<< memoria_actual.get(opdo1) << endl;
+                cout << "opdo2 - " <<opdo2<< " : "<< memoria_actual.get(opdo2) << endl;
                   if(memoria_actual.get(opdo1) < memoria_actual.get(opdo2))
                   memoria_actual.setTemporal(opdo3, 1);
                   else
@@ -349,8 +371,8 @@ void display() {
             
                 // GotoF
             case 5037:
-                
-                if(!memoria_actual.get(opdo1)) {
+                cout << "opdo1: " << memoria_actual.get(opdo1) << endl;
+                if(memoria_actual.get(opdo1) == 0) {
                     file.clear();
                     graphbot(opdo2); }
                  break;

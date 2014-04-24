@@ -383,11 +383,17 @@ class Generador {
                 break;
 
                 case 12:
+                {
                     //aumento a la variable de control
                     pushPOper(5032);
                     start(1);
+                    int suma = popPilaO();
+                    int id = popPilaO();
+                    pushPilaO(suma);
+                    pushPilaO(id);
                     pushPOper(5022);  
                     start(4);
+                }
                 break;
 
                 case 13:

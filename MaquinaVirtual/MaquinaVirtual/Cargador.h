@@ -21,7 +21,7 @@ class Cargador {
     string flotante;
     string direccion;
 
-    file.open("/Users/claudiahdz/Graphbot/MaquinaVirtual/MaquinaVirtual/constNum.txt");
+    file.open("constNum.txt");
 
         while (getline(file, line)){
         
