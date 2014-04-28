@@ -1,0 +1,17 @@
+Objetivos Semana 8
+
+- Implementación nuevos comandos:
+    Show
+    Hide
+    Light on
+    Light off
+    Right Turn
+    Left  Turn
+- Integración con WX Widgets (GUI)
+
+-----------No tan importante-------------
+- Code Refactoring
+- Quitar Warning (cambiar a C++11)
+
+
+

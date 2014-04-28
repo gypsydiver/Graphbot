@@ -31,7 +31,7 @@ stack<int> Pila_Cuadruplos;
 // Manejo de OPENGL
 float pointerx = 0;
 float pointery = 0;
-float direccionEnGrados = 0.0;
+float direccionEnGrados = 90.0;
 float res;
 
 float colorR = 0.0;
@@ -266,19 +266,19 @@ void display() {
                 lineSize = memoria_actual.get(opdo1);
                  break;
                  
-                 // CameraUp
+                 // RightTurn
             case 5017:
                  break;
                  
-                 // CameraDown
+                 // LeftTurn
             case 5018:
                  break;
                  
-                 // CameraLeft
+                 // LightOff
             case 5019:
                  break;
                  
-                 // CameraRight
+                 // LightOn
             case 5020:
                  break;
                  
@@ -291,8 +291,8 @@ void display() {
                 Image* image;
                 
                 image = loadBMP("Textura1.bmp"); loadTexture(image,0);
-                image = loadBMP("Textura1.bmp"); loadTexture(image,1);
-                image = loadBMP("Textura1.bmp"); loadTexture(image,2);
+                image = loadBMP("Textura2.bmp"); loadTexture(image,1);
+                image = loadBMP("Textura3.bmp"); loadTexture(image,2);
                 delete image;
                 
                 int num = (int) memoria_actual.get(opdo1) - 1;
@@ -351,6 +351,9 @@ void display() {
                  
                  // SetBackground
             case 5025:
+                
+                glClearColor(memoria_actual.get(opdo1), memoria_actual.get(opdo2),memoria_actual.get(opdo3),0.0);
+                glClear(GL_COLOR_BUFFER_BIT);
                  break;
 
                 // Igual ==
@@ -516,7 +519,6 @@ void display() {
 
         }
         glFlush();
-        
     }
     
 }

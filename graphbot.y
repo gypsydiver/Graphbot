@@ -211,7 +211,7 @@ comandos:
         string id = $2;
         // Si la misma variable se vuelve a asignar, se borra la anterior y se mete la nueva
         if(tv.find_var(id)) {
-        tvar.dirV = tvar.getdirV(id);
+        tvar.dirV = tv.getdirV(id);
         tv.remove_var(id);
         varsFlotante--;
          }
@@ -220,7 +220,7 @@ comandos:
         if(tvar.tipo == 0) {
         	varsFlotante++;
             //genera direccion virtual para variable de tipo flotante
-            if(tvar.getdirV(id) == -1)             
+            if(tvar.dirV == 0)
             tvar.dirV = generador.variablesDeAvail(true);
             //genera cuadruplo save flotante
         	generador.pushPOper(5022);
@@ -229,13 +229,14 @@ comandos:
         }else if(tvar.tipo == 1){
         	varsLista++;
             //genera direccion virtual para variable tipo lista
-            if(tvar.getdirV(id) == -1)             
+            if(tvar.dirV == 0)
             tvar.dirV = generador.variablesDeAvail(false);
             //genera cuadruplo save lista
             generador.rellena_save(generador.popPSaltos(), tvar.dirV);
         }
         //agrega variable a tabla de variables
         tv.add_var(tvar);
+        tvar.dirV = 0;
 
 	}
 	| RW_SETPOS expresion expresion {
