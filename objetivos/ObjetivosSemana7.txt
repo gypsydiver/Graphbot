@@ -2,6 +2,7 @@ Objetivos Semana 7
 
 *- Manejo de Memorias 
 *- Ejecución de Estatutos Condicionales
+*- Instrucciones Move y Turn listas
 -----------No tan importante-------------
 - Code Refactoring
 - Text Areas de GUI

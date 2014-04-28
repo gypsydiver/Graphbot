@@ -28,11 +28,20 @@ int opdo3;
 
 stack<int> Pila_Cuadruplos;
 
-// Manejo de cursor
-int pointerx = 0;
-int pointery = 0;
+// Manejo de OPENGL
+float pointerx = 0;
+float pointery = 0;
 float direccionEnGrados = 0.0;
 float res;
+
+float colorR = 0.0;
+float colorG = 0.0;
+float colorB = 0.0;
+
+float lineSize = 3.0;
+
+int screenWidth = 200;
+int screenHeight = 200;
 
 // Manejo de Memorias
 stack<Memoria> Pila_Memorias;
@@ -48,21 +57,10 @@ void init()
     glClearColor(1.0,1.0,1.0,1.0);
     glClear(GL_COLOR_BUFFER_BIT);
     glMatrixMode(GL_PROJECTION);
-    gluOrtho2D(-200,200,-200,200);
+    gluOrtho2D(-screenWidth,screenWidth,-screenHeight,screenHeight);
     
     // Carga las constantes
     cargando.carga_globales();
-    
-    // Texturas
-    glEnable(GL_NORMALIZE);
-    glEnable(GL_TEXTURE_2D);
-    glGenTextures(3, texturas);
-    Image* image;
-    
-    image = loadBMP("Textura1.bmp"); loadTexture(image,0);
-    image = loadBMP("Textura1.bmp"); loadTexture(image,1);
-    image = loadBMP("Textura1.bmp"); loadTexture(image,2);
-    delete image;
 
 }
 
@@ -82,7 +80,10 @@ float degreestoRadians(float degrees){
 
 void newPosition(float length){
     pointerx = pointerx+length * cos(degreestoRadians(direccionEnGrados));
+    //cout << pointerx << "POINTER XXX" << endl;
     pointery = pointery+length * sin(degreestoRadians(direccionEnGrados));
+    //cout << pointery << "POINTER YYY" << endl;
+
 }
 
 int updateAngle(int newToBeAngle){
@@ -109,7 +110,7 @@ void display() {
         // Obtiene el primer operando
         if (tokens != NULL){
             opdo1 = atoi(tokens);
-            cout << "ATOI tokens opdo1 " << opdo1 << " en memoria: "<< memoria_actual.get(opdo1)<<endl;
+            //cout << "ATOI tokens opdo1 " << opdo1 << " en memoria: "<< memoria_actual.get(opdo1)<<endl;
         }else
             opdo1 = NULL;
         tokens = strtok (NULL, " ");
@@ -127,11 +128,6 @@ void display() {
         else
             opdo3 = NULL;
         tokens = strtok (NULL, " ");
-        
-        // Prepara ventana
-        //glClear(GL_COLOR_BUFFER_BIT);
-        glColor3f(0.0, 0.0, 0.0);
-        glPointSize(3.0);
         
         switch(comando) {
                 
@@ -164,34 +160,56 @@ void display() {
                  
                  // Home
             case 5003:
+                
+                pointerx = pointery = 0;
+                
                  break;
                  
                  // GetColorR
             case 5004:
+                
+                memoria_actual.setTemporal(opdo1, colorR);
+                
                  break;
                  
                  // GetColorG
             case 5005:
+                
+                memoria_actual.setTemporal(opdo1, colorG);
+
                  break;
                  
                  // GetColorB
             case 5006:
+                
+                memoria_actual.setTemporal(opdo1, colorB);
+
                  break;
                  
                  // GetPenSize
             case 5007:
+                
+                memoria_actual.setTemporal(opdo1, lineSize);
+
                  break;
                  
                  // Get X
             case 5008:
+                
+                memoria_actual.setTemporal(opdo1, pointerx);
+                
                  break;
                  
                  // Get Y
             case 5009:
+                
+                memoria_actual.setTemporal(opdo1, pointery);
+
                  break;
                  
                  // StopMusic
             case 5010:
+                
                 alSourceStop(source);
                 cleanUp();
                  break;
@@ -204,18 +222,21 @@ void display() {
 
                  // Move
             case 5012:
+                //prepping line width and color
+                //glDisable(GL_TEXTURE_2D);
+                glColor3f(colorR, colorG, colorB);
+                glLineWidth(lineSize);
                 
                 glBegin(GL_LINES);
-                
-                glVertex2i(pointerx, pointery);
+        
+                glVertex2f(pointerx, pointery);
                 newPosition(memoria_actual.get(opdo1));
-                glVertex2i(pointerx, pointery);
+                glVertex2f(pointerx, pointery);
         
                 glEnd();
                 
                 cout << "Posx: " << pointerx << " PosY: "<<pointery << endl;
                 
-                glFlush();
                 break;
             
                  //Turn
@@ -241,6 +262,8 @@ void display() {
                 
                  // SetPenSize
             case 5016:
+                
+                lineSize = memoria_actual.get(opdo1);
                  break;
                  
                  // CameraUp
@@ -262,6 +285,16 @@ void display() {
                  // SetBackgroundText
             case 5021:
             {
+                // Texturas
+                glEnable(GL_TEXTURE_2D);
+                glGenTextures(3, texturas);
+                Image* image;
+                
+                image = loadBMP("Textura1.bmp"); loadTexture(image,0);
+                image = loadBMP("Textura1.bmp"); loadTexture(image,1);
+                image = loadBMP("Textura1.bmp"); loadTexture(image,2);
+                delete image;
+                
                 int num = (int) memoria_actual.get(opdo1) - 1;
                 
                 glPushMatrix();
@@ -270,15 +303,17 @@ void display() {
                 glBindTexture(GL_TEXTURE_2D, texturas[num]);
                 glBegin(GL_QUADS);
                 glTexCoord2f(0.0f, 0.0f);
-                glVertex3f(-200, -200, 0);
+                glVertex3f(-screenWidth, -screenHeight, 0.0);
                 glTexCoord2f(1.0f, 0.0f);
-                glVertex3f(200, -200, 0);
+                glVertex3f(screenWidth, -screenHeight, 0.0);
                 glTexCoord2f(1.0f, 1.0f);
-                glVertex3f(200, 200, 0);
+                glVertex3f(screenWidth, screenHeight, 0.0);
                 glTexCoord2f(0.0f, 1.0f);
-                glVertex3f(-200, 200, 0);
+                glVertex3f(-screenWidth, screenHeight, 0.0);
                 glEnd();
+                glDisable(GL_TEXTURE_2D);
                 glPopMatrix();
+                
             }
                  break;
 
@@ -292,15 +327,26 @@ void display() {
                  else
                      memoria_actual.setFlotante(opdo2, memoria_actual.get(opdo1));
                 
-                 cout << "Variable con dirección: " << opdo2 << " , tiene valor: " << memoria_actual.get(opdo2) << endl;
-                 break;
+                 //cout << "Variable con dirección: " << opdo2 << " , tiene valor: " << memoria_actual.get(opdo2) << endl;
+                printf("Variable con dirección: %d,tiene valor: %f\n",opdo2,memoria_actual.get(opdo2));
+                break;
                 
                  // SetPos
             case 5023:
+                
+                pointerx = memoria_actual.get(opdo1);
+                pointery = memoria_actual.get(opdo2);
+                
                  break;
                  
                  // SetColor
             case 5024:
+                
+                colorR = memoria_actual.get(opdo1);
+                colorG = memoria_actual.get(opdo2);
+                colorB = memoria_actual.get(opdo3);
+                glColor3f(colorR, colorG, colorB);
+                
                  break;
                  
                  // SetBackground
@@ -469,6 +515,7 @@ void display() {
                 break;
 
         }
+        glFlush();
         
     }
     

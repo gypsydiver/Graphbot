@@ -21,7 +21,7 @@ public:
 		int hash(int &id);
 		int rehash(int &id);
 		int add_var(data &d);
-        int remove_var(int &id);
+        int remove_var(string &name);
         void remove_all();
         int getid_var(string &name);
         bool find_var(string &name);
@@ -101,11 +101,13 @@ int tablaVariables::add_var(data &d) {
 }
 
 
-int tablaVariables::remove_var(int &id) {
+int tablaVariables::remove_var(string &name) {
+        int id = 0;
 		int hashed = hash(id);
-		if(tvar[hashed].id == id) {
+		if(tvar[hashed].nombre.compare(name) == 0) {
 				//this is the right one to delete
-				tvar[hashed].id = -1;
+                tvar[hashed].id = -1;
+				tvar[hashed].nombre = "";
 				numel -= 1;
 				return 0;
 		} else {
@@ -113,8 +115,9 @@ int tablaVariables::remove_var(int &id) {
 		int i=0;
 		while(i<=50) {
 					hashed = rehash(hashed);
-					if(tvar[hashed].id == id) {
-							tvar[hashed].id = -1; //set the id to -1 because it is going to be empty
+					if(tvar[hashed].nombre.compare(name) == 0) {
+                            tvar[hashed].id = -1;
+							tvar[hashed].nombre = ""; //set the id to -1 because it is going to be empty
 							numel -= 1; //decrease 1 from number of elements
 							return 0; //success
 					} else if(i==50) {
@@ -161,8 +164,11 @@ int tablaVariables::getid_var(string &name) {
     
     
     for(int i=0;i<=50;i++) {
-		if(tvar[i].nombre.compare(name) == 0) 
+		if(tvar[i].nombre.compare(name) == 0) {
+                cout << "Candidato: " << tvar[i].nombre << endl;
+                cout << "ID Candidato: " << tvar[i].id << endl;
 				return tvar[i].id; 
+        }
         }
         return -1;
 
@@ -205,7 +211,7 @@ void tablaVariables::output() {
 		int i;
 		for(i=0;i<51;i++) {
                 if(tvar[i].id != -1)
-				cout << "Variable: "<<tvar[i].nombre<<" Tipo: "<<tvar[i].tipo<<" dirV: "<<tvar[i].dirV<< " dirI: " << tvar[i].dirI << endl;
+				cout << "Variable: "<<tvar[i].nombre<< " Tipo: "<<tvar[i].tipo<<" dirV: "<<tvar[i].dirV<< " dirI: " << tvar[i].dirI << endl;
 		}
 }
 

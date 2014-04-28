@@ -211,13 +211,16 @@ comandos:
         string id = $2;
         // Si la misma variable se vuelve a asignar, se borra la anterior y se mete la nueva
         if(tv.find_var(id)) {
-        int var = tv.getid_var(id);
-        tv.remove_var(var); }
+        tvar.dirV = tvar.getdirV(id);
+        tv.remove_var(id);
+        varsFlotante--;
+         }
 		// Agrega una variable a la tabla de variables        
         tvar.nombre = $2;
         if(tvar.tipo == 0) {
         	varsFlotante++;
             //genera direccion virtual para variable de tipo flotante
+            if(tvar.getdirV(id) == -1)             
             tvar.dirV = generador.variablesDeAvail(true);
             //genera cuadruplo save flotante
         	generador.pushPOper(5022);
@@ -226,6 +229,7 @@ comandos:
         }else if(tvar.tipo == 1){
         	varsLista++;
             //genera direccion virtual para variable tipo lista
+            if(tvar.getdirV(id) == -1)             
             tvar.dirV = generador.variablesDeAvail(false);
             //genera cuadruplo save lista
             generador.rellena_save(generador.popPSaltos(), tvar.dirV);
@@ -330,6 +334,10 @@ variable:
         // Rellena goto anterior con con_cuadruplos actual
        	generador.rellena(generador.popPSaltos(), cont_cuadruplos);
 	}
+    | comando_return{
+        generador.pushPOper($1);
+        generador.start(7);
+    }
 	;
 
 lista_OPBRACKET:
