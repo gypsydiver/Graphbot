@@ -24,8 +24,8 @@ Codificación de comandos
 5014 : setx
 5015 : sety
 5016 : setpensize
-5017 : lighton
-5018 : lightoff
+5017 : penup
+5018 : pendown
 5019 : rightturn
 5020 : leftturn
 5021 : setbackgroundtxt

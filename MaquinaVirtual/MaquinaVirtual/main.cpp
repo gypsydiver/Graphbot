@@ -28,7 +28,7 @@ int opdo2;
 int opdo3;
 
 bool showBotOrNot = true;
-bool lighton = false;
+bool penDown = true;
 
 stack<int> Pila_Cuadruplos;
 
@@ -57,7 +57,7 @@ stack<Memoria> Pila_Memorias;
 Memoria memoria_actual;
 
 // Guarda texturas
-static GLuint texturas[4];
+static GLuint texturas[5];
 
 
 void init()
@@ -71,24 +71,6 @@ void init()
     // Carga las constantes
     cargando.carga_globales();
     
-    // Carga luces
-    float spot_cutoff = 30.0;
-    float spot_exponent = 1.0;
-    float light_ambient[] = {0.0, 0.2, 0.0, 1.0};
-    float light_diffuse_specular[] = {0.8, 0.8, 0.8, 1.0};
-    float focus_emission [] = {0.8,0.8,0.8,1.0};
-
-    
-    glEnable(GL_DEPTH_TEST);
-    glLightModeli(GL_LIGHT_MODEL_TWO_SIDE,GL_FALSE);
-    glLightfv(GL_LIGHT0,GL_AMBIENT,light_ambient);
-    glLightfv(GL_LIGHT0,GL_DIFFUSE,light_diffuse_specular);
-    glLightfv(GL_LIGHT0,GL_SPECULAR,light_diffuse_specular);
-    glLightf(GL_LIGHT0,GL_SPOT_CUTOFF,spot_cutoff);
-    glLightf(GL_LIGHT0,GL_SPOT_EXPONENT,spot_exponent);
-    glColor4fv(focus_emission); // Propiedad nueva
-
-
 }
 
 void graphbot(int num) {
@@ -120,10 +102,10 @@ void show(){
         glEnable(GL_TEXTURE_2D);
         glEnable(GL_BLEND);
         glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-        glGenTextures(4, texturas);
+        glGenTextures(5, texturas);
         Image* image;
         
-        image = loadBMP("graphbot.bmp"); loadTexture(image,3);
+        image = loadBMP("graphbot.bmp"); loadTexture(image,4);
         delete image;
             
         // Actualiza la coordenadas
@@ -141,7 +123,7 @@ void show(){
 
         glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
         glColor3f(1.0f,1.0f,1.0f);
-        glBindTexture(GL_TEXTURE_2D, texturas[3]);
+        glBindTexture(GL_TEXTURE_2D, texturas[4]);
         
         glBegin(GL_QUADS);
         
@@ -291,13 +273,17 @@ void display() {
                 glColor3f(colorR, colorG, colorB);
                 glLineWidth(lineSize);
                 
+                if(penDown) {
                 glBegin(GL_LINES);
-        
                 glVertex2f(pointerx, pointery);
                 newPosition(memoria_actual.get(opdo1));
                 glVertex2f(pointerx, pointery);
         
-                glEnd();
+                glEnd(); }
+                
+                else
+                newPosition(memoria_actual.get(opdo1));
+   
                 
                 cout << "Posx: " << pointerx << " PosY: "<<pointery << endl;
                 
@@ -330,20 +316,20 @@ void display() {
                 lineSize = memoria_actual.get(opdo1);
                 break;
                  
-                 // LightOn
+                 // penUp
             case 5017:
                 
-                glEnable(GL_LIGHTING);
-                glEnable(GL_LIGHT0);
+                penDown = false;
                 
                  break;
                  
-                 // LightOff
+                 // penDown
             case 5018:
                 
-                glDisable(GL_LIGHTING);
-                glDisable(GL_LIGHT0);
                 
+                penDown = true;
+ 
+            
                   break;
                  
                  // RightTurn
@@ -367,6 +353,7 @@ void display() {
                 image = loadBMP("Textura1.bmp"); loadTexture(image,0);
                 image = loadBMP("Textura2.bmp"); loadTexture(image,1);
                 image = loadBMP("Textura3.bmp"); loadTexture(image,2);
+                image = loadBMP("Textura4.bmp"); loadTexture(image,3);
                 delete image;
                 
                 int num = (int) memoria_actual.get(opdo1) - 1;
