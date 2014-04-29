@@ -59,7 +59,6 @@ class Generador {
         }
 
     public:
-        //tengo hueva
         void generaEraMain(int flotantes, int listas, int temporales){
 
             ifstream filein;
@@ -67,7 +66,8 @@ class Generador {
             filein.open("MaquinaVirtual/Build/Products/Debug/CodigoInt.txt");
             fileout.open("MaquinaVirtual/Build/Products/Debug/temp.txt");
             string line;
-
+            
+            fileout << cont_cuadruplos-1 << endl;
             fileout << "1. 5039 "<< flotantes <<" "<< listas <<" "<< temporales<< endl;
 
             while (getline(filein, line)){
