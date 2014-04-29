@@ -34,8 +34,8 @@
 		51B772311900D01C00A08AF0 /* MaquinaVirtual */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = MaquinaVirtual; sourceTree = BUILT_PRODUCTS_DIR; };
 		51B7723D1900D08C00A08AF0 /* GLUT.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = GLUT.framework; path = System/Library/Frameworks/GLUT.framework; sourceTree = SDKROOT; };
 		51B7723E1900D08C00A08AF0 /* OpenGL.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenGL.framework; path = System/Library/Frameworks/OpenGL.framework; sourceTree = SDKROOT; };
-		51C4A35419105F55007D8CD6 /* SOIL.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SOIL.h; sourceTree = "<group>"; };
 		51C4A35C19106A38007D8CD6 /* libSOIL.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libSOIL.dylib; path = libs/libSOIL.dylib; sourceTree = "<group>"; };
+		51C4A35E19106D39007D8CD6 /* Cuadruplos.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Cuadruplos.h; sourceTree = "<group>"; };
 		ED3E4A6E1904F9BB00D5640B /* Sound.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Sound.h; sourceTree = "<group>"; };
 		ED3E4A6F1904FF0000D5640B /* OpenAL.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenAL.framework; path = Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.8.sdk/System/Library/Frameworks/OpenAL.framework; sourceTree = DEVELOPER_DIR; };
 /* End PBXFileReference section */
@@ -81,7 +81,7 @@
 				51072CA41900EE9C0023401F /* Cargador.h */,
 				ED3E4A6E1904F9BB00D5640B /* Sound.h */,
 				51072CA71900EE9C0023401F /* main.cpp */,
-				51C4A35419105F55007D8CD6 /* SOIL.h */,
+				51C4A35E19106D39007D8CD6 /* Cuadruplos.h */,
 				51072CA81900EE9C0023401F /* MaquinaVirtual.1 */,
 				51072CA91900EE9C0023401F /* Memoria.h */,
 			);

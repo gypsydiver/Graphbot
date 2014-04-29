@@ -4,10 +4,12 @@
 #include <GLUT/glut.h>
 #include <assert.h>
 #include <stack>
-#include "SOIL.h"
+#include "../Texturas/SOIL.h"
 #include "Cargador.h"
 #include "Memoria.h"
 #include "Sound.h"
+#include "Cuadruplos.h"
+
 using namespace std;
 
 const float PI = 3.141592653589793238462643383279502884197169399375105820974944;
@@ -15,14 +17,6 @@ const float PI = 3.141592653589793238462643383279502884197169399375105820974944;
 // Manejo de archivo de Código Intermedio
 ifstream file;
 string line;
-char *tokens;
-char *tok;
-
-int cuadruplo;
-int comando;
-int opdo1;
-int opdo2;
-int opdo3;
 
 bool showBotOrNot = true;
 bool penDown = true;
@@ -113,9 +107,7 @@ void init()
 }
 
 void graphbot(int num) {
-    
     file.seekg(0, ios::beg);
-    
     for(int i = 1; i < num; i++) {
         getline(file, line);
     }
@@ -179,6 +171,21 @@ void show(){
 
 void display() {
     
+    
+    show();
+    glFlush();
+    
+}
+
+void readFromFile(string filename){
+    Cuadruplos cuad;
+    
+    int cuadruplo,comando,opdo1,opdo2,opdo3;
+    char *tokens, *tok;
+    file.open(filename);
+    getline(file, line);
+    cuad.begin(stoi(line));
+    
     // Lee Código Intermedio
     while (getline(file, line)){
         
@@ -193,7 +200,7 @@ void display() {
         // Obtiene el comando
         comando = atoi(tokens);
         tokens = strtok (NULL, " ");
-
+        
         // Obtiene el primer operando
         if (tokens != NULL){
             opdo1 = atoi(tokens);
@@ -201,14 +208,14 @@ void display() {
         }else
             opdo1 = NULL;
         tokens = strtok (NULL, " ");
-
+        
         // Obtiene el segundo operando
         if (tokens != NULL)
             opdo2 = atoi(tokens);
         else
             opdo2 = NULL;
         tokens = strtok (NULL, " ");
-
+        
         // Obtiene el tercer operando
         if (tokens != NULL)
             opdo3 = atoi(tokens);
@@ -216,406 +223,13 @@ void display() {
             opdo3 = NULL;
         tokens = strtok (NULL, " ");
         
-        switch(comando) {
-                
-                 // Show
-            case 5000:
-                
-                showBotOrNot = true;
-                 break;
-                
-                // Hide
-            case 5001:
-                
-                showBotOrNot = false;
-                 break;
-                
-                // Clean
-            case 5002:
-                
-                 glClearColor(1.0f, 1.0f, 1.0f, 1.0f);
-                 glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-                 glutSwapBuffers();
-                
-                 break;
-                 
-                 // Home
-            case 5003:
-                
-                pointerx = pointery = 0;
-                
-                 break;
-                 
-                 // GetColorR
-            case 5004:
-                
-                memoria_actual.setTemporal(opdo1, colorR);
-                
-                 break;
-                 
-                 // GetColorG
-            case 5005:
-                
-                memoria_actual.setTemporal(opdo1, colorG);
-
-                 break;
-                 
-                 // GetColorB
-            case 5006:
-                
-                memoria_actual.setTemporal(opdo1, colorB);
-
-                 break;
-                 
-                 // GetPenSize
-            case 5007:
-                
-                memoria_actual.setTemporal(opdo1, lineSize);
-
-                 break;
-                 
-                 // Get X
-            case 5008:
-                
-                memoria_actual.setTemporal(opdo1, pointerx);
-                
-                 break;
-                 
-                 // Get Y
-            case 5009:
-                
-                memoria_actual.setTemporal(opdo1, pointery);
-
-                 break;
-                 
-                 // StopMusic
-            case 5010:
-                
-                alSourceStop(source);
-                cleanUp();
-                 break;
-                 
-                 // PlayMusic
-            case 5011:
-                loadSoundSource();
-                alSourcePlay(source);
-                break;
-
-                 // Move
-            case 5012:
-                //prepping line width and color
-                glColor3f(colorR, colorG, colorB);
-                glLineWidth(lineSize);
-                
-                if(penDown) {
-                glBegin(GL_LINES);
-                glVertex2f(pointerx, pointery);
-                newPosition(memoria_actual.get(opdo1));
-                glVertex2f(pointerx, pointery);
-        
-                glEnd(); }
-                
-                else
-                newPosition(memoria_actual.get(opdo1));
-   
-                
-                cout << "Posx: " << pointerx << " PosY: "<<pointery << endl;
-                
-                break;
-            
-                 // About
-            case 5013:
-                
-                
-                
-                break;
-                
-                 // Set X
-            case 5014:
-            
-                pointerx = memoria_actual.get(opdo1);
-                
-                break;
-                
-                 // Set Y
-            case 5015:
-                
-                pointery = memoria_actual.get(opdo1);
-
-                break;
-                
-                 // SetPenSize
-            case 5016:
-                
-                lineSize = memoria_actual.get(opdo1);
-                break;
-                 
-                 // penUp
-            case 5017:
-                
-                penDown = false;
-                
-                 break;
-                 
-                 // penDown
-            case 5018:
-                
-                
-                penDown = true;
- 
-            
-                  break;
-                 
-                 // RightTurn
-            case 5019:
-                direccionEnGrados = updateAngle(direccionEnGrados - memoria_actual.get(opdo1)) * 1.0;
-                break;
-                 
-                 // LeftTurn
-            case 5020:
-                direccionEnGrados = updateAngle(direccionEnGrados + memoria_actual.get(opdo1)) * 1.0;
-                break;
-                 
-                 // SetBackgroundText
-            case 5021:
-            {
-                
-                glEnable(GL_TEXTURE_2D);
-                
-                int num = (int) memoria_actual.get(opdo1) - 1;
-                
-                glPushMatrix();
-                glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-                glColor3f(1.0f,1.0f,1.0f);
-                glBindTexture(GL_TEXTURE_2D, texturas[num]);
-                glBegin(GL_QUADS);
-                glTexCoord2f(0.0f, 0.0f);
-                glVertex3f(-screenWidth, -screenHeight, 0.0);
-                glTexCoord2f(1.0f, 0.0f);
-                glVertex3f(screenWidth, -screenHeight, 0.0);
-                glTexCoord2f(1.0f, 1.0f);
-                glVertex3f(screenWidth, screenHeight, 0.0);
-                glTexCoord2f(0.0f, 1.0f);
-                glVertex3f(-screenWidth, screenHeight, 0.0);
-                glEnd();
-                glDisable(GL_TEXTURE_2D);
-                glPopMatrix();
-                
-            }
-                 break;
-
-                 // Save
-            case 5022:
-                
-                 // Guarda variable tipo Lista
-                 if(opdo1 < 1000)
-                     memoria_actual.setLista(opdo2, opdo1);
-                 // Guarda variable tipo Flotante
-                 else
-                     memoria_actual.setFlotante(opdo2, memoria_actual.get(opdo1));
-                
-                 //cout << "Variable con dirección: " << opdo2 << " , tiene valor: " << memoria_actual.get(opdo2) << endl;
-                printf("Variable con dirección: %d,tiene valor: %f\n",opdo2,memoria_actual.get(opdo2));
-                break;
-                
-                 // SetPos
-            case 5023:
-                
-                pointerx = memoria_actual.get(opdo1);
-                pointery = memoria_actual.get(opdo2);
-                
-                 break;
-                 
-                 // SetColor
-            case 5024:
-                
-                colorR = memoria_actual.get(opdo1);
-                colorG = memoria_actual.get(opdo2);
-                colorB = memoria_actual.get(opdo3);
-                glColor3f(colorR, colorG, colorB);
-                
-                 break;
-                 
-                 // SetBackground
-            case 5025:
-                
-                glClearColor(memoria_actual.get(opdo1), memoria_actual.get(opdo2),memoria_actual.get(opdo3),0.0);
-                glClear(GL_COLOR_BUFFER_BIT);
-                break;
-
-                // Igual ==
-            case 5026:
-                
-                if(memoria_actual.get(opdo1) == memoria_actual.get(opdo2))
-                    memoria_actual.setTemporal(opdo3, 1);
-                else
-                    memoria_actual.setTemporal(opdo3, 0);
-                
-                break;
-                 
-                 // Mayor que >
-            case 5027:
-                  
-                  if(memoria_actual.get(opdo1) > memoria_actual.get(opdo2))
-                      memoria_actual.setTemporal(opdo3, 1);
-                  else
-                      memoria_actual.setTemporal(opdo3, 0);
-                  
-                 break;
-                 
-                 // Menor que <
-            case 5028:
-                cout << "opdo1 - " <<opdo1<< " : "<< memoria_actual.get(opdo1) << endl;
-                cout << "opdo2 - " <<opdo2<< " : "<< memoria_actual.get(opdo2) << endl;
-                  if(memoria_actual.get(opdo1) < memoria_actual.get(opdo2))
-                  memoria_actual.setTemporal(opdo3, 1);
-                  else
-                  memoria_actual.setTemporal(opdo3, 0);
-                  
-                 break;
-                 
-                 // Diferente de !=
-            case 5029:
-                  
-                  if(memoria_actual.get(opdo1) != memoria_actual.get(opdo2))
-                    memoria_actual.setTemporal(opdo3, 1);
-                  else
-                    memoria_actual.setTemporal(opdo3, 0);
-                  
-                 break;
-                 
-                 // Mayor o igual que >=
-            case 5030:
-                  
-                  if(memoria_actual.get(opdo1) >= memoria_actual.get(opdo2))
-                  memoria_actual.setTemporal(opdo3, 1);
-                  else
-                  memoria_actual.setTemporal(opdo3, 0);
-                  
-                 break;
-                 
-                 // Menor o igual que <=
-            case 5031:
-                  
-                  if(memoria_actual.get(opdo1) <= memoria_actual.get(opdo2))
-                  memoria_actual.setTemporal(opdo3, 1);
-                  else
-                  memoria_actual.setTemporal(opdo3, 0);
-                  
-                 break;
-                
-                // Suma
-            case 5032:
-                
-                res = memoria_actual.get(opdo1) + memoria_actual.get(opdo2);
-                memoria_actual.setTemporal(opdo3, res);
-                
-                break;
-                
-                // Resta
-            case 5033:
-                
-                res = memoria_actual.get(opdo1) - memoria_actual.get(opdo2);
-                memoria_actual.setTemporal(opdo3, res);
-                
-                break;
-                
-                // Multiplicación
-            case 5034:
-                
-                res = memoria_actual.get(opdo1) * memoria_actual.get(opdo2);
-                memoria_actual.setTemporal(opdo3, res);
-                
-                break;
-                
-                // División
-            case 5035:
-                
-                res = memoria_actual.get(opdo1) / memoria_actual.get(opdo2);
-                memoria_actual.setTemporal(opdo3, res);
-                
-                break;
-                
-                
-                 // Goto 
-                 case 5036:
-                
-                file.clear();
-                graphbot(opdo1);
-                
-                 break;
-            
-                // GotoF
-            case 5037:
-                cout << "opdo1: " << memoria_actual.get(opdo1) << endl;
-                if(memoria_actual.get(opdo1) == 0) {
-                    file.clear();
-                    graphbot(opdo2); }
-                 break;
-                
-                 // Param
-            case 5038:
-                
-                memoria_actual.setFlotante(opdo1, opdo2);
-                
-                 break;
-                 
-                 // Era
-            case 5039:
-                
-                Memoria memoria;
-                memoria.nueva(opdo3, opdo1, opdo2);
-                Pila_Memorias.push(memoria);
-                memoria_actual = Pila_Memorias.top();
-                
-                 break;
-                 
-                 // Retorno Funcion
-            case 5040:
-                
-                memoria_actual = Pila_Memorias.top();
-                Pila_Memorias.pop();
-                memoria_actual.destruye();
-                memoria_actual = Pila_Memorias.top();
-                
-                // Regresa al cuadruplo donde estaba antes
-                file.clear();
-                graphbot(Pila_Cuadruplos.top());
-                Pila_Cuadruplos.pop();
-                
-                break;
-                
-                // Retorno Lista
-            case 5041:
-                
-                // Regresa al cuadruplo donde estaba antes
-                file.clear();
-                graphbot(Pila_Cuadruplos.top());
-                Pila_Cuadruplos.pop();
-                
-                break;
-                
-                // Gosub
-            case 5042:
-                
-                Pila_Cuadruplos.push(cuadruplo+1);
-                file.clear();
-                graphbot(opdo1);
-                
-                break;
-
-        }
+        cuad.set(cuadruplo, comando, opdo1, opdo2, opdo3);
     }
-    
-    show();
-    glFlush();
-    
+    cuad.listAll();
 }
 
 int main(int argc,char** argv) {
-
-    file.open("CodigoInt.txt");
-
+    readFromFile("CodigoInt.txt");
     glutInit(&argc, argv);
     glutInitDisplayMode(GLUT_SINGLE | GLUT_RGB);
     glutInitWindowSize(500,500);
@@ -626,5 +240,327 @@ int main(int argc,char** argv) {
     glutDisplayFunc(display);
     glutMainLoop();
     return 0;
-    
 }
+
+void render(int comando, int opdo1, int opdo2,int opdo3){
+    switch(comando) {
+            // Show
+        case 5000:
+            showBotOrNot = true;
+            break;
+            
+            // Hide
+        case 5001:
+            showBotOrNot = false;
+            break;
+            
+            // Clean
+        case 5002:
+            glClearColor(1.0f, 1.0f, 1.0f, 1.0f);
+            glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+            glutSwapBuffers();
+            break;
+            
+            // Home
+        case 5003:
+            pointerx = pointery = 0;
+            break;
+            
+            // GetColorR
+        case 5004:
+            memoria_actual.setTemporal(opdo1, colorR);
+            break;
+            
+            // GetColorG
+        case 5005:
+            memoria_actual.setTemporal(opdo1, colorG);
+            break;
+            
+            // GetColorB
+        case 5006:
+            memoria_actual.setTemporal(opdo1, colorB);
+            break;
+            
+            // GetPenSize
+        case 5007:
+            memoria_actual.setTemporal(opdo1, lineSize);
+            break;
+            
+            // Get X
+        case 5008:
+            memoria_actual.setTemporal(opdo1, pointerx);
+            break;
+            
+            // Get Y
+        case 5009:
+            memoria_actual.setTemporal(opdo1, pointery);
+            break;
+            
+            // StopMusic
+        case 5010:
+            alSourceStop(source);
+            cleanUp();
+            break;
+            
+            // PlayMusic
+        case 5011:
+            loadSoundSource();
+            alSourcePlay(source);
+            break;
+            
+            // Move
+        case 5012:
+            //prepping line width and color
+            glColor3f(colorR, colorG, colorB);
+            glLineWidth(lineSize);
+            
+            if(penDown) {
+                glBegin(GL_LINES);
+                glVertex2f(pointerx, pointery);
+                newPosition(memoria_actual.get(opdo1));
+                glVertex2f(pointerx, pointery);
+                glEnd();
+            }else{
+                newPosition(memoria_actual.get(opdo1));
+            }
+    
+            cout << "Posx: " << pointerx << " PosY: "<<pointery << endl;
+            break;
+            
+            // About
+        case 5013:
+            break;
+            
+            // Set X
+        case 5014:
+            pointerx = memoria_actual.get(opdo1);
+            break;
+            
+            // Set Y
+        case 5015:
+            pointery = memoria_actual.get(opdo1);
+            break;
+            
+            // SetPenSize
+        case 5016:
+            lineSize = memoria_actual.get(opdo1);
+            break;
+            
+            // penUp
+        case 5017:
+            penDown = false;
+            break;
+            
+            // penDown
+        case 5018:
+            penDown = true;
+            break;
+            
+            // RightTurn
+        case 5019:
+            direccionEnGrados = updateAngle(direccionEnGrados - memoria_actual.get(opdo1)) * 1.0;
+            break;
+            
+            // LeftTurn
+        case 5020:
+            direccionEnGrados = updateAngle(direccionEnGrados + memoria_actual.get(opdo1)) * 1.0;
+            break;
+            
+            // SetBackgroundText
+        case 5021:
+        {
+            //Texturas
+            glEnable(GL_TEXTURE_2D);
+            
+            int num = (int) memoria_actual.get(opdo1) - 1;
+            
+            glPushMatrix();
+            glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+            glColor3f(1.0f,1.0f,1.0f);
+            glBindTexture(GL_TEXTURE_2D, texturas[num]);
+            glBegin(GL_QUADS);
+            glTexCoord2f(0.0f, 0.0f);
+            glVertex3f(-screenWidth, -screenHeight, 0.0);
+            glTexCoord2f(1.0f, 0.0f);
+            glVertex3f(screenWidth, -screenHeight, 0.0);
+            glTexCoord2f(1.0f, 1.0f);
+            glVertex3f(screenWidth, screenHeight, 0.0);
+            glTexCoord2f(0.0f, 1.0f);
+            glVertex3f(-screenWidth, screenHeight, 0.0);
+            glEnd();
+            glDisable(GL_TEXTURE_2D);
+            glPopMatrix();
+        }
+            break;
+            
+            // Save
+        case 5022:
+            // Guarda variable tipo Lista
+            if(opdo1 < 1000){
+                memoria_actual.setLista(opdo2, opdo1);
+            // Guarda variable tipo Flotante
+            }else{
+                memoria_actual.setFlotante(opdo2, memoria_actual.get(opdo1));
+            }
+            //cout << "Variable con dirección: " << opdo2 << " , tiene valor: " << memoria_actual.get(opdo2) << endl;
+            printf("Variable con dirección: %d,tiene valor: %f\n",opdo2,memoria_actual.get(opdo2));
+            break;
+            
+            // SetPos
+        case 5023:
+            pointerx = memoria_actual.get(opdo1);
+            pointery = memoria_actual.get(opdo2);
+            break;
+            
+            // SetColor
+        case 5024:
+            colorR = memoria_actual.get(opdo1);
+            colorG = memoria_actual.get(opdo2);
+            colorB = memoria_actual.get(opdo3);
+            glColor3f(colorR, colorG, colorB);
+            break;
+            
+            // SetBackground
+        case 5025:
+            glClearColor(memoria_actual.get(opdo1), memoria_actual.get(opdo2),memoria_actual.get(opdo3),0.0);
+            glClear(GL_COLOR_BUFFER_BIT);
+            break;
+            
+            // Igual ==
+        case 5026:
+            if(memoria_actual.get(opdo1) == memoria_actual.get(opdo2)){
+                memoria_actual.setTemporal(opdo3, 1);
+            }else{
+                memoria_actual.setTemporal(opdo3, 0);
+            }
+            break;
+            
+            // Mayor que >
+        case 5027:
+            if(memoria_actual.get(opdo1) > memoria_actual.get(opdo2)){
+                memoria_actual.setTemporal(opdo3, 1);
+            }else{
+                memoria_actual.setTemporal(opdo3, 0);
+            }
+            break;
+            
+            // Menor que <
+        case 5028:
+            cout << "opdo1 - " <<opdo1<< " : "<< memoria_actual.get(opdo1) << endl;
+            cout << "opdo2 - " <<opdo2<< " : "<< memoria_actual.get(opdo2) << endl;
+            if(memoria_actual.get(opdo1) < memoria_actual.get(opdo2)){
+                memoria_actual.setTemporal(opdo3, 1);
+            }else{
+                memoria_actual.setTemporal(opdo3, 0);
+            }
+            break;
+            
+            // Diferente de !=
+        case 5029:
+            if(memoria_actual.get(opdo1) != memoria_actual.get(opdo2)){
+                memoria_actual.setTemporal(opdo3, 1);
+            }else{
+                memoria_actual.setTemporal(opdo3, 0);
+            }
+            break;
+            
+            // Mayor o igual que >=
+        case 5030:
+            if(memoria_actual.get(opdo1) >= memoria_actual.get(opdo2)){
+                memoria_actual.setTemporal(opdo3, 1);
+            }else{
+                memoria_actual.setTemporal(opdo3, 0);
+            }
+            break;
+            
+            // Menor o igual que <=
+        case 5031:
+            if(memoria_actual.get(opdo1) <= memoria_actual.get(opdo2)){
+                memoria_actual.setTemporal(opdo3, 1);
+            }else{
+                memoria_actual.setTemporal(opdo3, 0);
+            }
+            break;
+            
+            // Suma
+        case 5032:
+            res = memoria_actual.get(opdo1) + memoria_actual.get(opdo2);
+            memoria_actual.setTemporal(opdo3, res);
+            break;
+            
+            // Resta
+        case 5033:
+            res = memoria_actual.get(opdo1) - memoria_actual.get(opdo2);
+            memoria_actual.setTemporal(opdo3, res);
+            break;
+            
+            // Multiplicación
+        case 5034:
+            res = memoria_actual.get(opdo1) * memoria_actual.get(opdo2);
+            memoria_actual.setTemporal(opdo3, res);
+            break;
+            
+            // División
+        case 5035:
+            res = memoria_actual.get(opdo1) / memoria_actual.get(opdo2);
+            memoria_actual.setTemporal(opdo3, res);
+            break;
+            
+            // Goto
+        case 5036:
+            file.clear();
+            graphbot(opdo1);
+            break;
+            
+            // GotoF
+        case 5037:
+            cout << "opdo1: " << memoria_actual.get(opdo1) << endl;
+            if(memoria_actual.get(opdo1) == 0) {
+                file.clear();
+                graphbot(opdo2);
+            }
+            break;
+            
+            // Param
+        case 5038:
+            memoria_actual.setFlotante(opdo1, opdo2);
+            break;
+            
+            // Era
+        case 5039:
+            Memoria memoria;
+            memoria.nueva(opdo3, opdo1, opdo2);
+            Pila_Memorias.push(memoria);
+            memoria_actual = Pila_Memorias.top();
+            break;
+            
+            // Retorno Funcion
+        case 5040:
+            memoria_actual = Pila_Memorias.top();
+            Pila_Memorias.pop();
+            memoria_actual.destruye();
+            memoria_actual = Pila_Memorias.top();
+            
+            // Regresa al cuadruplo donde estaba antes
+            file.clear();
+            graphbot(Pila_Cuadruplos.top());
+            Pila_Cuadruplos.pop();
+            break;
+            
+            // Retorno Lista
+        case 5041:
+            // Regresa al cuadruplo donde estaba antes
+            file.clear();
+            graphbot(Pila_Cuadruplos.top());
+            Pila_Cuadruplos.pop();
+            break;
+            
+            // Gosub
+        case 5042:
+            //Pila_Cuadruplos.push(cuadruplo+1);
+            file.clear();
+            graphbot(opdo1);
+            break;
+    }
+}
+
