@@ -1,13 +1,14 @@
 Objetivos Semana 8
 
 - Implementación nuevos comandos:
-    Show
-    Hide
+    *Show
+    *Hide
     Light on
     Light off
-    Right Turn
-    Left  Turn
+    *Right Turn
+    *Left  Turn
 - Integración con WX Widgets (GUI)
+- Implementar About :))))
 
 -----------No tan importante-------------
 - Code Refactoring

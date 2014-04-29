@@ -13,6 +13,7 @@ using namespace std;
 const float PI = 3.141592653589793238462643383279502884197169399375105820974944;
 // Funciones
 void loadTexture(Image* image,int k);
+void freeTexture(GLuint texture);
 
 // Manejo de archivo de Código Intermedio
 ifstream file;
@@ -26,6 +27,9 @@ int opdo1;
 int opdo2;
 int opdo3;
 
+bool showBotOrNot = true;
+bool lighton = false;
+
 stack<int> Pila_Cuadruplos;
 
 // Manejo de OPENGL
@@ -33,6 +37,11 @@ float pointerx = 0;
 float pointery = 0;
 float direccionEnGrados = 90.0;
 float res;
+
+float coor1 = 0;
+float coor2 = 0;
+float coor3 = 0;
+float coor4 = 0;
 
 float colorR = 0.0;
 float colorG = 0.0;
@@ -48,7 +57,7 @@ stack<Memoria> Pila_Memorias;
 Memoria memoria_actual;
 
 // Guarda texturas
-static GLuint texturas[3];
+static GLuint texturas[4];
 
 
 void init()
@@ -61,6 +70,24 @@ void init()
     
     // Carga las constantes
     cargando.carga_globales();
+    
+    // Carga luces
+    float spot_cutoff = 30.0;
+    float spot_exponent = 1.0;
+    float light_ambient[] = {0.0, 0.2, 0.0, 1.0};
+    float light_diffuse_specular[] = {0.8, 0.8, 0.8, 1.0};
+    float focus_emission [] = {0.8,0.8,0.8,1.0};
+
+    
+    glEnable(GL_DEPTH_TEST);
+    glLightModeli(GL_LIGHT_MODEL_TWO_SIDE,GL_FALSE);
+    glLightfv(GL_LIGHT0,GL_AMBIENT,light_ambient);
+    glLightfv(GL_LIGHT0,GL_DIFFUSE,light_diffuse_specular);
+    glLightfv(GL_LIGHT0,GL_SPECULAR,light_diffuse_specular);
+    glLightf(GL_LIGHT0,GL_SPOT_CUTOFF,spot_cutoff);
+    glLightf(GL_LIGHT0,GL_SPOT_EXPONENT,spot_exponent);
+    glColor4fv(focus_emission); // Propiedad nueva
+
 
 }
 
@@ -80,14 +107,58 @@ float degreestoRadians(float degrees){
 
 void newPosition(float length){
     pointerx = pointerx+length * cos(degreestoRadians(direccionEnGrados));
-    //cout << pointerx << "POINTER XXX" << endl;
     pointery = pointery+length * sin(degreestoRadians(direccionEnGrados));
-    //cout << pointery << "POINTER YYY" << endl;
-
 }
 
 int updateAngle(int newToBeAngle){
     return newToBeAngle % 360;
+}
+
+void show(){
+    if (showBotOrNot) {
+        // Texturas
+        glEnable(GL_TEXTURE_2D);
+        glEnable(GL_BLEND);
+        glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+        glGenTextures(4, texturas);
+        Image* image;
+        
+        image = loadBMP("graphbot.bmp"); loadTexture(image,3);
+        delete image;
+            
+        // Actualiza la coordenadas
+        coor1 = -15; //+ pointerx;
+        coor2 = 15; // + pointerx;
+        coor3 = -15; // + pointery;
+        coor4 = 15; // + pointery;
+        
+        glPushMatrix();
+        
+        glTranslatef(pointerx, pointery, 0.0);
+        glRotatef(direccionEnGrados-90, 0.0, 0.0, 1.0);
+        glTranslatef(0.0,0.0, 0.0);
+
+
+        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+        glColor3f(1.0f,1.0f,1.0f);
+        glBindTexture(GL_TEXTURE_2D, texturas[3]);
+        
+        glBegin(GL_QUADS);
+        
+        glTexCoord2f(0.0f, 0.0f);
+        glVertex3f(coor1, coor3, 0.0);
+        glTexCoord2f(1.0f, 0.0f);
+        glVertex3f(coor2, coor3, 0.0);
+        glTexCoord2f(1.0f, 1.0f);
+        glVertex3f(coor2, coor4, 0.0);
+        glTexCoord2f(0.0f, 1.0f);
+        glVertex3f(coor1, coor4, 0.0);
+        
+        glEnd();
+        
+        glDisable(GL_TEXTURE_2D);
+        glPopMatrix();
+    }
 }
 
 void display() {
@@ -134,19 +205,13 @@ void display() {
                  // Show
             case 5000:
                 
-                glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
-                
-                glBegin(GL_TRIANGLES);
-                glVertex2f(-5, 0);
-                glVertex2f(5, 0);
-                glVertex2f(0, 10);
-                glEnd();
-                glFlush();
-                
+                showBotOrNot = true;
                  break;
                 
                 // Hide
             case 5001:
+                
+                showBotOrNot = false;
                  break;
                 
                 // Clean
@@ -223,7 +288,6 @@ void display() {
                  // Move
             case 5012:
                 //prepping line width and color
-                //glDisable(GL_TEXTURE_2D);
                 glColor3f(colorR, colorG, colorB);
                 glLineWidth(lineSize);
                 
@@ -239,11 +303,11 @@ void display() {
                 
                 break;
             
-                 //Turn
+                 // About
             case 5013:
                 
-                direccionEnGrados = updateAngle(direccionEnGrados + memoria_actual.get(opdo1)) * 1.0;
-                cout << "Dirección grados : " << direccionEnGrados << endl;
+                
+                
                 break;
                 
                  // Set X
@@ -264,23 +328,33 @@ void display() {
             case 5016:
                 
                 lineSize = memoria_actual.get(opdo1);
-                 break;
+                break;
                  
-                 // RightTurn
+                 // LightOn
             case 5017:
-                 break;
-                 
-                 // LeftTurn
-            case 5018:
+                
+                glEnable(GL_LIGHTING);
+                glEnable(GL_LIGHT0);
+                
                  break;
                  
                  // LightOff
-            case 5019:
-                 break;
+            case 5018:
+                
+                glDisable(GL_LIGHTING);
+                glDisable(GL_LIGHT0);
+                
+                  break;
                  
-                 // LightOn
+                 // RightTurn
+            case 5019:
+                direccionEnGrados = updateAngle(direccionEnGrados - memoria_actual.get(opdo1)) * 1.0;
+                break;
+                 
+                 // LeftTurn
             case 5020:
-                 break;
+                direccionEnGrados = updateAngle(direccionEnGrados + memoria_actual.get(opdo1)) * 1.0;
+                break;
                  
                  // SetBackgroundText
             case 5021:
@@ -354,7 +428,7 @@ void display() {
                 
                 glClearColor(memoria_actual.get(opdo1), memoria_actual.get(opdo2),memoria_actual.get(opdo3),0.0);
                 glClear(GL_COLOR_BUFFER_BIT);
-                 break;
+                break;
 
                 // Igual ==
             case 5026:
@@ -518,8 +592,11 @@ void display() {
                 break;
 
         }
-        glFlush();
     }
+    
+    show();
+   // light();
+    glFlush();
     
 }
 
@@ -735,6 +812,7 @@ Image* loadBMP(const char* filename)
     }
     
     input.close();
+    
     return new Image(pixels2.release(), width, height);
 }
 
@@ -763,3 +841,10 @@ void loadTexture(Image* image,int k)
                  //as unsigned numbers
                  image->pixels);               //The actual pixel data
 }
+
+void freeTexture(GLuint texture)
+{
+    glDeleteTextures( 1, &texture);  // Delete our texture, simple enough.
+}
+
+

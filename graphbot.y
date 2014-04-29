@@ -56,9 +56,9 @@ void print();
 
 //Bison declarations
 //Comandos de cero parámetros
-%token <sval> RW_SHOW RW_HIDE RW_CLEAN RW_HOME RW_GETCOLORR RW_GETCOLORB RW_GETCOLORG RW_GETPENSIZE RW_GETX RW_GETY RW_STOPMUSIC RW_PLAYMUSIC
+%token <sval> RW_SHOW RW_HIDE RW_CLEAN RW_HOME RW_GETCOLORR RW_GETCOLORB RW_GETCOLORG RW_GETPENSIZE RW_GETX RW_GETY RW_STOPMUSIC RW_PLAYMUSIC RW_ABOUT RW_LIGHTON RW_LIGHTOFF 
 //comandos de un parámetro
-%token <sval> RW_MOVE RW_TURN RW_SETX RW_SETY RW_SETPENSIZE RW_CAMERAUP RW_CAMERADOWN RW_CAMERALEFT RW_CAMERARIGHT RW_SETBACKGROUNDTXT
+%token <sval> RW_MOVE RW_SETX RW_SETY RW_SETPENSIZE RW_RIGHTTURN RW_LEFTTURN RW_SETBACKGROUNDTXT
 //comandos de dos parámetros
 %token <sval> RW_SAVE RW_SETPOS
 //comandos de tres parámetros
@@ -289,6 +289,9 @@ comando:
 	| RW_HOME {$$ = 5003;}
 	| RW_PLAYMUSIC {$$ = 5011;}
 	| RW_STOPMUSIC {$$ = 5010;}
+	| RW_LIGHTON {$$ = 5017;}
+	| RW_LIGHTOFF {$$ = 5018;}
+	| RW_ABOUT {$$ = 5013;}
 	;
 
 comando_return:
@@ -302,15 +305,12 @@ comando_return:
 
 comando1: 
 	RW_MOVE {$$ = 5012;}
-	| RW_TURN {$$ = 5013;}
 	| RW_SETX {$$ = 5014;}
 	| RW_SETY {$$ = 5015;}
 	| RW_SETPENSIZE {$$ = 5016;}
 	| RW_SETBACKGROUNDTXT {$$ = 5021;}
-	| RW_CAMERAUP {$$ = 5017;}
-	| RW_CAMERADOWN {$$ = 5018;}
-	| RW_CAMERALEFT {$$ = 5019;}
-	| RW_CAMERARIGHT {$$ = 5020;}
+	| RW_RIGHTTURN {$$ = 5019;}
+	| RW_LEFTTURN {$$ = 5020;}
 	;
 
 comando3: 
