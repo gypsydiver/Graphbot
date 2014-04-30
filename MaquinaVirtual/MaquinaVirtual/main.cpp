@@ -10,6 +10,8 @@
 #include "Sound.h"
 #include "Cuadruplos.h"
 
+int render(int cuadruplo, int comando, int opdo1, int opdo2,int opdo3);
+
 using namespace std;
 
 const float PI = 3.141592653589793238462643383279502884197169399375105820974944;
@@ -20,6 +22,8 @@ string line;
 
 bool showBotOrNot = true;
 bool penDown = true;
+
+Cuadruplos cuad;
 
 stack<int> Pila_Cuadruplos;
 
@@ -171,15 +175,20 @@ void show(){
 
 void display() {
     
-    
+    for(int i=1; i<= cuad.cuantos_cuadruplos; i++){
+        cuadruplo cuadruploActual = cuad.get(i);
+        cout << "i = "<< i<<endl;
+        cout << "numero de cuadruplo "<< cuadruploActual.cuadruplo<<endl;
+        i = render(cuadruploActual.cuadruplo, cuadruploActual.comando,cuadruploActual.opdo1, cuadruploActual.opdo2,cuadruploActual.opdo3);
+        cout << "i despues = "<< i<<endl;
+    }
+    cout<< "SALI DEL FOR"<<endl;
     show();
     glFlush();
     
 }
 
 void readFromFile(string filename){
-    Cuadruplos cuad;
-    
     int cuadruplo,comando,opdo1,opdo2,opdo3;
     char *tokens, *tok;
     file.open(filename);
@@ -228,6 +237,15 @@ void readFromFile(string filename){
     cuad.listAll();
 }
 
+void teclado(unsigned char cual, int x, int y){
+    switch(cual){
+        case 'c':
+            cuad.reset();
+            exit(1);
+            break;
+    }
+}
+
 int main(int argc,char** argv) {
     readFromFile("CodigoInt.txt");
     glutInit(&argc, argv);
@@ -237,12 +255,14 @@ int main(int argc,char** argv) {
     glutCreateWindow("Graphbot");
     init();
     graphbot(1);
+    glutKeyboardFunc(teclado);
     glutDisplayFunc(display);
     glutMainLoop();
     return 0;
 }
 
-void render(int comando, int opdo1, int opdo2,int opdo3){
+int render(int cuadruplo, int comando, int opdo1, int opdo2,int opdo3){
+    int retorno = 0;
     switch(comando) {
             // Show
         case 5000:
@@ -508,16 +528,16 @@ void render(int comando, int opdo1, int opdo2,int opdo3){
             
             // Goto
         case 5036:
-            file.clear();
-            graphbot(opdo1);
+            
+            return opdo1;
             break;
             
             // GotoF
         case 5037:
             cout << "opdo1: " << memoria_actual.get(opdo1) << endl;
             if(memoria_actual.get(opdo1) == 0) {
-                file.clear();
-                graphbot(opdo2);
+                //file.clear();
+                return opdo2;
             }
             break;
             
@@ -542,25 +562,28 @@ void render(int comando, int opdo1, int opdo2,int opdo3){
             memoria_actual = Pila_Memorias.top();
             
             // Regresa al cuadruplo donde estaba antes
-            file.clear();
-            graphbot(Pila_Cuadruplos.top());
+            //file.clear();
+            retorno = Pila_Cuadruplos.top();
             Pila_Cuadruplos.pop();
+            return retorno;
             break;
             
             // Retorno Lista
         case 5041:
             // Regresa al cuadruplo donde estaba antes
-            file.clear();
-            graphbot(Pila_Cuadruplos.top());
+            //file.clear();
+            retorno = Pila_Cuadruplos.top();
             Pila_Cuadruplos.pop();
+            return retorno;
             break;
             
             // Gosub
         case 5042:
-            //Pila_Cuadruplos.push(cuadruplo+1);
-            file.clear();
-            graphbot(opdo1);
+            Pila_Cuadruplos.push(cuadruplo+1);
+            //file.clear();
+            return opdo1;
             break;
     }
+    return cuadruplo;
 }
 
