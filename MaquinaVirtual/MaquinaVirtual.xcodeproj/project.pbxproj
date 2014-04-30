@@ -10,8 +10,9 @@
 		51072CAA1900EE9C0023401F /* main.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 51072CA71900EE9C0023401F /* main.cpp */; };
 		51B7723F1900D08C00A08AF0 /* GLUT.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 51B7723D1900D08C00A08AF0 /* GLUT.framework */; };
 		51B772401900D08C00A08AF0 /* OpenGL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 51B7723E1900D08C00A08AF0 /* OpenGL.framework */; };
-		51C4A35D19106A38007D8CD6 /* libSOIL.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 51C4A35C19106A38007D8CD6 /* libSOIL.dylib */; };
 		ED3E4A701904FF0000D5640B /* OpenAL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = ED3E4A6F1904FF0000D5640B /* OpenAL.framework */; };
+		ED754CF119107AE800091922 /* libSOIL.a in Frameworks */ = {isa = PBXBuildFile; fileRef = ED754CF019107AE800091922 /* libSOIL.a */; };
+		ED754CF219107AEF00091922 /* CoreFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = ED754CE91910760800091922 /* CoreFoundation.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -34,10 +35,11 @@
 		51B772311900D01C00A08AF0 /* MaquinaVirtual */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = MaquinaVirtual; sourceTree = BUILT_PRODUCTS_DIR; };
 		51B7723D1900D08C00A08AF0 /* GLUT.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = GLUT.framework; path = System/Library/Frameworks/GLUT.framework; sourceTree = SDKROOT; };
 		51B7723E1900D08C00A08AF0 /* OpenGL.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenGL.framework; path = System/Library/Frameworks/OpenGL.framework; sourceTree = SDKROOT; };
-		51C4A35C19106A38007D8CD6 /* libSOIL.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libSOIL.dylib; path = libs/libSOIL.dylib; sourceTree = "<group>"; };
 		51C4A35E19106D39007D8CD6 /* Cuadruplos.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Cuadruplos.h; sourceTree = "<group>"; };
 		ED3E4A6E1904F9BB00D5640B /* Sound.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Sound.h; sourceTree = "<group>"; };
 		ED3E4A6F1904FF0000D5640B /* OpenAL.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenAL.framework; path = Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.8.sdk/System/Library/Frameworks/OpenAL.framework; sourceTree = DEVELOPER_DIR; };
+		ED754CE91910760800091922 /* CoreFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreFoundation.framework; path = Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.8.sdk/System/Library/Frameworks/CoreFoundation.framework; sourceTree = DEVELOPER_DIR; };
+		ED754CF019107AE800091922 /* libSOIL.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libSOIL.a; path = lib/libSOIL.a; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -45,10 +47,11 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				ED754CF219107AEF00091922 /* CoreFoundation.framework in Frameworks */,
+				ED754CF119107AE800091922 /* libSOIL.a in Frameworks */,
 				51B7723F1900D08C00A08AF0 /* GLUT.framework in Frameworks */,
 				51B772401900D08C00A08AF0 /* OpenGL.framework in Frameworks */,
 				ED3E4A701904FF0000D5640B /* OpenAL.framework in Frameworks */,
-				51C4A35D19106A38007D8CD6 /* libSOIL.dylib in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -58,7 +61,8 @@
 		51B772281900D01C00A08AF0 = {
 			isa = PBXGroup;
 			children = (
-				51C4A35C19106A38007D8CD6 /* libSOIL.dylib */,
+				ED754CF019107AE800091922 /* libSOIL.a */,
+				ED754CE91910760800091922 /* CoreFoundation.framework */,
 				ED3E4A6F1904FF0000D5640B /* OpenAL.framework */,
 				51B7723D1900D08C00A08AF0 /* GLUT.framework */,
 				51B7723E1900D08C00A08AF0 /* OpenGL.framework */,
@@ -149,7 +153,7 @@
 		51B772381900D01C00A08AF0 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ALWAYS_SEARCH_USER_PATHS = NO;
+				ALWAYS_SEARCH_USER_PATHS = YES;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
 				CLANG_CXX_LIBRARY = "libc++";
 				CLANG_ENABLE_MODULES = YES;
@@ -178,7 +182,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				MACOSX_DEPLOYMENT_TARGET = 10.9;
+				MACOSX_DEPLOYMENT_TARGET = 10.8;
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = macosx;
 			};
@@ -187,7 +191,7 @@
 		51B772391900D01C00A08AF0 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ALWAYS_SEARCH_USER_PATHS = NO;
+				ALWAYS_SEARCH_USER_PATHS = YES;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
 				CLANG_CXX_LIBRARY = "libc++";
 				CLANG_ENABLE_MODULES = YES;
@@ -211,7 +215,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				MACOSX_DEPLOYMENT_TARGET = 10.9;
+				MACOSX_DEPLOYMENT_TARGET = 10.8;
 				SDKROOT = macosx;
 			};
 			name = Release;
@@ -219,10 +223,11 @@
 		51B7723B1900D01C00A08AF0 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = YES;
+				HEADER_SEARCH_PATHS = /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include;
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
-					"/Users/claudiahdz/Downloads/libSOIL-master",
-					"$(PROJECT_DIR)/libs",
+					"$(PROJECT_DIR)/lib",
 				);
 				MACOSX_DEPLOYMENT_TARGET = 10.8;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -233,10 +238,11 @@
 		51B7723C1900D01C00A08AF0 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = YES;
+				HEADER_SEARCH_PATHS = /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include;
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
-					"/Users/claudiahdz/Downloads/libSOIL-master",
-					"$(PROJECT_DIR)/libs",
+					"$(PROJECT_DIR)/lib",
 				);
 				MACOSX_DEPLOYMENT_TARGET = 10.8;
 				PRODUCT_NAME = "$(TARGET_NAME)";

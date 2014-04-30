@@ -4,7 +4,7 @@
 #include <GLUT/glut.h>
 #include <assert.h>
 #include <stack>
-#include "../Texturas/SOIL.h"
+#include "SOIL.h"
 #include "Cargador.h"
 #include "Memoria.h"
 #include "Sound.h"
