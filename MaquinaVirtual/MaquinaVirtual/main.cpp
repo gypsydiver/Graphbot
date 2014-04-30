@@ -38,6 +38,8 @@ float coor2 = 0;
 float coor3 = 0;
 float coor4 = 0;
 
+float fondoR =1.0, fondoG =1.0, fondoB = 1.0;
+
 float colorR = 0.0;
 float colorG = 0.0;
 float colorB = 0.0;
@@ -58,7 +60,7 @@ static GLuint texturas[5];
 void init()
 {
     glLoadIdentity();
-    glClearColor(1.0,1.0,1.0,1.0);
+    glClearColor(fondoR,fondoG,fondoB,0.0);
     glClear(GL_COLOR_BUFFER_BIT);
     glMatrixMode(GL_PROJECTION);
     gluOrtho2D(-screenWidth,screenWidth,-screenHeight,screenHeight);
@@ -174,7 +176,7 @@ void show(){
 }
 
 void display() {
-    
+    glClear (GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
     for(int i=1; i<= cuad.cuantos_cuadruplos; i++){
         cuadruplo cuadruploActual = cuad.get(i);
         cout << "i = "<< i<<endl;
@@ -182,8 +184,7 @@ void display() {
         i = render(cuadruploActual.cuadruplo, cuadruploActual.comando,cuadruploActual.opdo1, cuadruploActual.opdo2,cuadruploActual.opdo3);
         cout << "i despues = "<< i<<endl;
     }
-    cout<< "SALI DEL FOR"<<endl;
-    show();
+    //cout<< "SALI DEL FOR"<<endl;
     glFlush();
     
 }
@@ -246,6 +247,18 @@ void teclado(unsigned char cual, int x, int y){
     }
 }
 
+void reshape(int ancho, int alto){
+    screenWidth = ancho;
+    screenHeight = alto;
+    glViewport(-screenWidth,-screenHeight, screenWidth*2,screenHeight*2);
+    glMatrixMode(GL_PROJECTION);
+    glLoadIdentity();
+    gluOrtho2D(-screenWidth,screenWidth,-screenHeight,screenHeight);
+    //glMatrixMode(GL_MODELVIEW);
+    //glLoadIdentity();
+    glutPostRedisplay();
+}
+
 int main(int argc,char** argv) {
     readFromFile("CodigoInt.txt");
     glutInit(&argc, argv);
@@ -262,7 +275,7 @@ int main(int argc,char** argv) {
 }
 
 int render(int cuadruplo, int comando, int opdo1, int opdo2,int opdo3){
-    int retorno = 0;
+    int retorno = 3;
     switch(comando) {
             // Show
         case 5000:
@@ -276,7 +289,7 @@ int render(int cuadruplo, int comando, int opdo1, int opdo2,int opdo3){
             
             // Clean
         case 5002:
-            glClearColor(1.0f, 1.0f, 1.0f, 1.0f);
+            glClearColor(fondoR, fondoG, fondoB, 0.0f);
             glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
             glutSwapBuffers();
             break;
@@ -442,8 +455,9 @@ int render(int cuadruplo, int comando, int opdo1, int opdo2,int opdo3){
             
             // SetBackground
         case 5025:
-            glClearColor(memoria_actual.get(opdo1), memoria_actual.get(opdo2),memoria_actual.get(opdo3),0.0);
-            glClear(GL_COLOR_BUFFER_BIT);
+            fondoR = memoria_actual.get(opdo1);
+            fondoG = memoria_actual.get(opdo2);
+            fondoB = memoria_actual.get(opdo3);
             break;
             
             // Igual ==
@@ -457,6 +471,9 @@ int render(int cuadruplo, int comando, int opdo1, int opdo2,int opdo3){
             
             // Mayor que >
         case 5027:
+             cout << "ESTOY COMPARANDO >"<<endl;
+            cout << "opdo1 - " <<opdo1<< " : "<< memoria_actual.get(opdo1) << endl;
+            cout << "opdo2 - " <<opdo2<< " : "<< memoria_actual.get(opdo2) << endl;
             if(memoria_actual.get(opdo1) > memoria_actual.get(opdo2)){
                 memoria_actual.setTemporal(opdo3, 1);
             }else{
@@ -466,6 +483,7 @@ int render(int cuadruplo, int comando, int opdo1, int opdo2,int opdo3){
             
             // Menor que <
         case 5028:
+            cout << "ESTOY COMPARANDO <"<<endl;
             cout << "opdo1 - " <<opdo1<< " : "<< memoria_actual.get(opdo1) << endl;
             cout << "opdo2 - " <<opdo2<< " : "<< memoria_actual.get(opdo2) << endl;
             if(memoria_actual.get(opdo1) < memoria_actual.get(opdo2)){
@@ -528,16 +546,16 @@ int render(int cuadruplo, int comando, int opdo1, int opdo2,int opdo3){
             
             // Goto
         case 5036:
-            
-            return opdo1;
+            //parche para el for, pues al terminar suma uno y se brinca un cuádruplo
+            return opdo1-1;
             break;
             
             // GotoF
         case 5037:
             cout << "opdo1: " << memoria_actual.get(opdo1) << endl;
             if(memoria_actual.get(opdo1) == 0) {
-                //file.clear();
-                return opdo2;
+                //parche para el for, pues al terminar suma uno y se brinca un cuádruplo
+                return opdo2-1;
             }
             break;
             
@@ -562,7 +580,6 @@ int render(int cuadruplo, int comando, int opdo1, int opdo2,int opdo3){
             memoria_actual = Pila_Memorias.top();
             
             // Regresa al cuadruplo donde estaba antes
-            //file.clear();
             retorno = Pila_Cuadruplos.top();
             Pila_Cuadruplos.pop();
             return retorno;
@@ -571,7 +588,6 @@ int render(int cuadruplo, int comando, int opdo1, int opdo2,int opdo3){
             // Retorno Lista
         case 5041:
             // Regresa al cuadruplo donde estaba antes
-            //file.clear();
             retorno = Pila_Cuadruplos.top();
             Pila_Cuadruplos.pop();
             return retorno;
@@ -580,8 +596,8 @@ int render(int cuadruplo, int comando, int opdo1, int opdo2,int opdo3){
             // Gosub
         case 5042:
             Pila_Cuadruplos.push(cuadruplo+1);
-            //file.clear();
-            return opdo1;
+            //parche para el for, pues al terminar suma uno y se brinca un cuádruplo
+            return opdo1-1;
             break;
     }
     return cuadruplo;

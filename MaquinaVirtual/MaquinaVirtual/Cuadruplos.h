@@ -28,6 +28,7 @@ public:
 };
 
 void Cuadruplos::begin(int cuantosCuadruplos){
+    Cuadruplos::reset();
     Cuadruplos::cuantos_cuadruplos = cuantosCuadruplos;
     Cuadruplos::listaDeCuadruplos = new cuadruplo[cuantosCuadruplos];
 }
@@ -57,8 +58,3 @@ void Cuadruplos::listAll(){
         printf("%d.- %d %d %d %d \n",cuad.cuadruplo,cuad.comando,cuad.opdo1,cuad.opdo2,cuad.opdo3);
     }
 }
-
-
-
-
-
