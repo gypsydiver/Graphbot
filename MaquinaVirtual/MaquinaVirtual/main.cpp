@@ -141,10 +141,10 @@ void show(){
         glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
         
         // Actualiza la coordenadas
-        coor1 = -15; //+ pointerx;
-        coor2 = 15; // + pointerx;
-        coor3 = -15; // + pointery;
-        coor4 = 15; // + pointery;
+        coor1 = -13; //+ pointerx;
+        coor2 = 13; // + pointerx;
+        coor3 = -14; // + pointery;
+        coor4 = 14; // + pointery;
         
         glPushMatrix();
         
@@ -185,6 +185,7 @@ void display() {
         cout << "i despues = "<< i<<endl;
     }
     //cout<< "SALI DEL FOR"<<endl;
+    show();
     glFlush();
     
 }
@@ -250,12 +251,13 @@ void teclado(unsigned char cual, int x, int y){
 void reshape(int ancho, int alto){
     screenWidth = ancho;
     screenHeight = alto;
+    pointerx = pointery = 0.0;
     glViewport(-screenWidth,-screenHeight, screenWidth*2,screenHeight*2);
     glMatrixMode(GL_PROJECTION);
     glLoadIdentity();
     gluOrtho2D(-screenWidth,screenWidth,-screenHeight,screenHeight);
-    //glMatrixMode(GL_MODELVIEW);
-    //glLoadIdentity();
+    glMatrixMode(GL_MODELVIEW);
+    glLoadIdentity();
     glutPostRedisplay();
 }
 
