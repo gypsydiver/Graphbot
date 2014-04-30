@@ -14,6 +14,8 @@
 int yylineco = 1;
 %}
 
+%x COMMENTS
+
 %%
 [ \t]				;
 \n					{++yylineco;}
@@ -65,6 +67,9 @@ while 				{ yylval.sval = strdup(yytext); return RW_WHILE; }
 "-"   				{ yylval.sval = strdup(yytext); return SUB; }
 "*"					{ yylval.sval = strdup(yytext); return TIMES; }
 "/"   				{ yylval.sval = strdup(yytext); return DIV; }
+"//"   				{ BEGIN(COMMENTS); }
 [[:alpha:]][[:alnum:]|_[:alnum:]]*	 	{ yylval.sval = strdup(yytext); return ID; }
-[[:digit:]]+"."[[:digit:]]+			{ yylval.sval = strdup(yytext); return FLOAT; }
+[[:digit:]]+"."[[:digit:]]+		    	{ yylval.sval = strdup(yytext); return FLOAT; }
+
+<COMMENTS>\n { BEGIN(INITIAL); }
 %%

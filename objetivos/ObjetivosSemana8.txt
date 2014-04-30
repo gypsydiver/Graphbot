@@ -1,15 +1,17 @@
 Objetivos Semana 8
 
-- Implementación nuevos comandos:
+*- Implementación nuevos comandos:
     *Show
     *Hide
-    Light on
-    Light off
+    *PenUp
+    *PenDown
     *Right Turn
     *Left  Turn
 - Integración con WX Widgets (GUI)
 - Implementar About :))))
-
+*- Implementación de comentarios
+- Ejemplos
+- Primera Versión de Documentación
 -----------No tan importante-------------
 - Code Refactoring
 - Quitar Warning (cambiar a C++11)
