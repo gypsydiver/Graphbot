@@ -16,6 +16,7 @@ class Cuadruplos{
     };
     
     cuadruplo * listaDeCuadruplos;
+    int cuantos_cuadruplos;
     
 public:
         void begin(int cuantosCuadruplos);
@@ -27,6 +28,7 @@ public:
 };
 
 void Cuadruplos::begin(int cuantosCuadruplos){
+    Cuadruplos::cuantos_cuadruplos = cuantosCuadruplos;
     Cuadruplos::listaDeCuadruplos = new cuadruplo[cuantosCuadruplos];
 }
 
@@ -50,9 +52,9 @@ void Cuadruplos::reset(){
 }
 
 void Cuadruplos::listAll(){
-    for(int i = 0; i < sizeof(Cuadruplos::listaDeCuadruplos)/sizeof(Cuadruplos::listaDeCuadruplos[0]);i++){
+    for(int i = 0; i < Cuadruplos::cuantos_cuadruplos; i++) {
         cuadruplo cuad = listaDeCuadruplos[i];
-        printf("%d.- %d %d %d %d",cuad.cuadruplo,cuad.comando,cuad.opdo1,cuad.opdo2,cuad.opdo3);
+        printf("%d.- %d %d %d %d \n",cuad.cuadruplo,cuad.comando,cuad.opdo1,cuad.opdo2,cuad.opdo3);
     }
 }
 
