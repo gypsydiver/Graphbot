@@ -46,8 +46,9 @@ float colorB = 0.0;
 
 float lineSize = 3.0;
 
-int screenWidth = 500;
-int screenHeight = 500;
+int screenWidth = 800;
+int screenHeight = 570;
+int ortho = 200;
 
 // Manejo de fondo
 bool background = false;
@@ -68,7 +69,7 @@ void init()
     glClear(GL_COLOR_BUFFER_BIT);
     glClearColor(fondoR,fondoG,fondoB,0.0);
     glMatrixMode(GL_PROJECTION);
-    gluOrtho2D(-200,200,-200,200);
+    gluOrtho2D(-ortho, ortho,-ortho, ortho);
     glViewport(0, 0, screenWidth, screenHeight);
 
     
@@ -79,7 +80,7 @@ void init()
     
     texturas[0] = SOIL_load_OGL_texture
     (
-     "Textura1.bmp",
+     "Textura1.jpg",
      SOIL_LOAD_AUTO,
      SOIL_CREATE_NEW_ID,
      SOIL_FLAG_INVERT_Y
@@ -87,7 +88,7 @@ void init()
     
     texturas[1] = SOIL_load_OGL_texture
     (
-     "Textura2.bmp",
+     "Textura2.jpg",
      SOIL_LOAD_AUTO,
      SOIL_CREATE_NEW_ID,
      SOIL_FLAG_INVERT_Y
@@ -95,7 +96,7 @@ void init()
     
     texturas[2] = SOIL_load_OGL_texture
     (
-     "Textura3.bmp",
+     "Textura3.jpg",
      SOIL_LOAD_AUTO,
      SOIL_CREATE_NEW_ID,
      SOIL_FLAG_INVERT_Y
@@ -103,7 +104,7 @@ void init()
     
     texturas[3] = SOIL_load_OGL_texture
     (
-     "Textura4.bmp",
+     "Textura4.jpg",
      SOIL_LOAD_AUTO,
      SOIL_CREATE_NEW_ID,
      SOIL_FLAG_INVERT_Y
@@ -133,6 +134,8 @@ int updateAngle(int newToBeAngle){
 }
 
 void show(){
+    
+    
     if (showBotOrNot) {
         // Texturas
         glEnable(GL_TEXTURE_2D);
@@ -140,10 +143,10 @@ void show(){
         glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
         
         // Coordenadas
-        coor1 = -10;
-        coor2 = 10;
-        coor3 = -8;
-        coor4 = 8;
+        coor1 = -7;
+        coor2 = 7;
+        coor3 = -11;
+        coor4 = 11;
         
         glPushMatrix();
         
@@ -155,6 +158,7 @@ void show(){
         glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
         glColor3f(1.0f,1.0f,1.0f);
         glBindTexture(GL_TEXTURE_2D, texturas[4]);
+        
         
         glBegin(GL_QUADS);
         
@@ -176,23 +180,27 @@ void show(){
 
 void dibuja_textura(int num){
     
-    if(num < 4 && num >= 0) {
+    if(num < 5 && num >= 0) {
         //Texturas
         glEnable(GL_TEXTURE_2D);
+        
+        glMatrixMode(GL_PROJECTION);
     
         glPushMatrix();
         glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
         glColor3f(1.0f,1.0f,1.0f);
         glBindTexture(GL_TEXTURE_2D, texturas[num]);
+        glLoadIdentity();
+        gluOrtho2D(0, 1, 0, 1);
         glBegin(GL_QUADS);
         glTexCoord2f(0.0f, 0.0f);
-        glVertex3f(-screenWidth, -screenHeight, 0.0);
+        glVertex2f(0,0);
         glTexCoord2f(1.0f, 0.0f);
-        glVertex3f(screenWidth, -screenHeight, 0.0);
+        glVertex2f(1, 0);
         glTexCoord2f(1.0f, 1.0f);
-        glVertex3f(screenWidth, screenHeight, 0.0);
+        glVertex2f(1, 1);
         glTexCoord2f(0.0f, 1.0f);
-        glVertex3f(-screenWidth, screenHeight, 0.0);
+        glVertex2f(0,1);
         glEnd();
         glDisable(GL_TEXTURE_2D);
         glPopMatrix();
@@ -294,7 +302,7 @@ int main(int argc,char** argv) {
     readFromFile("CodigoInt.txt");
     glutInit(&argc, argv);
     glutInitDisplayMode(GLUT_SINGLE | GLUT_RGB);
-    glutInitWindowSize(879, 569);
+    glutInitWindowSize(screenWidth, screenHeight);
     glutInitWindowPosition(0, 0);
     glutCreateWindow("Graphbot");
     init();
