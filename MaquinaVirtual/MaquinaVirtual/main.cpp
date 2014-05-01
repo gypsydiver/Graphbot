@@ -143,10 +143,8 @@ void show(){
         glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
         
         // Coordenadas
-        coor1 = -7;
-        coor2 = 7;
-        coor3 = -11;
-        coor4 = 11;
+            coor1 = -8;
+            coor2 = 8;
         
         glPushMatrix();
         
@@ -158,19 +156,15 @@ void show(){
         glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
         glColor3f(1.0f,1.0f,1.0f);
         glBindTexture(GL_TEXTURE_2D, texturas[4]);
-        
-        
         glBegin(GL_QUADS);
-        
         glTexCoord2f(0.0f, 0.0f);
-        glVertex3f(coor1, coor3, 0.0);
+        glVertex3f(coor1, coor1, 0.0);
         glTexCoord2f(1.0f, 0.0f);
-        glVertex3f(coor2, coor3, 0.0);
+        glVertex3f(coor2, coor1, 0.0);
         glTexCoord2f(1.0f, 1.0f);
-        glVertex3f(coor2, coor4, 0.0);
+        glVertex3f(coor2, coor2, 0.0);
         glTexCoord2f(0.0f, 1.0f);
-        glVertex3f(coor1, coor4, 0.0);
-        
+        glVertex3f(coor1, coor2, 0.0);
         glEnd();
         
         glDisable(GL_TEXTURE_2D);
@@ -430,11 +424,13 @@ int render(int cuadruplo, int comando, int opdo1, int opdo2,int opdo3){
             
             // RightTurn
         case 5019:
+            
             direccionEnGrados = updateAngle(direccionEnGrados - memoria_actual.get(opdo1)) * 1.0;
             break;
             
             // LeftTurn
         case 5020:
+            
             direccionEnGrados = updateAngle(direccionEnGrados + memoria_actual.get(opdo1)) * 1.0;
             break;
             
