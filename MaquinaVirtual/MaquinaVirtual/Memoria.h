@@ -15,8 +15,9 @@ class Memoria {
         void nueva(int temp, int flotantes, int listas);
         void destruye(); 
         float get(int dir);
+        float set(int dir, float valor);
 
-        
+    
     
         // Asigna valores en una dirección virtual
         bool setTemporal(int dir, float valor);
@@ -73,6 +74,17 @@ bool Memoria::setLista(int dir, int valor){
             return true;
     }
     return false;
+}
+
+float Memoria::set(int dir, float valor){
+    
+    if(dir >= 2000 && dir <= 2999)
+        return setTemporal(dir, valor);
+    
+    else if(dir >= 3000 && dir <= 3999)
+        return setFlotante(dir, valor);
+    
+    return 0.0;
 }
 
 float Memoria::get(int dir){

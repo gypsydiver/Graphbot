@@ -33,10 +33,7 @@ float pointery = 0;
 float direccionEnGrados = 90.0;
 float res;
 
-float coor1 = 0;
-float coor2 = 0;
-float coor3 = 0;
-float coor4 = 0;
+float coor;
 
 float fondoR =1.0, fondoG =1.0, fondoB = 1.0;
 
@@ -46,9 +43,10 @@ float colorB = 0.0;
 
 float lineSize = 3.0;
 
-int screenWidth = 800;
+int screenWidth = 880;
 int screenHeight = 570;
-int ortho = 200;
+int orthoWidth = 880/3;
+int orthoHeight = 570/3;
 
 // Manejo de fondo
 bool background = false;
@@ -69,7 +67,7 @@ void init()
     glClear(GL_COLOR_BUFFER_BIT);
     glClearColor(fondoR,fondoG,fondoB,0.0);
     glMatrixMode(GL_PROJECTION);
-    gluOrtho2D(-ortho, ortho,-ortho, ortho);
+    gluOrtho2D(-orthoWidth, orthoWidth,-orthoHeight, orthoHeight);
     glViewport(0, 0, screenWidth, screenHeight);
 
     
@@ -143,8 +141,7 @@ void show(){
         glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
         
         // Coordenadas
-            coor1 = -8;
-            coor2 = 8;
+            coor = 10;
         
         glPushMatrix();
         
@@ -158,15 +155,14 @@ void show(){
         glBindTexture(GL_TEXTURE_2D, texturas[4]);
         glBegin(GL_QUADS);
         glTexCoord2f(0.0f, 0.0f);
-        glVertex3f(coor1, coor1, 0.0);
+        glVertex2f(-coor, -coor);
         glTexCoord2f(1.0f, 0.0f);
-        glVertex3f(coor2, coor1, 0.0);
+        glVertex2f(coor, -coor);
         glTexCoord2f(1.0f, 1.0f);
-        glVertex3f(coor2, coor2, 0.0);
+        glVertex2f(coor, coor);
         glTexCoord2f(0.0f, 1.0f);
-        glVertex3f(coor1, coor2, 0.0);
+        glVertex2f(-coor, coor);
         glEnd();
-        
         glDisable(GL_TEXTURE_2D);
         glPopMatrix();
     }
@@ -214,7 +210,7 @@ void display() {
     
     for(int i=1; i<= cuad.cuantos_cuadruplos; i++){
         cuadruplo cuadruploActual = cuad.get(i);
-
+        
         i = render(cuadruploActual.cuadruplo, cuadruploActual.comando,cuadruploActual.opdo1, cuadruploActual.opdo2,cuadruploActual.opdo3);
     }
     
@@ -286,7 +282,7 @@ void reshape(int ancho, int alto){
     screenHeight = alto;
     glMatrixMode(GL_PROJECTION);
     glLoadIdentity();
-    gluOrtho2D(-200,200,-200,200);
+    gluOrtho2D(-orthoWidth, orthoWidth,-orthoHeight, orthoHeight);
     glViewport(0, 0, ancho, alto);
     glMatrixMode(GL_MODELVIEW);
     glLoadIdentity();
@@ -456,7 +452,6 @@ int render(int cuadruplo, int comando, int opdo1, int opdo2,int opdo3){
                 memoria_actual.setFlotante(opdo2, memoria_actual.get(opdo1));
             }
             //cout << "Variable con dirección: " << opdo2 << " , tiene valor: " << memoria_actual.get(opdo2) << endl;
-            printf("Variable con dirección: %d,tiene valor: %f\n",opdo2,memoria_actual.get(opdo2));
             break;
             
             // SetPos
@@ -500,9 +495,7 @@ int render(int cuadruplo, int comando, int opdo1, int opdo2,int opdo3){
             
             // Mayor que >
         case 5027:
-            // cout << "ESTOY COMPARANDO >"<<endl;
-            // cout << "opdo1 - " <<opdo1<< " : "<< memoria_actual.get(opdo1) << endl;
-            // cout << "opdo2 - " <<opdo2<< " : "<< memoria_actual.get(opdo2) << endl;
+
             if(memoria_actual.get(opdo1) > memoria_actual.get(opdo2)){
                 memoria_actual.setTemporal(opdo3, 1);
             }else{
@@ -512,9 +505,7 @@ int render(int cuadruplo, int comando, int opdo1, int opdo2,int opdo3){
             
             // Menor que <
         case 5028:
-            // cout << "ESTOY COMPARANDO <"<<endl;
-            // cout << "opdo1 - " <<opdo1<< " : "<< memoria_actual.get(opdo1) << endl;
-            // cout << "opdo2 - " <<opdo2<< " : "<< memoria_actual.get(opdo2) << endl;
+
             if(memoria_actual.get(opdo1) < memoria_actual.get(opdo2)){
                 memoria_actual.setTemporal(opdo3, 1);
             }else{
@@ -581,7 +572,6 @@ int render(int cuadruplo, int comando, int opdo1, int opdo2,int opdo3){
             
             // GotoF
         case 5037:
-            cout << "opdo1: " << memoria_actual.get(opdo1) << endl;
             if(memoria_actual.get(opdo1) == 0) {
                 //parche para el for, pues al terminar suma uno y se brinca un cuádruplo
                 return opdo2-1;
@@ -589,25 +579,28 @@ int render(int cuadruplo, int comando, int opdo1, int opdo2,int opdo3){
             break;
             
             // Param
-        case 5038:
-            memoria_actual.setFlotante(opdo1, opdo2);
+        case 5038:{
+            // Toma en cuenta las temporales de la memoria pasada
+            Memoria pasada = Pila_Memorias.top();
+            memoria_actual.set(opdo2, pasada.get(opdo1));
+        }
             break;
             
             // Era
         case 5039:
             Memoria memoria;
             memoria.nueva(opdo3, opdo1, opdo2);
-            Pila_Memorias.push(memoria);
-            memoria_actual = Pila_Memorias.top();
+            Pila_Memorias.push(memoria_actual);
+            memoria_actual = memoria;
             break;
             
             // Retorno Funcion
         case 5040:
-            memoria_actual = Pila_Memorias.top();
-            Pila_Memorias.pop();
+            
             memoria_actual.destruye();
             memoria_actual = Pila_Memorias.top();
-            
+            Pila_Memorias.pop();
+  
             // Regresa al cuadruplo donde estaba antes
             retorno = Pila_Cuadruplos.top();
             Pila_Cuadruplos.pop();

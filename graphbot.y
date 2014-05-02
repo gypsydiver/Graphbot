@@ -150,6 +150,7 @@ parametros: /* empty */
         tvar.dirV = generador.variablesDeAvail(true);
         tvar.dirI = 0;        
         tv.add_var(tvar);
+        tvar.dirV = 0;        
         param++;
     }  
 	;
@@ -216,7 +217,8 @@ comandos:
         varsFlotante--;
          }
 		// Agrega una variable a la tabla de variables        
-        tvar.nombre = $2;
+        tvar.nombre = id;
+
         if(tvar.tipo == 0) {
         	varsFlotante++;
             //genera direccion virtual para variable de tipo flotante
