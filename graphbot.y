@@ -564,7 +564,7 @@ comparador:
 int main(int argc, char ** argv) {
 
     ofstream fileout;
-    fileout.open("MaquinaVirtual/Build/Products/Debug/CodigoInt.txt");
+    fileout.open("CodigoInt.txt");
     fileout << "2. 5036 #" << endl;
     fileout.close();
     

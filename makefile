@@ -2,9 +2,8 @@ clean:
 	rm graphbot.output && rm graphbot.tab.* && rm lex.yy.c
 
 reset:
-	rm MaquinaVirtual/Build/Products/Debug/constNum.txt
-	rm MaquinaVirtual/Build/Products/Debug/CodigoInt.txt
-	rm MaquinaVirtual/Build/Products/Debug/MaquinaVirtual
+	rm constNum.txt
+	rm CodigoInt.txt
 
 graphbot.tab.c graphbot.tab.h: graphbot.y
 	bison -dr all graphbot.y
