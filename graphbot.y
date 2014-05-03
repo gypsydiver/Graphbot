@@ -150,6 +150,7 @@ parametros: /* empty */
         tvar.dirV = generador.variablesDeAvail(true);
         tvar.dirI = 0;        
         tv.add_var(tvar);
+        tvar.dirV = 0;        
         param++;
     }  
 	;
@@ -216,7 +217,8 @@ comandos:
         varsFlotante--;
          }
 		// Agrega una variable a la tabla de variables        
-        tvar.nombre = $2;
+        tvar.nombre = id;
+
         if(tvar.tipo == 0) {
         	varsFlotante++;
             //genera direccion virtual para variable de tipo flotante
@@ -560,6 +562,14 @@ comparador:
 %%
 
 int main(int argc, char ** argv) {
+
+    ofstream fileout;
+    fileout.open("MaquinaVirtual/Build/Products/Debug/CodigoInt.txt");
+    fileout << "2. 5036 #" << endl;
+    fileout.close();
+    
+    cout << "Entro al main" << endl;
+
 	// open a file handle to a particular file:
 	FILE *myfile = fopen(argv[1], "r");
 	// make sure it's valid:

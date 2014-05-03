@@ -33,10 +33,7 @@ float pointery = 0;
 float direccionEnGrados = 90.0;
 float res;
 
-float coor1 = 0;
-float coor2 = 0;
-float coor3 = 0;
-float coor4 = 0;
+float coor;
 
 float fondoR =1.0, fondoG =1.0, fondoB = 1.0;
 
@@ -46,8 +43,15 @@ float colorB = 0.0;
 
 float lineSize = 3.0;
 
-int screenWidth = 200;
-int screenHeight = 200;
+int screenWidth = 880;
+int screenHeight = 570;
+int orthoWidth = 880/3;
+int orthoHeight = 570/3;
+
+// Manejo de fondo
+bool background = false;
+bool textura = false;
+int num_txt = -1;
 
 // Manejo de Memorias
 stack<Memoria> Pila_Memorias;
@@ -60,10 +64,12 @@ static GLuint texturas[5];
 void init()
 {
     glLoadIdentity();
-    glClearColor(fondoR,fondoG,fondoB,0.0);
     glClear(GL_COLOR_BUFFER_BIT);
+    glClearColor(fondoR,fondoG,fondoB,0.0);
     glMatrixMode(GL_PROJECTION);
-    gluOrtho2D(-screenWidth,screenWidth,-screenHeight,screenHeight);
+    gluOrtho2D(-orthoWidth, orthoWidth,-orthoHeight, orthoHeight);
+    glViewport(0, 0, screenWidth, screenHeight);
+
     
     // Carga las constantes
     cargando.carga_globales();
@@ -72,7 +78,7 @@ void init()
     
     texturas[0] = SOIL_load_OGL_texture
     (
-     "Textura1.bmp",
+     "Textura1.jpg",
      SOIL_LOAD_AUTO,
      SOIL_CREATE_NEW_ID,
      SOIL_FLAG_INVERT_Y
@@ -80,7 +86,7 @@ void init()
     
     texturas[1] = SOIL_load_OGL_texture
     (
-     "Textura2.bmp",
+     "Textura2.jpg",
      SOIL_LOAD_AUTO,
      SOIL_CREATE_NEW_ID,
      SOIL_FLAG_INVERT_Y
@@ -88,7 +94,7 @@ void init()
     
     texturas[2] = SOIL_load_OGL_texture
     (
-     "Textura3.bmp",
+     "Textura3.jpg",
      SOIL_LOAD_AUTO,
      SOIL_CREATE_NEW_ID,
      SOIL_FLAG_INVERT_Y
@@ -96,7 +102,7 @@ void init()
     
     texturas[3] = SOIL_load_OGL_texture
     (
-     "Textura4.bmp",
+     "Textura4.jpg",
      SOIL_LOAD_AUTO,
      SOIL_CREATE_NEW_ID,
      SOIL_FLAG_INVERT_Y
@@ -109,14 +115,6 @@ void init()
      SOIL_CREATE_NEW_ID,
      SOIL_FLAG_INVERT_Y
      );
-    
-}
-
-void graphbot(int num) {
-    file.seekg(0, ios::beg);
-    for(int i = 1; i < num; i++) {
-        getline(file, line);
-    }
     
 }
 
@@ -134,17 +132,16 @@ int updateAngle(int newToBeAngle){
 }
 
 void show(){
+    
+    
     if (showBotOrNot) {
         // Texturas
         glEnable(GL_TEXTURE_2D);
         glEnable(GL_BLEND);
         glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
         
-        // Actualiza la coordenadas
-        coor1 = -13; //+ pointerx;
-        coor2 = 13; // + pointerx;
-        coor3 = -14; // + pointery;
-        coor4 = 14; // + pointery;
+        // Coordenadas
+            coor = 10;
         
         glPushMatrix();
         
@@ -156,35 +153,67 @@ void show(){
         glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
         glColor3f(1.0f,1.0f,1.0f);
         glBindTexture(GL_TEXTURE_2D, texturas[4]);
-        
         glBegin(GL_QUADS);
-        
         glTexCoord2f(0.0f, 0.0f);
-        glVertex3f(coor1, coor3, 0.0);
+        glVertex2f(-coor, -coor);
         glTexCoord2f(1.0f, 0.0f);
-        glVertex3f(coor2, coor3, 0.0);
+        glVertex2f(coor, -coor);
         glTexCoord2f(1.0f, 1.0f);
-        glVertex3f(coor2, coor4, 0.0);
+        glVertex2f(coor, coor);
         glTexCoord2f(0.0f, 1.0f);
-        glVertex3f(coor1, coor4, 0.0);
-        
+        glVertex2f(-coor, coor);
         glEnd();
-        
         glDisable(GL_TEXTURE_2D);
         glPopMatrix();
     }
 }
 
+void dibuja_textura(int num){
+    
+    if(num < 5 && num >= 0) {
+        //Texturas
+        glEnable(GL_TEXTURE_2D);
+        
+        glMatrixMode(GL_PROJECTION);
+    
+        glPushMatrix();
+        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+        glColor3f(1.0f,1.0f,1.0f);
+        glBindTexture(GL_TEXTURE_2D, texturas[num]);
+        glLoadIdentity();
+        gluOrtho2D(0, 1, 0, 1);
+        glBegin(GL_QUADS);
+        glTexCoord2f(0.0f, 0.0f);
+        glVertex2f(0,0);
+        glTexCoord2f(1.0f, 0.0f);
+        glVertex2f(1, 0);
+        glTexCoord2f(1.0f, 1.0f);
+        glVertex2f(1, 1);
+        glTexCoord2f(0.0f, 1.0f);
+        glVertex2f(0,1);
+        glEnd();
+        glDisable(GL_TEXTURE_2D);
+        glPopMatrix();
+        
+    }
+
+}
+
 void display() {
+    direccionEnGrados = 90.0;
+    pointerx = pointery = 0.0;
     glClear (GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+    glMatrixMode(GL_MODELVIEW);
+	glLoadIdentity();
+    
+    dibuja_textura(num_txt);
+    
     for(int i=1; i<= cuad.cuantos_cuadruplos; i++){
         cuadruplo cuadruploActual = cuad.get(i);
-        cout << "i = "<< i<<endl;
-        cout << "numero de cuadruplo "<< cuadruploActual.cuadruplo<<endl;
+        
         i = render(cuadruploActual.cuadruplo, cuadruploActual.comando,cuadruploActual.opdo1, cuadruploActual.opdo2,cuadruploActual.opdo3);
-        cout << "i despues = "<< i<<endl;
     }
-    //cout<< "SALI DEL FOR"<<endl;
+    
     show();
     glFlush();
     
@@ -206,7 +235,7 @@ void readFromFile(string filename){
         // Obtiene el cuadruplo actual
         cuadruplo = atoi(tokens);
         tokens = strtok (NULL, " ");
-        cout << "Cuadruplo Actual: " << cuadruplo << endl;
+        //cout << "Cuadruplo Actual: " << cuadruplo << endl;
         
         // Obtiene el comando
         comando = atoi(tokens);
@@ -251,33 +280,31 @@ void teclado(unsigned char cual, int x, int y){
 void reshape(int ancho, int alto){
     screenWidth = ancho;
     screenHeight = alto;
-    pointerx = pointery = 0.0;
-    glViewport(-screenWidth,-screenHeight, screenWidth*2,screenHeight*2);
     glMatrixMode(GL_PROJECTION);
     glLoadIdentity();
-    gluOrtho2D(-screenWidth,screenWidth,-screenHeight,screenHeight);
+    gluOrtho2D(-orthoWidth, orthoWidth,-orthoHeight, orthoHeight);
+    glViewport(0, 0, ancho, alto);
     glMatrixMode(GL_MODELVIEW);
     glLoadIdentity();
-    glutPostRedisplay();
 }
 
 int main(int argc,char** argv) {
     readFromFile("CodigoInt.txt");
     glutInit(&argc, argv);
     glutInitDisplayMode(GLUT_SINGLE | GLUT_RGB);
-    glutInitWindowSize(500,500);
+    glutInitWindowSize(screenWidth, screenHeight);
     glutInitWindowPosition(0, 0);
     glutCreateWindow("Graphbot");
     init();
-    graphbot(1);
     glutKeyboardFunc(teclado);
     glutDisplayFunc(display);
+    glutReshapeFunc(reshape);
     glutMainLoop();
     return 0;
 }
 
 int render(int cuadruplo, int comando, int opdo1, int opdo2,int opdo3){
-    int retorno = 3;
+    int retorno;
     switch(comando) {
             // Show
         case 5000:
@@ -359,7 +386,7 @@ int render(int cuadruplo, int comando, int opdo1, int opdo2,int opdo3){
                 newPosition(memoria_actual.get(opdo1));
             }
     
-            cout << "Posx: " << pointerx << " PosY: "<<pointery << endl;
+         //   cout << "Posx: " << pointerx << " PosY: "<<pointery << endl;
             break;
             
             // About
@@ -393,39 +420,26 @@ int render(int cuadruplo, int comando, int opdo1, int opdo2,int opdo3){
             
             // RightTurn
         case 5019:
+            
             direccionEnGrados = updateAngle(direccionEnGrados - memoria_actual.get(opdo1)) * 1.0;
             break;
             
             // LeftTurn
         case 5020:
+            
             direccionEnGrados = updateAngle(direccionEnGrados + memoria_actual.get(opdo1)) * 1.0;
             break;
             
             // SetBackgroundText
         case 5021:
-        {
-            //Texturas
-            glEnable(GL_TEXTURE_2D);
             
-            int num = (int) memoria_actual.get(opdo1) - 1;
+            num_txt = (int) memoria_actual.get(opdo1) - 1;
             
-            glPushMatrix();
-            glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-            glColor3f(1.0f,1.0f,1.0f);
-            glBindTexture(GL_TEXTURE_2D, texturas[num]);
-            glBegin(GL_QUADS);
-            glTexCoord2f(0.0f, 0.0f);
-            glVertex3f(-screenWidth, -screenHeight, 0.0);
-            glTexCoord2f(1.0f, 0.0f);
-            glVertex3f(screenWidth, -screenHeight, 0.0);
-            glTexCoord2f(1.0f, 1.0f);
-            glVertex3f(screenWidth, screenHeight, 0.0);
-            glTexCoord2f(0.0f, 1.0f);
-            glVertex3f(-screenWidth, screenHeight, 0.0);
-            glEnd();
-            glDisable(GL_TEXTURE_2D);
-            glPopMatrix();
-        }
+            if(!textura) {
+                textura = true;
+                glutPostRedisplay();
+                }
+            
             break;
             
             // Save
@@ -438,7 +452,6 @@ int render(int cuadruplo, int comando, int opdo1, int opdo2,int opdo3){
                 memoria_actual.setFlotante(opdo2, memoria_actual.get(opdo1));
             }
             //cout << "Variable con dirección: " << opdo2 << " , tiene valor: " << memoria_actual.get(opdo2) << endl;
-            printf("Variable con dirección: %d,tiene valor: %f\n",opdo2,memoria_actual.get(opdo2));
             break;
             
             // SetPos
@@ -460,6 +473,15 @@ int render(int cuadruplo, int comando, int opdo1, int opdo2,int opdo3){
             fondoR = memoria_actual.get(opdo1);
             fondoG = memoria_actual.get(opdo2);
             fondoB = memoria_actual.get(opdo3);
+            glClearColor(fondoR,fondoG,fondoB,0.0);
+            
+            num_txt = -1;
+            
+            if(!background) {
+                background = true;
+                glutPostRedisplay();
+            }
+            
             break;
             
             // Igual ==
@@ -473,9 +495,7 @@ int render(int cuadruplo, int comando, int opdo1, int opdo2,int opdo3){
             
             // Mayor que >
         case 5027:
-             cout << "ESTOY COMPARANDO >"<<endl;
-            cout << "opdo1 - " <<opdo1<< " : "<< memoria_actual.get(opdo1) << endl;
-            cout << "opdo2 - " <<opdo2<< " : "<< memoria_actual.get(opdo2) << endl;
+
             if(memoria_actual.get(opdo1) > memoria_actual.get(opdo2)){
                 memoria_actual.setTemporal(opdo3, 1);
             }else{
@@ -485,9 +505,7 @@ int render(int cuadruplo, int comando, int opdo1, int opdo2,int opdo3){
             
             // Menor que <
         case 5028:
-            cout << "ESTOY COMPARANDO <"<<endl;
-            cout << "opdo1 - " <<opdo1<< " : "<< memoria_actual.get(opdo1) << endl;
-            cout << "opdo2 - " <<opdo2<< " : "<< memoria_actual.get(opdo2) << endl;
+
             if(memoria_actual.get(opdo1) < memoria_actual.get(opdo2)){
                 memoria_actual.setTemporal(opdo3, 1);
             }else{
@@ -554,7 +572,6 @@ int render(int cuadruplo, int comando, int opdo1, int opdo2,int opdo3){
             
             // GotoF
         case 5037:
-            cout << "opdo1: " << memoria_actual.get(opdo1) << endl;
             if(memoria_actual.get(opdo1) == 0) {
                 //parche para el for, pues al terminar suma uno y se brinca un cuádruplo
                 return opdo2-1;
@@ -562,29 +579,32 @@ int render(int cuadruplo, int comando, int opdo1, int opdo2,int opdo3){
             break;
             
             // Param
-        case 5038:
-            memoria_actual.setFlotante(opdo1, opdo2);
+        case 5038:{
+            // Toma en cuenta las temporales de la memoria pasada
+            Memoria pasada = Pila_Memorias.top();
+            memoria_actual.set(opdo2, pasada.get(opdo1));
+        }
             break;
             
             // Era
         case 5039:
             Memoria memoria;
             memoria.nueva(opdo3, opdo1, opdo2);
-            Pila_Memorias.push(memoria);
-            memoria_actual = Pila_Memorias.top();
+            Pila_Memorias.push(memoria_actual);
+            memoria_actual = memoria;
             break;
             
             // Retorno Funcion
         case 5040:
-            memoria_actual = Pila_Memorias.top();
-            Pila_Memorias.pop();
+            
             memoria_actual.destruye();
             memoria_actual = Pila_Memorias.top();
-            
+            Pila_Memorias.pop();
+  
             // Regresa al cuadruplo donde estaba antes
             retorno = Pila_Cuadruplos.top();
             Pila_Cuadruplos.pop();
-            return retorno;
+            return retorno-1;
             break;
             
             // Retorno Lista
@@ -592,7 +612,7 @@ int render(int cuadruplo, int comando, int opdo1, int opdo2,int opdo3){
             // Regresa al cuadruplo donde estaba antes
             retorno = Pila_Cuadruplos.top();
             Pila_Cuadruplos.pop();
-            return retorno;
+            return retorno-1;
             break;
             
             // Gosub
@@ -602,6 +622,8 @@ int render(int cuadruplo, int comando, int opdo1, int opdo2,int opdo3){
             return opdo1-1;
             break;
     }
+    
+    //background = false;
     return cuadruplo;
 }
 

@@ -437,14 +437,14 @@ class Generador {
             //fileout.open("MaquinaVirtual/Build/Products/Debug/CodigoInt.txt", ios::app);
             fileout.open("CodigoInt.txt", ios::app);
             // Genera parametros
-            int dirV = 3000+param;
+            int dirV = 3000;
             if (PilaO.size() >= param){
-                for(int i = param; i > 0; i--){
+                for(int i = 0; i < param; i++){
                     int param = popPilaO();
                     fileout << cont_cuadruplos << ". " << "5038 " << param << " " << dirV << endl;
                     //actualiza el contador de cuádruplos
                     cont_cuadruplos++; 
-                    dirV--;
+                    dirV++;
                 }
             }
         }
