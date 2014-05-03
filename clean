@@ -1,3 +1,0 @@
-rm graphbot.output && rm graphbot.tab.* && rm lex.yy.c && rm graphbot
-rm MaquinaVirtual/Build/Products/Debug/constNum.txt && rm MaquinaVirtual/Build/Products/Debug/CodigoInt.txt && echo -e "2. 5036 #" >> MaquinaVirtual/Build/Products/Debug/CodigoInt.txt 
-rm MaquinaVirtual/Build/Products/Debug/MaquinaVirtual
