@@ -1,0 +1,17 @@
+// Laberinto
+program main
+	setbackgroundtxt 4.0
+	setcolor 1.0 1.0 1.0
+	move 20.0
+	leftturn 90.0
+	move 35.0
+	rightturn 90.0
+	move 90.0
+	leftturn 90.0
+	move 20.0
+	leftturn 90.0
+	move 20.0
+	rightturn 90.0
+	move 20.0
+	leftturn 90.0
+end

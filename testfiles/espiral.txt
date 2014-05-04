@@ -1,0 +1,9 @@
+program main
+	setbackgroundtxt 1.0
+	save i 10.0
+	for [i, 110.0, 10.0][
+		move i,
+		rightturn 90.0
+	]
+show
+end

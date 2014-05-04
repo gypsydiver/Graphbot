@@ -1,0 +1,19 @@
+function star
+	save i 0.0
+	save j 0.0
+	for [i, 36.0, 1.0][
+		rightturn 55.0,
+		for [j, 8.0, 1.0][		
+			move 100.0,
+			rightturn 135.0
+			]
+	]
+end
+
+program main
+	setbackgroundtxt 1.0
+	setcolor 1.0 1.0 1.0
+	
+	save i 0.0
+	star
+end

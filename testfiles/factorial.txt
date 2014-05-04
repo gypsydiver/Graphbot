@@ -1,0 +1,19 @@
+function factorialIterativa num
+	
+	save resultado 1.0
+	save num num+1.0
+
+	if num == 0.0 [move 1.0]
+	if num == 1.0 [move 1.0]
+
+	save i 2.0
+	
+	for[i, num, 1.0][
+		save resultado resultado*i,
+		move resultado	
+	]
+end
+
+program main
+	factorialIterativa (5.0)
+end

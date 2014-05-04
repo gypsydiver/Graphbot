@@ -1,0 +1,53 @@
+// Función que dibuja un corazón dadas las coordenadas x y 
+function heart x, y
+
+	save i 0.0
+	
+	while i < 2.0 [
+	
+		home,
+		setpos x y,
+
+		save ocho 0.0,
+		save seis 0.0,
+		save nov 0.0,
+	
+		for[ocho, 8.0, 1.0][
+			if i == 0.0 [rightturn 45.0],
+			if i == 1.0 [leftturn 45.0],
+			for[seis, 6.0, 1.0][
+				for[nov, 90.0, 1.0][
+					move 1.0,
+					if i == 0.0 [rightturn 2.0],
+					if i == 1.0 [leftturn 2.0]
+				],
+				if i == 0.0 [rightturn 45.0],
+				if i == 1.0 [leftturn 45.0]
+			]
+		],
+		save i i+1.0
+		]
+	
+	leftturn 135.0
+	move 60.0
+	leftturn 92.0
+	move 60.0
+	hide
+end
+
+program main
+	setbackgroundtxt 3.0   // Asigna la textura 3 (Libreta)
+	setpensize 5.0
+	setcolor 1.0 0.0 0.0  
+	heart(0.0 0.0)
+	setcolor 1.0 0.0 1.0  
+	heart(0.0-200.0 100.0)
+	setcolor 1.0 1.0 0.0  
+	heart(200.0 100.0)
+	home
+	rightturn 180.0
+	penup
+	move 30.0
+	rightturn 180.0
+	show
+end

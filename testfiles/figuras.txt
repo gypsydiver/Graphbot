@@ -1,0 +1,32 @@
+// Dibuja octagonos
+function octagon
+	save i 0.0
+	for [i, 8.0, 1.0][
+		move 50.0,
+		rightturn 45.0
+			]
+end
+
+// Dibuja un asterisco
+function asterisk
+	save j 0.0
+	for [j, 20.0, 1.0][
+		move 80.0,
+		rightturn 180.0,
+		move 80.0,
+		rightturn 18.0
+	]
+end
+
+program main
+	setbackgroundtxt 2.0 // Utiliza textura de pizarrón
+	setcolor 1.0 1.0 1.0
+	asterisk
+	
+	save i 0.0
+	for[i, 4.0, 1.0][
+		octagon,
+		rightturn 90.0
+	]
+	// hide
+end
