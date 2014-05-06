@@ -1,0 +1,20 @@
+program main
+	save prev1 0.0
+	save prev2 1.0
+	save j 0.0
+	//leftturn 90.0
+
+	for[prev1, 150.0,1.0][
+		save savePrev prev1,
+		save prev1 prev2,
+		save prev2 savePrev + prev2,
+		save k prev1/15.0,
+
+		for[j, prev1, 1.0][
+			move prev1/15.0,
+			leftturn 5.0
+		]
+	]
+	// home
+    setbackgroundtxt 1.0
+end
