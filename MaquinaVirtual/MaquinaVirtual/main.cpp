@@ -219,6 +219,55 @@ void display() {
     
 }
 
+void procesaMenu(int val){
+
+    switch(val) {
+         
+        // Espiral
+        case 1:
+        break;
+            
+        // Asterisco
+        case 2:
+        break;
+            
+        // Corazón
+        case 3:
+        break;
+        
+        // Fibonnaci
+        case 4:
+        break;
+        
+        // Laberinto
+        case 5:
+        break;
+        
+        // Salir
+        case 20:
+            exit(0);
+        break;
+    }
+
+}
+
+void menu(){
+	int mainMenu, subMenu1;
+	mainMenu = glutCreateMenu(procesaMenu);
+	subMenu1 = glutCreateMenu(procesaMenu);
+	glutSetMenu(mainMenu);
+	glutAddSubMenu("Ejemplos", subMenu1);
+	glutAddMenuEntry("Salir", 20);
+	glutSetMenu(subMenu1);
+	glutAddMenuEntry("Espiral",   1);
+	glutAddMenuEntry("Asterisco", 2);
+	glutAddMenuEntry("Corazón",     3);
+	glutAddMenuEntry("Fibonnaci",   4);
+    glutAddMenuEntry("Laberinto",   5);
+	glutSetMenu(mainMenu);
+	glutAttachMenu(GLUT_RIGHT_BUTTON);
+}
+
 void readFromFile(string filename){
     int cuadruplo,comando,opdo1,opdo2,opdo3;
     char *tokens, *tok;
@@ -299,6 +348,7 @@ int main(int argc,char** argv) {
     glutKeyboardFunc(teclado);
     glutDisplayFunc(display);
     glutReshapeFunc(reshape);
+    menu();
     glutMainLoop();
     return 0;
 }
