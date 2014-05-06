@@ -63,8 +63,10 @@ class Generador {
 
             ifstream filein;
             ofstream fileout;
-            filein.open("MaquinaVirtual/Build/Products/Debug/CodigoInt.txt");
-            fileout.open("MaquinaVirtual/Build/Products/Debug/temp.txt");
+            //filein.open("MaquinaVirtual/Build/Products/Debug/CodigoInt.txt");
+            filein.open("CodigoInt.txt");
+            //fileout.open("MaquinaVirtual/Build/Products/Debug/temp.txt");
+            fileout.open("temp.txt");
             string line;
             
             fileout << cont_cuadruplos-1 << endl;
@@ -77,8 +79,10 @@ class Generador {
             filein.close();
             fileout.close();
 
-            remove("MaquinaVirtual/Build/Products/Debug/CodigoInt.txt");
-            rename("MaquinaVirtual/Build/Products/Debug/temp.txt","MaquinaVirtual/Build/Products/Debug/CodigoInt.txt");
+            remove("CodigoInt.txt");
+            //remove("MaquinaVirtual/Build/Products/Debug/CodigoInt.txt");
+            //rename("MaquinaVirtual/Build/Products/Debug/temp.txt","MaquinaVirtual/Build/Products/Debug/CodigoInt.txt");
+            rename("temp.txt","CodigoInt.txt");
 
         }
 
@@ -144,8 +148,10 @@ class Generador {
             //salto es donde se debe de rellenar, donde es a donde tiene que ir ese salto
             ifstream filein;
             ofstream fileout;
-            filein.open("MaquinaVirtual/Build/Products/Debug/CodigoInt.txt");
-            fileout.open("MaquinaVirtual/Build/Products/Debug/temp.txt");
+            filein.open("CodigoInt.txt");
+            //filein.open("MaquinaVirtual/Build/Products/Debug/CodigoInt.txt");
+            //fileout.open("MaquinaVirtual/Build/Products/Debug/temp.txt");
+            fileout.open("temp.txt");
             string line;
             string rep = to_string(salto) + ".";
             string str = "#";
@@ -171,16 +177,20 @@ class Generador {
             filein.close();
             fileout.close();
 
-            remove("MaquinaVirtual/Build/Products/Debug/CodigoInt.txt");
-            rename("MaquinaVirtual/Build/Products/Debug/temp.txt","MaquinaVirtual/Build/Products/Debug/CodigoInt.txt");
+            //remove("MaquinaVirtual/Build/Products/Debug/CodigoInt.txt");
+            remove("CodigoInt.txt");
+            //rename("MaquinaVirtual/Build/Products/Debug/temp.txt","MaquinaVirtual/Build/Products/Debug/CodigoInt.txt");
+            rename("temp.txt","CodigoInt.txt");
          }
         
         void rellena_save(int salto, int var){
             //salto es donde se debe de rellenar, donde es a donde tiene que ir ese salto
             ifstream filein;
             ofstream fileout;
-            filein.open("MaquinaVirtual/Build/Products/Debug/CodigoInt.txt");
-            fileout.open("MaquinaVirtual/Build/Products/Debug/temp.txt");
+            //filein.open("MaquinaVirtual/Build/Products/Debug/CodigoInt.txt");
+            filein.open("CodigoInt.txt");
+            //fileout.open("MaquinaVirtual/Build/Products/Debug/temp.txt");
+            fileout.open("temp.txt");
             string line;
             string rep = to_string(salto) + ".";
             string str = "&";
@@ -206,8 +216,10 @@ class Generador {
             filein.close();
             fileout.close();
 
-            remove("MaquinaVirtual/Build/Products/Debug/CodigoInt.txt");
-            rename("MaquinaVirtual/Build/Products/Debug/temp.txt","MaquinaVirtual/Build/Products/Debug/CodigoInt.txt");
+            //remove("MaquinaVirtual/Build/Products/Debug/CodigoInt.txt");
+            remove("CodigoInt.txt");
+            //rename("MaquinaVirtual/Build/Products/Debug/temp.txt","MaquinaVirtual/Build/Products/Debug/CodigoInt.txt");
+            rename("temp.txt","CodigoInt.txt");
         }
 
         void pushPOper(int op) {  
@@ -224,7 +236,8 @@ class Generador {
         
         void start(int i){
             ofstream fileout;
-            fileout.open("MaquinaVirtual/Build/Products/Debug/CodigoInt.txt", ios::app);
+            //fileout.open("MaquinaVirtual/Build/Products/Debug/CodigoInt.txt", ios::app);
+            fileout.open("CodigoInt.txt", ios::app);
 
             switch(i) {
                 case 1:
@@ -421,7 +434,8 @@ class Generador {
 
         void param(int param){
             ofstream fileout;
-            fileout.open("MaquinaVirtual/Build/Products/Debug/CodigoInt.txt", ios::app);
+            //fileout.open("MaquinaVirtual/Build/Products/Debug/CodigoInt.txt", ios::app);
+            fileout.open("CodigoInt.txt", ios::app);
             // Genera parametros
             int dirV = 3000;
             if (PilaO.size() >= param){
@@ -437,7 +451,8 @@ class Generador {
 
         void gosub(int dir){
             ofstream fileout;
-            fileout.open("MaquinaVirtual/Build/Products/Debug/CodigoInt.txt", ios::app);
+            //fileout.open("MaquinaVirtual/Build/Products/Debug/CodigoInt.txt", ios::app);
+            fileout.open("CodigoInt.txt", ios::app);
             // Genera gosub
             fileout << cont_cuadruplos << ". " << "5042 " << dir << endl;
             //actualiza el contador de cuádruplos
@@ -446,7 +461,8 @@ class Generador {
         
         void era(int param, int varf, int varl, int tmp){
             ofstream fileout;
-            fileout.open("MaquinaVirtual/Build/Products/Debug/CodigoInt.txt", ios::app);
+            //fileout.open("MaquinaVirtual/Build/Products/Debug/CodigoInt.txt", ios::app);
+            fileout.open("CodigoInt.txt", ios::app);
             // Genera era
             fileout << cont_cuadruplos << ". " << "5039 "<< param + varf <<" "<< varl <<" "<< tmp << endl;
             //actualiza el contador de cuádruplos
