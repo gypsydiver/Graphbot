@@ -1,0 +1,18 @@
+function uno x, y, z 
+	getx 
+end 
+
+function dos i, j 
+	show 
+end 
+
+program main 
+	save i 492.3 
+	save j [show, move 53.2, 
+		for[i, 32.4, 42.3] [show]
+		]
+	save h 0.0
+	for[h, 32.3, 42.3] j
+	 dos (21.2 42.3)
+	 uno (32.3 4.3 5.3)
+ end

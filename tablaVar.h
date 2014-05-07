@@ -165,13 +165,12 @@ int tablaVariables::getid_var(string &name) {
     
     for(int i=0;i<=50;i++) {
 		if(tvar[i].nombre.compare(name) == 0) {
-                cout << "Candidato: " << tvar[i].nombre << endl;
-                cout << "ID Candidato: " << tvar[i].id << endl;
+                //cout << "Candidato: " << tvar[i].nombre << endl;
+                //cout << "ID Candidato: " << tvar[i].id << endl;
 				return tvar[i].id; 
         }
-        }
+    }
         return -1;
-
     }
 
 int tablaVariables::getdirI(string &name) {

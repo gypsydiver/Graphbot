@@ -1,0 +1,22 @@
+function prueba
+    move 15.0
+end
+
+function prueba2
+    show
+end
+
+function dibujaUnRectangulo float longitud, bool noSeUsa 
+	for [i, 0.0, 1.0, 4.0] [move longitud, turn 90.0]
+end
+
+program main
+	setpos 0.0 0.0
+	dibujaUnRectangulo 5.0 false 
+	save x [getx]
+	save y [gety]
+	if (true * 4.0) [move x,true,sety 0.0]
+	if x = true [save id false, save un_id_aleatorio (9.4+5.2-2.4)/2.4]
+	setcolor 0.34 0.49 0.69
+	dibujaUnRectangulo 10.0 false 
+end

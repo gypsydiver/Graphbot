@@ -1,0 +1,16 @@
+program main
+	save i false
+	save j 4.0
+	save h 4.0 > 12.0
+	for [i, 10.0, 2.0] [
+		for[j, 10.0, 1.0] [
+			while h != true [
+				setx j,
+				setpensize j
+			],
+			stopmusic
+		],
+		move 20.0,
+		playmusic
+	]
+end

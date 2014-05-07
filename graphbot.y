@@ -84,9 +84,9 @@ void print();
 graphbot: 
 	graph programa {
         // Imprime el directorio de procedimientos con sus respectivas tablas de variables
-        directorio.output_proc();
+        //directorio.output_proc();
         globalizador.toFile();
-		cout<<"Compilación Exitosa"<<endl;
+		cout<<"Compilación Exitosa";
 	}
 	;
 
@@ -567,8 +567,6 @@ int main(int argc, char ** argv) {
     fileout.open("CodigoInt.txt");
     fileout << "2. 5036 #" << endl;
     fileout.close();
-    
-    cout << "Entro al main" << endl;
 
 	// open a file handle to a particular file:
 	FILE *myfile = fopen(argv[1], "r");
@@ -597,34 +595,34 @@ void errores(int i, string val) {
 	switch (i) {
 		// La función ya se encuentra en el directorio de procedimientos 
 		case 1: 
-			cout << "Función "<< val << " ya declarada." << endl;
+			cout << "Función "<< val << " ya declarada. ";
 			exit(-1);
 		break;
 
 		// La variable no ha sido declarada
 		case 2:
-			cout << "Variable "<< val <<  " no declarada." <<  endl;
+			cout << "Variable "<< val <<  " no declarada. ";
 			exit(-1);
 		break;
 
 		// La función no esta declarada
 		case 3:
-			cout << "Función " << val << " no existe." << endl;
+			cout << "Función " << val << " no existe. ";
 			exit(-1);
 		break;
 
         case 4:
-			cout << "Cantidad de parámetros errónea en función " << val << " esperaba " << directorio.num_Param(val) << " recibí " << param << "." << endl;
+			cout << "Cantidad de parámetros errónea en función " << val << " esperaba " << directorio.num_Param(val) << " recibí " << param << "." ;
 			exit(-1);
 		break;
 
         case 5:
-			cout << "Variable " << val << " es de tipo lista y no puede ser utilizada en una expresión. " << endl;
+			cout << "Variable " << val << " es de tipo lista y no puede ser utilizada en una expresión. ";
 			exit(-1);
 		break;
 
         case 6:
-			cout << "Variable " << val << " no es de tipo lista." << endl;
+			cout << "Variable " << val << " no es de tipo lista. ";
             exit(-1);
 		break;
 	} 

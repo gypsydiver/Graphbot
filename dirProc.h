@@ -171,7 +171,7 @@ void dirProcs::output_proc() {
 		int i;
 		for(i=0;i<51;i++) {
                 if(dirproc[i].id != -1) {
-				cout << "Procedimiento: "<<dirproc[i].nombre<<" DirInicial: "<<dirproc[i].dirI<<" Temporales:"<<dirproc[i].tmp<< " Num Param: " << dirproc[i].numParam << " Num Vars Flotantes: " << dirproc[i].varFlotante << " Num varLista: " << dirproc[i].varLista << "\nTabla Variables: " << endl;
+				//cout << "Procedimiento: "<<dirproc[i].nombre<<" DirInicial: "<<dirproc[i].dirI<<" Temporales:"<<dirproc[i].tmp<< " Num Param: " << dirproc[i].numParam << " Num Vars Flotantes: " << dirproc[i].varFlotante << " Num varLista: " << dirproc[i].varLista << "\nTabla Variables: " << endl;
                 (dirproc[i].tv).output();
 		}
 }

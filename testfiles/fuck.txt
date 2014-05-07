@@ -1,0 +1,7 @@
+function unafuncion
+	save i [show, hide, playmusic]
+end
+
+program main
+	unafuncion
+end

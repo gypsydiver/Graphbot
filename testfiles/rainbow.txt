@@ -3,53 +3,52 @@ program main
 	setpensize 200.0
 	rightturn 90.0
 
-	
 	save red 0.0
 	setcolor 1.0 0.0 0.0
 
 	for[red, 30.0, 5.0][	
-	setpos 0.0-150.0 150.0-red,
-	move 300.0
+		setpos 0.0-150.0 150.0-red,
+		move 300.0
 	]
 
 	save orange 0.0
 	setcolor 1.0 0.5 0.0
 	
 	for[orange, 30.0, 5.0][	
-	setpos 0.0-150.0 120.0-orange,
-	move 300.0
+		setpos 0.0-150.0 120.0-orange,
+		move 300.0
 	]
 
 	save yellow 0.0
 	setcolor 1.0 1.0 0.0
 	
 	for[yellow, 30.0, 5.0][	
-	setpos 0.0-150.0 100.0-yellow,
-	move 300.0
+		setpos 0.0-150.0 100.0-yellow,
+		move 300.0
 	]
 
 	save green 0.0
 	setcolor 0.0 0.5 0.0
 	
 	for[green, 30.0, 5.0][	
-	setpos 0.0-150.0 80.0-green,
-	move 300.0
+		setpos 0.0-150.0 80.0-green,
+		move 300.0
 	]
 
 	save blue 0.0
 	setcolor 0.0 0.0 1.0
 	
 	for[blue, 30.0, 5.0][	
-	setpos 0.0-150.0 60.0-blue,
-	move 300.0
+		setpos 0.0-150.0 60.0-blue,
+		move 300.0
 	]
 
 	save purple 0.0
 	setcolor 1.0 0.0 1.0
 	
 	for[purple, 30.0, 5.0][	
-	setpos 0.0-150.0 40.0-purple,
-	move 300.0
+		setpos 0.0-150.0 40.0-purple,
+		move 300.0
 	]
 
 	hide

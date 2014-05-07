@@ -1,0 +1,11 @@
+function suma a, b
+	move a+b
+	save id 1.0
+	save lista [show, hide, playmusic, stopmusic]
+end
+
+program main
+	suma (1.0 2.0)
+	save id 1.0
+	save lista [show, hide, playmusic, stopmusic]
+end
