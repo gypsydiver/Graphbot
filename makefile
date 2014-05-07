@@ -2,8 +2,7 @@ clean:
 	rm graphbot.output && rm graphbot.tab.* && rm lex.yy.c
 
 reset:
-	rm constNum.txt
-	rm CodigoInt.txt
+	rm graphbot
 
 graphbot.tab.c graphbot.tab.h: graphbot.y
 	bison -dr all graphbot.y

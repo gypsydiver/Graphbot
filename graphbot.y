@@ -86,7 +86,7 @@ graphbot:
         // Imprime el directorio de procedimientos con sus respectivas tablas de variables
         //directorio.output_proc();
         globalizador.toFile();
-		cout<<"Compilación Exitosa";
+		cout<<"Compilación Exitosa "<<endl;
 	}
 	;
 
@@ -595,34 +595,34 @@ void errores(int i, string val) {
 	switch (i) {
 		// La función ya se encuentra en el directorio de procedimientos 
 		case 1: 
-			cout << "Función "<< val << " ya declarada. ";
+			cout << "Función "<< val << " ya declarada. "<<endl;
 			exit(-1);
 		break;
 
 		// La variable no ha sido declarada
 		case 2:
-			cout << "Variable "<< val <<  " no declarada. ";
+			cout << "Variable "<< val <<  " no declarada. "<<endl;
 			exit(-1);
 		break;
 
 		// La función no esta declarada
 		case 3:
-			cout << "Función " << val << " no existe. ";
+			cout << "Función " << val << " no existe. "<<endl;
 			exit(-1);
 		break;
 
         case 4:
-			cout << "Cantidad de parámetros errónea en función " << val << " esperaba " << directorio.num_Param(val) << " recibí " << param << "." ;
+			cout << "Cantidad de parámetros errónea en función " << val << " esperaba " << directorio.num_Param(val) << " recibí " << param << "." <<endl;
 			exit(-1);
 		break;
 
         case 5:
-			cout << "Variable " << val << " es de tipo lista y no puede ser utilizada en una expresión. ";
+			cout << "Variable " << val << " es de tipo lista y no puede ser utilizada en una expresión. "<<endl;
 			exit(-1);
 		break;
 
         case 6:
-			cout << "Variable " << val << " no es de tipo lista. ";
+			cout << "Variable " << val << " no es de tipo lista. "<<endl;
             exit(-1);
 		break;
 	} 
