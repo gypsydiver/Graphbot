@@ -8,8 +8,7 @@ graphbot.output
 *.swn
 *.swm
 CodigoInt.txt
-MaquinaVirtual/MaquinaVirtual.xcodeproj/project.xcworkspace
-MaquinaVirtual/MaquinaVirtual.xcodeproj/xcshareddata
-MaquinaVirtual/MaquinaVirtual.xcodeproj/xcuserdata
-MaquinaVirtual/Build/Intermediates
+Graphbot.xcodeproj/project.xcworkspace
+Graphbot.xcodeproj/xcshareddata
+Graphbot.xcodeproj/xcuserdata
 

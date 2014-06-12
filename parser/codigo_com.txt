@@ -1,0 +1,53 @@
+0001 - 0999 : constantes saltos
+1000 - 1999 : constantes numéricas
+2000 - 2999 : temporales
+3000 - 3999 : variables flotantes
+4000 - 4999 : variables enteras
+5000 - 5042 : comandos
+
+Codificación de comandos
+
+5000 : show
+5001 : hide
+5002 : clean
+5003 : home 
+5004 : getcolorr
+5005 : getcolorg
+5006 : getcolorb
+5007 : getpensize
+5008 : getx
+5009 : gety
+5010 : stopmusic
+5011 : playmusic
+5012 : move
+5013 : about
+5014 : setx
+5015 : sety
+5016 : setpensize
+5017 : penup
+5018 : pendown
+5019 : rightturn
+5020 : leftturn
+5021 : setbackgroundtxt
+5022 : save
+5023 : setpos
+5024 : setcolor
+5025 : setbackground
+5026 : =
+5027 : >
+5028 : <
+5029 : !=
+5030 : >=
+5031 : <=
+5032 : +
+5033 : -
+5034 : *
+5035 : /
+5036 : goto
+5037 : gotoF
+5038 : param
+5039 : era
+5040 : retorno función
+5041 : retorno lista
+5042 : gosub
+

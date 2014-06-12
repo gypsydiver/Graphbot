@@ -1,0 +1,623 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		ED16CEB1191320830051FAE0 /* actions.cpp in Sources */ = {isa = PBXBuildFile; fileRef = ED16CEA3191320830051FAE0 /* actions.cpp */; };
+		ED16CEB2191320830051FAE0 /* gterm.cpp in Sources */ = {isa = PBXBuildFile; fileRef = ED16CEA4191320830051FAE0 /* gterm.cpp */; };
+		ED16CEB3191320830051FAE0 /* keytrans.cpp in Sources */ = {isa = PBXBuildFile; fileRef = ED16CEA6191320830051FAE0 /* keytrans.cpp */; };
+		ED16CEB4191320830051FAE0 /* states.cpp in Sources */ = {isa = PBXBuildFile; fileRef = ED16CEA7191320830051FAE0 /* states.cpp */; };
+		ED16CEB5191320830051FAE0 /* utils.cpp in Sources */ = {isa = PBXBuildFile; fileRef = ED16CEA8191320830051FAE0 /* utils.cpp */; };
+		ED16CEB6191320830051FAE0 /* vt52_states.cpp in Sources */ = {isa = PBXBuildFile; fileRef = ED16CEA9191320830051FAE0 /* vt52_states.cpp */; };
+		ED16CEB7191320830051FAE0 /* wxterm.cpp in Sources */ = {isa = PBXBuildFile; fileRef = ED16CEAB191320830051FAE0 /* wxterm.cpp */; };
+		ED16CEB8191320830051FAE0 /* terminalinputevent.cpp in Sources */ = {isa = PBXBuildFile; fileRef = ED16CEAD191320830051FAE0 /* terminalinputevent.cpp */; };
+		ED16CEB9191320830051FAE0 /* terminalwx.cpp in Sources */ = {isa = PBXBuildFile; fileRef = ED16CEAF191320830051FAE0 /* terminalwx.cpp */; };
+		ED16CEBF191320B10051FAE0 /* Graphbot-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = ED16CEBA191320B10051FAE0 /* Graphbot-Info.plist */; };
+		ED16CEC0191320B10051FAE0 /* sample.xpm in Resources */ = {isa = PBXBuildFile; fileRef = ED16CEBB191320B10051FAE0 /* sample.xpm */; };
+		ED16CEC1191320B10051FAE0 /* wxcocoa.xcconfig in Resources */ = {isa = PBXBuildFile; fileRef = ED16CEBC191320B10051FAE0 /* wxcocoa.xcconfig */; };
+		ED16CEC2191320B10051FAE0 /* wxdebug.xcconfig in Resources */ = {isa = PBXBuildFile; fileRef = ED16CEBD191320B10051FAE0 /* wxdebug.xcconfig */; };
+		ED16CEC3191320B10051FAE0 /* wxrelease.xcconfig in Resources */ = {isa = PBXBuildFile; fileRef = ED16CEBE191320B10051FAE0 /* wxrelease.xcconfig */; };
+		ED16CEC7191321780051FAE0 /* main.cpp in Sources */ = {isa = PBXBuildFile; fileRef = ED16CEC6191321780051FAE0 /* main.cpp */; };
+		ED19522219159B2E00E932DC /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = ED19522119159B2E00E932DC /* Images.xcassets */; };
+		ED1952321915A24600E932DC /* libSOIL.a in Frameworks */ = {isa = PBXBuildFile; fileRef = ED1952311915A24600E932DC /* libSOIL.a */; };
+		ED19524A1915FACD00E932DC /* graphbot.png in Resources */ = {isa = PBXBuildFile; fileRef = ED1952441915FACD00E932DC /* graphbot.png */; };
+		ED19524F1915FC1100E932DC /* disco.wav in Resources */ = {isa = PBXBuildFile; fileRef = ED1952421915FACD00E932DC /* disco.wav */; };
+		ED1952501915FC1D00E932DC /* Textura1.jpg in Resources */ = {isa = PBXBuildFile; fileRef = ED1952451915FACD00E932DC /* Textura1.jpg */; };
+		ED1952511915FC1F00E932DC /* Textura2.jpg in Resources */ = {isa = PBXBuildFile; fileRef = ED1952461915FACD00E932DC /* Textura2.jpg */; };
+		ED1952521915FC2100E932DC /* Textura3.jpg in Resources */ = {isa = PBXBuildFile; fileRef = ED1952471915FACD00E932DC /* Textura3.jpg */; };
+		ED1952531915FC2300E932DC /* Textura4.jpg in Resources */ = {isa = PBXBuildFile; fileRef = ED1952481915FACD00E932DC /* Textura4.jpg */; };
+		ED2AFA10191604AB005B3E70 /* GLUT.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = ED2AFA0E191604AB005B3E70 /* GLUT.framework */; };
+		ED2AFA11191604AB005B3E70 /* OpenGL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = ED2AFA0F191604AB005B3E70 /* OpenGL.framework */; };
+		ED2AFA13191604B3005B3E70 /* OpenAL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = ED2AFA12191604B3005B3E70 /* OpenAL.framework */; };
+		ED2AFA15191604BC005B3E70 /* CoreFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = ED2AFA14191604BC005B3E70 /* CoreFoundation.framework */; };
+		ED2AFA1819161736005B3E70 /* graphbot in Resources */ = {isa = PBXBuildFile; fileRef = ED2AFA1719161736005B3E70 /* graphbot */; };
+		ED754C98190F348F00091922 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = ED754C97190F348F00091922 /* Cocoa.framework */; };
+		ED93B7E11918CF110027ABFE /* castle.txt in Resources */ = {isa = PBXBuildFile; fileRef = ED93B7DD1918CF110027ABFE /* castle.txt */; };
+		ED93B7E21918CF110027ABFE /* fibonacci.txt in Resources */ = {isa = PBXBuildFile; fileRef = ED93B7DE1918CF110027ABFE /* fibonacci.txt */; };
+		ED93B7E31918CF110027ABFE /* heart.txt in Resources */ = {isa = PBXBuildFile; fileRef = ED93B7DF1918CF110027ABFE /* heart.txt */; };
+		ED93B7E41918CF110027ABFE /* rainbow.txt in Resources */ = {isa = PBXBuildFile; fileRef = ED93B7E01918CF110027ABFE /* rainbow.txt */; };
+		EDA1B3D5191AE82D0093DFE0 /* libwx_osx_cocoa_static.a in Frameworks */ = {isa = PBXBuildFile; fileRef = EDA1B3D3191AE7FA0093DFE0 /* libwx_osx_cocoa_static.a */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXFileReference section */
+		ED16CEA3191320830051FAE0 /* actions.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = actions.cpp; sourceTree = "<group>"; };
+		ED16CEA4191320830051FAE0 /* gterm.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = gterm.cpp; sourceTree = "<group>"; };
+		ED16CEA5191320830051FAE0 /* gterm.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = gterm.hpp; sourceTree = "<group>"; };
+		ED16CEA6191320830051FAE0 /* keytrans.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = keytrans.cpp; sourceTree = "<group>"; };
+		ED16CEA7191320830051FAE0 /* states.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = states.cpp; sourceTree = "<group>"; };
+		ED16CEA8191320830051FAE0 /* utils.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = utils.cpp; sourceTree = "<group>"; };
+		ED16CEA9191320830051FAE0 /* vt52_states.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = vt52_states.cpp; sourceTree = "<group>"; };
+		ED16CEAB191320830051FAE0 /* wxterm.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = wxterm.cpp; sourceTree = "<group>"; };
+		ED16CEAC191320830051FAE0 /* wxterm.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = wxterm.h; sourceTree = "<group>"; };
+		ED16CEAD191320830051FAE0 /* terminalinputevent.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = terminalinputevent.cpp; sourceTree = "<group>"; };
+		ED16CEAE191320830051FAE0 /* terminalinputevent.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = terminalinputevent.h; sourceTree = "<group>"; };
+		ED16CEAF191320830051FAE0 /* terminalwx.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = terminalwx.cpp; sourceTree = "<group>"; };
+		ED16CEB0191320830051FAE0 /* terminalwx.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = terminalwx.h; sourceTree = "<group>"; };
+		ED16CEBA191320B10051FAE0 /* Graphbot-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = "Graphbot-Info.plist"; path = "config/Graphbot-Info.plist"; sourceTree = "<group>"; };
+		ED16CEBB191320B10051FAE0 /* sample.xpm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = sample.xpm; path = config/sample.xpm; sourceTree = "<group>"; };
+		ED16CEBC191320B10051FAE0 /* wxcocoa.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; name = wxcocoa.xcconfig; path = config/wxcocoa.xcconfig; sourceTree = "<group>"; };
+		ED16CEBD191320B10051FAE0 /* wxdebug.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; name = wxdebug.xcconfig; path = config/wxdebug.xcconfig; sourceTree = "<group>"; };
+		ED16CEBE191320B10051FAE0 /* wxrelease.xcconfig */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xcconfig; name = wxrelease.xcconfig; path = config/wxrelease.xcconfig; sourceTree = "<group>"; };
+		ED16CEC6191321780051FAE0 /* main.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = main.cpp; path = src/main.cpp; sourceTree = "<group>"; };
+		ED19522119159B2E00E932DC /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; name = Images.xcassets; path = Graphbot/Images.xcassets; sourceTree = "<group>"; };
+		ED1952311915A24600E932DC /* libSOIL.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libSOIL.a; path = lib/libSOIL.a; sourceTree = "<group>"; };
+		ED1952421915FACD00E932DC /* disco.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = disco.wav; sourceTree = "<group>"; };
+		ED1952441915FACD00E932DC /* graphbot.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = graphbot.png; sourceTree = "<group>"; };
+		ED1952451915FACD00E932DC /* Textura1.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = Textura1.jpg; sourceTree = "<group>"; };
+		ED1952461915FACD00E932DC /* Textura2.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = Textura2.jpg; sourceTree = "<group>"; };
+		ED1952471915FACD00E932DC /* Textura3.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = Textura3.jpg; sourceTree = "<group>"; };
+		ED1952481915FACD00E932DC /* Textura4.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = Textura4.jpg; sourceTree = "<group>"; };
+		ED1952551915FCB700E932DC /* base.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = base.h; sourceTree = "<group>"; };
+		ED1952561915FCB700E932DC /* Cargador.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Cargador.h; sourceTree = "<group>"; };
+		ED1952571915FCB700E932DC /* Cuadruplos.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Cuadruplos.h; sourceTree = "<group>"; };
+		ED1952581915FCB700E932DC /* globals.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = globals.h; sourceTree = "<group>"; };
+		ED1952591915FCB700E932DC /* glpane.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = glpane.h; sourceTree = "<group>"; };
+		ED19525A1915FCB700E932DC /* Memoria.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Memoria.h; sourceTree = "<group>"; };
+		ED19525B1915FCB700E932DC /* movement.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = movement.h; sourceTree = "<group>"; };
+		ED19525C1915FCB700E932DC /* SOIL.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SOIL.h; sourceTree = "<group>"; };
+		ED19525D1915FCB700E932DC /* Sound.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Sound.h; sourceTree = "<group>"; };
+		ED19525E1915FCB700E932DC /* stringfunc.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = stringfunc.h; sourceTree = "<group>"; };
+		ED2AFA0E191604AB005B3E70 /* GLUT.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = GLUT.framework; path = System/Library/Frameworks/GLUT.framework; sourceTree = SDKROOT; };
+		ED2AFA0F191604AB005B3E70 /* OpenGL.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenGL.framework; path = System/Library/Frameworks/OpenGL.framework; sourceTree = SDKROOT; };
+		ED2AFA12191604B3005B3E70 /* OpenAL.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenAL.framework; path = System/Library/Frameworks/OpenAL.framework; sourceTree = SDKROOT; };
+		ED2AFA14191604BC005B3E70 /* CoreFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreFoundation.framework; path = System/Library/Frameworks/CoreFoundation.framework; sourceTree = SDKROOT; };
+		ED2AFA1619160C88005B3E70 /* ResourcesPath.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ResourcesPath.h; sourceTree = "<group>"; };
+		ED2AFA1719161736005B3E70 /* graphbot */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.executable"; path = graphbot; sourceTree = "<group>"; };
+		ED754C97190F348F00091922 /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = System/Library/Frameworks/Cocoa.framework; sourceTree = SDKROOT; };
+		ED754C9A190F348F00091922 /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = System/Library/Frameworks/AppKit.framework; sourceTree = SDKROOT; };
+		ED754C9B190F348F00091922 /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = System/Library/Frameworks/CoreData.framework; sourceTree = SDKROOT; };
+		ED754C9C190F348F00091922 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
+		ED754CD7190F3ACB00091922 /* Graphbot.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Graphbot.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		ED754CD8190F3D3500091922 /* libwx_osx_cocoa_static.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libwx_osx_cocoa_static.a; path = "../wxWidgets-3.0.0/build/osx/Build/Products/Release/libwx_osx_cocoa_static.a"; sourceTree = "<group>"; };
+		ED93B7DD1918CF110027ABFE /* castle.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = castle.txt; sourceTree = "<group>"; };
+		ED93B7DE1918CF110027ABFE /* fibonacci.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = fibonacci.txt; sourceTree = "<group>"; };
+		ED93B7DF1918CF110027ABFE /* heart.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = heart.txt; sourceTree = "<group>"; };
+		ED93B7E01918CF110027ABFE /* rainbow.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = rainbow.txt; sourceTree = "<group>"; };
+		EDA1B3D3191AE7FA0093DFE0 /* libwx_osx_cocoa_static.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libwx_osx_cocoa_static.a; path = "../../../../../Desktop/wxWidgets-3.0.0/build/osx/Build/Products/Release/libwx_osx_cocoa_static.a"; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		ED754C91190F348F00091922 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				EDA1B3D5191AE82D0093DFE0 /* libwx_osx_cocoa_static.a in Frameworks */,
+				ED2AFA15191604BC005B3E70 /* CoreFoundation.framework in Frameworks */,
+				ED2AFA13191604B3005B3E70 /* OpenAL.framework in Frameworks */,
+				ED2AFA10191604AB005B3E70 /* GLUT.framework in Frameworks */,
+				ED2AFA11191604AB005B3E70 /* OpenGL.framework in Frameworks */,
+				ED754C98190F348F00091922 /* Cocoa.framework in Frameworks */,
+				ED1952321915A24600E932DC /* libSOIL.a in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		ED16CEA1191320830051FAE0 /* TerminalWx */ = {
+			isa = PBXGroup;
+			children = (
+				ED16CEA2191320830051FAE0 /* GTerm */,
+				ED16CEAA191320830051FAE0 /* taTelnet */,
+				ED16CEAD191320830051FAE0 /* terminalinputevent.cpp */,
+				ED16CEAE191320830051FAE0 /* terminalinputevent.h */,
+				ED16CEAF191320830051FAE0 /* terminalwx.cpp */,
+				ED16CEB0191320830051FAE0 /* terminalwx.h */,
+			);
+			name = TerminalWx;
+			path = lib/TerminalWx;
+			sourceTree = "<group>";
+		};
+		ED16CEA2191320830051FAE0 /* GTerm */ = {
+			isa = PBXGroup;
+			children = (
+				ED16CEA3191320830051FAE0 /* actions.cpp */,
+				ED16CEA4191320830051FAE0 /* gterm.cpp */,
+				ED16CEA5191320830051FAE0 /* gterm.hpp */,
+				ED16CEA6191320830051FAE0 /* keytrans.cpp */,
+				ED16CEA7191320830051FAE0 /* states.cpp */,
+				ED16CEA8191320830051FAE0 /* utils.cpp */,
+				ED16CEA9191320830051FAE0 /* vt52_states.cpp */,
+			);
+			path = GTerm;
+			sourceTree = "<group>";
+		};
+		ED16CEAA191320830051FAE0 /* taTelnet */ = {
+			isa = PBXGroup;
+			children = (
+				ED16CEAB191320830051FAE0 /* wxterm.cpp */,
+				ED16CEAC191320830051FAE0 /* wxterm.h */,
+			);
+			path = taTelnet;
+			sourceTree = "<group>";
+		};
+		ED1952401915FACD00E932DC /* resources */ = {
+			isa = PBXGroup;
+			children = (
+				ED93B7DC1918CF100027ABFE /* examples */,
+				ED2AFA1719161736005B3E70 /* graphbot */,
+				ED1952411915FACD00E932DC /* sound */,
+				ED1952431915FACD00E932DC /* textures */,
+			);
+			path = resources;
+			sourceTree = "<group>";
+		};
+		ED1952411915FACD00E932DC /* sound */ = {
+			isa = PBXGroup;
+			children = (
+				ED1952421915FACD00E932DC /* disco.wav */,
+			);
+			path = sound;
+			sourceTree = "<group>";
+		};
+		ED1952431915FACD00E932DC /* textures */ = {
+			isa = PBXGroup;
+			children = (
+				ED1952441915FACD00E932DC /* graphbot.png */,
+				ED1952451915FACD00E932DC /* Textura1.jpg */,
+				ED1952461915FACD00E932DC /* Textura2.jpg */,
+				ED1952471915FACD00E932DC /* Textura3.jpg */,
+				ED1952481915FACD00E932DC /* Textura4.jpg */,
+			);
+			path = textures;
+			sourceTree = "<group>";
+		};
+		ED1952541915FCB700E932DC /* Headers */ = {
+			isa = PBXGroup;
+			children = (
+				ED1952551915FCB700E932DC /* base.h */,
+				ED1952561915FCB700E932DC /* Cargador.h */,
+				ED1952571915FCB700E932DC /* Cuadruplos.h */,
+				ED1952581915FCB700E932DC /* globals.h */,
+				ED2AFA1619160C88005B3E70 /* ResourcesPath.h */,
+				ED1952591915FCB700E932DC /* glpane.h */,
+				ED19525A1915FCB700E932DC /* Memoria.h */,
+				ED19525B1915FCB700E932DC /* movement.h */,
+				ED19525C1915FCB700E932DC /* SOIL.h */,
+				ED19525D1915FCB700E932DC /* Sound.h */,
+				ED19525E1915FCB700E932DC /* stringfunc.h */,
+			);
+			path = Headers;
+			sourceTree = "<group>";
+		};
+		ED754C8B190F348F00091922 = {
+			isa = PBXGroup;
+			children = (
+				ED19522119159B2E00E932DC /* Images.xcassets */,
+				ED16CEBA191320B10051FAE0 /* Graphbot-Info.plist */,
+				ED16CEC6191321780051FAE0 /* main.cpp */,
+				ED16CEBB191320B10051FAE0 /* sample.xpm */,
+				ED16CEBC191320B10051FAE0 /* wxcocoa.xcconfig */,
+				ED16CEBD191320B10051FAE0 /* wxdebug.xcconfig */,
+				ED16CEBE191320B10051FAE0 /* wxrelease.xcconfig */,
+				ED754C96190F348F00091922 /* Frameworks */,
+				ED1952541915FCB700E932DC /* Headers */,
+				ED1952401915FACD00E932DC /* resources */,
+				ED16CEA1191320830051FAE0 /* TerminalWx */,
+				ED754CD7190F3ACB00091922 /* Graphbot.app */,
+			);
+			sourceTree = "<group>";
+		};
+		ED754C96190F348F00091922 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				EDA1B3D3191AE7FA0093DFE0 /* libwx_osx_cocoa_static.a */,
+				ED2AFA14191604BC005B3E70 /* CoreFoundation.framework */,
+				ED2AFA12191604B3005B3E70 /* OpenAL.framework */,
+				ED2AFA0E191604AB005B3E70 /* GLUT.framework */,
+				ED2AFA0F191604AB005B3E70 /* OpenGL.framework */,
+				ED1952311915A24600E932DC /* libSOIL.a */,
+				ED754CD8190F3D3500091922 /* libwx_osx_cocoa_static.a */,
+				ED754C97190F348F00091922 /* Cocoa.framework */,
+				ED754C99190F348F00091922 /* Other Frameworks */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		ED754C99190F348F00091922 /* Other Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				ED754C9A190F348F00091922 /* AppKit.framework */,
+				ED754C9B190F348F00091922 /* CoreData.framework */,
+				ED754C9C190F348F00091922 /* Foundation.framework */,
+			);
+			name = "Other Frameworks";
+			sourceTree = "<group>";
+		};
+		ED93B7DC1918CF100027ABFE /* examples */ = {
+			isa = PBXGroup;
+			children = (
+				ED93B7DD1918CF110027ABFE /* castle.txt */,
+				ED93B7DE1918CF110027ABFE /* fibonacci.txt */,
+				ED93B7DF1918CF110027ABFE /* heart.txt */,
+				ED93B7E01918CF110027ABFE /* rainbow.txt */,
+			);
+			path = examples;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		ED754C93190F348F00091922 /* Graphbot */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = ED754CC5190F349000091922 /* Build configuration list for PBXNativeTarget "Graphbot" */;
+			buildPhases = (
+				ED754C90190F348F00091922 /* Sources */,
+				ED754C91190F348F00091922 /* Frameworks */,
+				ED754C92190F348F00091922 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = Graphbot;
+			productName = Graphbot;
+			productReference = ED754CD7190F3ACB00091922 /* Graphbot.app */;
+			productType = "com.apple.product-type.application";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		ED754C8C190F348F00091922 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastUpgradeCheck = 0510;
+				ORGANIZATIONNAME = "Fernando Mendoza";
+			};
+			buildConfigurationList = ED754C8F190F348F00091922 /* Build configuration list for PBXProject "Graphbot" */;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = English;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+			);
+			mainGroup = ED754C8B190F348F00091922;
+			productRefGroup = ED754C8B190F348F00091922;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				ED754C93190F348F00091922 /* Graphbot */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		ED754C92190F348F00091922 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				ED16CEC0191320B10051FAE0 /* sample.xpm in Resources */,
+				ED93B7E41918CF110027ABFE /* rainbow.txt in Resources */,
+				ED16CEC1191320B10051FAE0 /* wxcocoa.xcconfig in Resources */,
+				ED93B7E21918CF110027ABFE /* fibonacci.txt in Resources */,
+				ED16CEBF191320B10051FAE0 /* Graphbot-Info.plist in Resources */,
+				ED19524F1915FC1100E932DC /* disco.wav in Resources */,
+				ED1952501915FC1D00E932DC /* Textura1.jpg in Resources */,
+				ED1952511915FC1F00E932DC /* Textura2.jpg in Resources */,
+				ED1952521915FC2100E932DC /* Textura3.jpg in Resources */,
+				ED1952531915FC2300E932DC /* Textura4.jpg in Resources */,
+				ED93B7E11918CF110027ABFE /* castle.txt in Resources */,
+				ED19524A1915FACD00E932DC /* graphbot.png in Resources */,
+				ED93B7E31918CF110027ABFE /* heart.txt in Resources */,
+				ED19522219159B2E00E932DC /* Images.xcassets in Resources */,
+				ED2AFA1819161736005B3E70 /* graphbot in Resources */,
+				ED16CEC2191320B10051FAE0 /* wxdebug.xcconfig in Resources */,
+				ED16CEC3191320B10051FAE0 /* wxrelease.xcconfig in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		ED754C90190F348F00091922 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				ED16CEB2191320830051FAE0 /* gterm.cpp in Sources */,
+				ED16CEB7191320830051FAE0 /* wxterm.cpp in Sources */,
+				ED16CEB3191320830051FAE0 /* keytrans.cpp in Sources */,
+				ED16CEB5191320830051FAE0 /* utils.cpp in Sources */,
+				ED16CEB1191320830051FAE0 /* actions.cpp in Sources */,
+				ED16CEB9191320830051FAE0 /* terminalwx.cpp in Sources */,
+				ED16CEB6191320830051FAE0 /* vt52_states.cpp in Sources */,
+				ED16CEB4191320830051FAE0 /* states.cpp in Sources */,
+				ED16CEC7191321780051FAE0 /* main.cpp in Sources */,
+				ED16CEB8191320830051FAE0 /* terminalinputevent.cpp in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin XCBuildConfiguration section */
+		ED754CC3190F349000091922 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = ED16CEBD191320B10051FAE0 /* wxdebug.xcconfig */;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = YES;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 10.7;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = macosx10.8;
+			};
+			name = Debug;
+		};
+		ED754CC4190F349000091922 /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = ED16CEBE191320B10051FAE0 /* wxrelease.xcconfig */;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = YES;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = YES;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 10.7;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = macosx10.8;
+			};
+			name = Release;
+		};
+		ED754CC6190F349000091922 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = ED16CEBC191320B10051FAE0 /* wxcocoa.xcconfig */;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = YES;
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_CXX_LANGUAGE_STANDARD = "compiler-default";
+				CLANG_CXX_LIBRARY = "compiler-default";
+				COMBINE_HIDPI_IMAGES = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "$(WXROOT)/include/wx/wxprec.h";
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+					"$(WX_PREPROCESSOR_DEFINITIONS)",
+					WXBUILDING,
+					"$(WXPLATFORM)",
+					__WX__,
+					"wxUSE_BASE=1",
+					"_FILE_OFFSET_BITS=64",
+					_LARGE_FILES,
+					MACOS_CLASSIC,
+					"__WXMAC_XCODE__=1",
+					SCI_LEXER,
+					"WX_PRECOMP=1",
+					"wxUSE_UNICODE_UTF8=0",
+					"wxUSE_UNICODE_WCHAR=1",
+				);
+				"HEADER_SEARCH_PATHS[arch=*]" = (
+					"$(inherited)",
+					/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include,
+					"$(WXROOT)/build/osx/setup/cocoa/include",
+					"$(WXROOT)/include",
+					"$(WXROOT)/samples",
+				);
+				INFOPLIST_FILE = "$(SRCROOT)/config/Graphbot-Info.plist";
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"/Users/fernando/Desktop/wxWidgets-3.0.0/build/osx/Build/Products/Release",
+					"$(PROJECT_DIR)/lib",
+					/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include,
+					"/Users/fernando/Desktop/wxWidgets-3.0.0/build-cocoa-debug/lib",
+				);
+				MACOSX_DEPLOYMENT_TARGET = 10.7;
+				OTHER_CFLAGS = (
+					"-l$(WXROOT)/build-cocoa-debug/lib/wx/include/osx_cocoa-unicode-3.0",
+					"-l$(WXROOT)/include",
+					"-D_FILE_OFFSET_BITS=64",
+					"-DWXUSINGDLL",
+					"-D__WXMAC__",
+					"-D__WXOSX__",
+					"-D__WXOSX_COCOA__",
+				);
+				OTHER_LDFLAGS = (
+					"-L$(WXROOT)/build-cocoa-debug/lib",
+					"-framework",
+					IOKit,
+					"-framework",
+					Carbon,
+					"-framework",
+					Cocoa,
+					"-framework",
+					AudioToolbox,
+					"-framework",
+					System,
+					"-framework",
+					OpenGL,
+					"-lwx_osx_cocoau_xrc-3.0",
+					"-lwx_osx_cocoau_webview-3.0",
+					"-lwx_osx_cocoau_html-3.0",
+					"-lwx_osx_cocoau_qa-3.0",
+					"-lwx_osx_cocoau_adv-3.0",
+					"-lwx_osx_cocoau_core-3.0",
+					"-lwx_baseu_xml-3.0",
+					"-lwx_baseu_net-3.0",
+					"-lwx_baseu-3.0",
+				);
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = macosx10.8;
+				WRAPPER_EXTENSION = app;
+				WXROOT = "/Users/fernando/Desktop/wxWidgets-3.0.0";
+			};
+			name = Debug;
+		};
+		ED754CC7190F349000091922 /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = ED16CEBC191320B10051FAE0 /* wxcocoa.xcconfig */;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = YES;
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_CXX_LANGUAGE_STANDARD = "compiler-default";
+				CLANG_CXX_LIBRARY = "compiler-default";
+				COMBINE_HIDPI_IMAGES = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "$(WXROOT)/include/wx/wxprec.h";
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"$(WX_PREPROCESSOR_DEFINITIONS)",
+					WXBUILDING,
+					"$(WXPLATFORM)",
+					__WX__,
+					"wxUSE_BASE=1",
+					"_FILE_OFFSET_BITS=64",
+					_LARGE_FILES,
+					MACOS_CLASSIC,
+					"__WXMAC_XCODE__=1",
+					SCI_LEXER,
+					"WX_PRECOMP=1",
+					"wxUSE_UNICODE_UTF8=0",
+					"wxUSE_UNICODE_WCHAR=1",
+				);
+				HEADER_SEARCH_PATHS = (
+					"$(inherited)",
+					/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include,
+					"$(WXROOT)/build/osx/setup/cocoa/include",
+					"$(WXROOT)/include",
+					"$(WXROOT)/samples",
+				);
+				INFOPLIST_FILE = "$(SRCROOT)/config/Graphbot-Info.plist";
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"/Users/fernando/Desktop/wxWidgets-3.0.0/build/osx/Build/Products/Release",
+					"$(PROJECT_DIR)/lib",
+					/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include,
+					"/Users/fernando/Desktop/wxWidgets-3.0.0/build-cocoa-debug/lib",
+				);
+				MACOSX_DEPLOYMENT_TARGET = 10.7;
+				ONLY_ACTIVE_ARCH = YES;
+				OTHER_CFLAGS = (
+					"-l$(WXROOT)/build-cocoa-debug/lib/wx/include/osx_cocoa-unicode-3.0",
+					"-l$(WXROOT)/include",
+					"-D_FILE_OFFSET_BITS=64",
+					"-DWXUSINGDLL",
+					"-D__WXMAC__",
+					"-D__WXOSX__",
+					"-D__WXOSX_COCOA__",
+				);
+				OTHER_LDFLAGS = (
+					"-L$(WXROOT)/build-cocoa-debug/lib",
+					"-framework",
+					IOKit,
+					"-framework",
+					Carbon,
+					"-framework",
+					Cocoa,
+					"-framework",
+					AudioToolbox,
+					"-framework",
+					System,
+					"-framework",
+					OpenGL,
+					"-lwx_osx_cocoau_xrc-3.0",
+					"-lwx_osx_cocoau_webview-3.0",
+					"-lwx_osx_cocoau_html-3.0",
+					"-lwx_osx_cocoau_qa-3.0",
+					"-lwx_osx_cocoau_adv-3.0",
+					"-lwx_osx_cocoau_core-3.0",
+					"-lwx_baseu_xml-3.0",
+					"-lwx_baseu_net-3.0",
+					"-lwx_baseu-3.0",
+				);
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = macosx10.8;
+				WRAPPER_EXTENSION = app;
+				WXROOT = "/Users/fernando/Desktop/wxWidgets-3.0.0";
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		ED754C8F190F348F00091922 /* Build configuration list for PBXProject "Graphbot" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				ED754CC3190F349000091922 /* Debug */,
+				ED754CC4190F349000091922 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		ED754CC5190F349000091922 /* Build configuration list for PBXNativeTarget "Graphbot" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				ED754CC6190F349000091922 /* Debug */,
+				ED754CC7190F349000091922 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = ED754C8C190F348F00091922 /* Project object */;
+}
